@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "PikaVibe Kitchenware"
+description = "An English-language storefront for PikaVibe Kenyan kitchenware, with curated product browsing, category filters, cart management, and WhatsApp ordering."
+version = "1.0.0"
+id = "artifacts/pikavibe-store"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23643
+
+[services.development]
+run = "pnpm --filter @workspace/pikavibe-store run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/pikavibe-store", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/pikavibe-store/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23643"
+BASE_PATH = "/"
