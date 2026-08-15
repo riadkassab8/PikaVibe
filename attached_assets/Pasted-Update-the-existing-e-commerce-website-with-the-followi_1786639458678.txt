@@ -1,0 +1,164 @@
+Update the existing e-commerce website with the following improvements. **Do not redesign or break the existing layout/style.** Keep the current visual identity and components, and only enhance the requested functionality and UX.
+
+### 1. Cursor / Clickable Actions
+
+* Add `cursor: pointer` to **every clickable/actionable element** across the website.
+* This includes:
+
+  * Buttons
+  * Product cards
+  * Add to Cart
+  * Cart icon
+  * Wishlist buttons
+  * Quantity controls
+  * Navigation links
+  * Language switcher
+  * Checkout actions
+  * Close/back buttons
+  * Any icon that performs an action
+* Make sure disabled elements still look disabled and should **not** show a pointer cursor.
+
+### 2. Add to Cart Animation
+
+Create a polished animation when the customer clicks **Add to Cart**.
+
+Requirements:
+
+* Give immediate visual feedback after clicking.
+* Button should smoothly animate from its normal state to a success state.
+* Example flow:
+
+  * `Add to Cart` → subtle press animation → `✓ Added to Cart`
+  * Then return to the normal state.
+* Animate the cart icon/badge when the product is added.
+* If possible, add a subtle product-to-cart animation without hurting performance.
+* Prevent duplicate clicks while the add-to-cart action is processing.
+* Animation must work perfectly on both desktop and mobile.
+* Keep it elegant and fast, not exaggerated.
+
+### 3. Arabic Language Support
+
+Add **Arabic (العربية)** as a complete language option.
+
+Requirements:
+
+* Add a language switcher for **English / العربية**.
+* Translate all user-facing UI text, including:
+
+  * Navigation
+  * Buttons
+  * Product information
+  * Cart
+  * Checkout
+  * Forms
+  * Validation messages
+  * Empty states
+  * Success/error messages
+  * Order confirmation
+  * Footer
+  * Any remaining hardcoded UI text
+* Arabic must use proper **RTL layout**.
+* When Arabic is selected:
+
+  * Set the document direction to `rtl`.
+  * Correctly mirror layouts where appropriate.
+  * Align text, icons, spacing, forms, navigation, and checkout components correctly.
+* English remains `LTR`.
+* Persist the selected language so refreshing the page does not reset it.
+* Do not simply translate a few labels; make the entire customer journey usable in Arabic.
+
+### 4. Beautiful Purchase Receipt
+
+After a successful purchase, create a **professional, modern receipt/order confirmation**.
+
+The receipt should include:
+
+* Store/company name
+* Order number
+* Purchase date/time
+* Customer name
+* Customer phone
+* Customer address
+* Purchased products
+* Product quantities
+* Product prices
+* Subtotal
+* Shipping cost
+* Discount if applicable
+* Final total
+* Payment method
+* Order status
+
+Design:
+
+* Make it visually polished and suitable for a real e-commerce business.
+* Include a clear success confirmation.
+* Make it responsive for mobile.
+* Support both English and Arabic.
+* In Arabic mode, the receipt must be properly RTL.
+* Add an option to print/download the receipt if the existing architecture supports it.
+
+### 5. Send Receipt to WhatsApp
+
+After the order is successfully completed, provide a prominent **"Send Receipt via WhatsApp"** button.
+
+When clicked:
+
+* Generate a clean WhatsApp-ready receipt message containing:
+
+  * Store name
+  * Order number
+  * Customer name
+  * Products + quantities
+  * Prices
+  * Subtotal
+  * Shipping
+  * Discount
+  * Total
+  * Payment method
+  * Delivery address
+* Encode the message correctly for WhatsApp.
+* Open WhatsApp using the appropriate WhatsApp URL/deep link.
+* Make sure Arabic text is encoded correctly.
+* The message should be readable and professionally formatted.
+
+Example structure:
+
+🧾 *Order Receipt*
+
+*Order:* #12345
+*Customer:* Ahmed
+*Date:* 13/08/2026
+
+*Products:*
+• Product A × 2 — 500 EGP
+• Product B × 1 — 300 EGP
+
+*Subtotal:* 800 EGP
+*Shipping:* 50 EGP
+*Total:* 850 EGP
+
+*Delivery Address:*
+...
+
+Thank you for your purchase ❤️
+
+### 6. Important Implementation Rules
+
+* First inspect the existing project architecture and reuse the current components/state management/i18n approach if one already exists.
+* Do not create duplicate cart, checkout, or order systems.
+* Do not replace existing functionality unnecessarily.
+* Do not hardcode receipt data; use the actual order/cart/customer data.
+* Ensure the cart count and product totals update correctly after adding/removing products.
+* Ensure the admin/customer flows are not accidentally mixed.
+* Preserve the existing design system and responsive behavior.
+* Test the complete flow:
+
+`Product → Add to Cart → Cart → Checkout → Successful Purchase → Receipt → Send Receipt via WhatsApp`
+
+Finally, verify that all changes work correctly in both:
+
+**English LTR**
+**Arabic RTL**
+
+and on both **desktop and mobile**.

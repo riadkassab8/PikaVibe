@@ -1,0 +1,71 @@
+### 7. Product Details Page
+
+Add a complete **Product Details** experience.
+
+When the customer clicks any product card, product image, or "View Details" action, open a dedicated product details page/route for that specific product.
+
+The product details page should include:
+
+* Large product image/gallery
+* Product name
+* Price
+* Discount / old price if available
+* Product description
+* Available quantity / stock status
+* Product category
+* Product specifications/details
+* Product variants/options if the product has any
+* Quantity selector
+* **Add to Cart** button
+* Wishlist/favorite action if the existing system supports it
+* Back to Products / Continue Shopping action
+
+### Product Gallery
+
+* Allow the customer to view multiple product images.
+* Clicking a thumbnail should change the main image.
+* Add a smooth image transition.
+* Make the gallery responsive and mobile-friendly.
+* If there is only one image, keep the UI clean without unnecessary controls.
+
+### Add to Cart From Details
+
+The **Add to Cart** button on the product details page must use the same cart system as the product listing.
+
+After adding:
+
+* Show the same polished Add-to-Cart success animation.
+* Update the cart count immediately.
+* Prevent adding more than the available stock.
+* Show an appropriate message if the product is out of stock.
+
+### Navigation
+
+Use clean routes such as:
+
+`/products`
+
+`/products/:productId`
+
+Clicking a product from anywhere on the website should open its correct details page.
+
+The browser Back button must work correctly.
+
+### Arabic Support
+
+The Product Details page must fully support:
+
+* English LTR
+* Arabic RTL
+
+Translate all labels, buttons, stock messages, specifications, and UI text.
+
+### Important
+
+Do NOT create fake/static product details that are disconnected from the existing product data.
+
+The details page must dynamically load the selected product using its actual product ID/data.
+
+Make sure the complete flow works:
+
+**Products → Click Product → Product Details → Select Quantity → Add to Cart → Cart → Checkout → Receipt → WhatsApp**
