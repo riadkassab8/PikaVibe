@@ -1,0 +1,582 @@
+Error creating order: _DrizzleQueryError: Failed query: insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"
+params: HGH-20260824-ALXR1,,pending,cod,pending,5000.00,0.00,5000.00,كفر طنبدي - مركز شبين الكوم - المنوفيه
+batanon,Riad Kassab,01098277229,منوفيه,batanon,حبيبي
+    at NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+    ... 2 lines matching cause stack trace ...
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+  query: 'insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"',
+  params: [
+    'HGH-20260824-ALXR1',
+    null,
+    'pending',
+    'cod',
+    'pending',
+    '5000.00',
+    '0.00',
+    '5000.00',
+    'كفر طنبدي - مركز شبين الكوم - المنوفيه\nbatanon',
+    'Riad Kassab',
+    '01098277229',
+    'منوفيه',
+    'batanon',
+    'حبيبي'
+  ],
+  cause: error: null value in column "user_id" of relation "orders" violates not-null constraint
+      at <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\pg@8.22.0\node_modules\pg\lib\client.js:652:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:161:13)
+      at async NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:71:12)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:115:23)
+      at async _NodePgSession.transaction (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:259:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+    length: 465,
+    severity: 'ERROR',
+    code: '23502',
+    detail: 'Failing row contains (1, null, pending, 5000.00, كفر طنبدي - مركز شبين الكوم - المنوف..., 2026-08-24 18:31:16.725452, 2026-08-24 18:31:16.725452, Riad Kassab, 01098277229, HGH-20260824-ALXR1, cod, pending, 5000.00, 0.00, منوفيه, batanon, حبيبي).',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'orders',
+    column: 'user_id',
+    dataType: undefined,
+    constraint: undefined,
+    file: 'execMain.c',
+    line: '2219',
+    routine: 'ReportNotNullViolationError'
+  }
+}
+Error creating order: _DrizzleQueryError: Failed query: insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"
+params: HGH-20260824-V5XM5,,pending,cod,pending,5000.00,0.00,5000.00,كفر طنبدي - مركز شبين الكوم - المنوفيه
+batanon,Riad Kassab,01098277229,منوفيه,batanon,حبيبي
+    at NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+    ... 2 lines matching cause stack trace ...
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+  query: 'insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"',
+  params: [
+    'HGH-20260824-V5XM5',
+    null,
+    'pending',
+    'cod',
+    'pending',
+    '5000.00',
+    '0.00',
+    '5000.00',
+    'كفر طنبدي - مركز شبين الكوم - المنوفيه\nbatanon',
+    'Riad Kassab',
+    '01098277229',
+    'منوفيه',
+    'batanon',
+    'حبيبي'
+  ],
+  cause: error: null value in column "user_id" of relation "orders" violates not-null constraint
+      at <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\pg@8.22.0\node_modules\pg\lib\client.js:652:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:161:13)
+      at async NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:71:12)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:115:23)
+      at async _NodePgSession.transaction (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:259:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+    length: 463,
+    severity: 'ERROR',
+    code: '23502',
+    detail: 'Failing row contains (2, null, pending, 5000.00, كفر طنبدي - مركز شبين الكوم - المنوف..., 2026-08-24 18:31:17.44878, 2026-08-24 18:31:17.44878, Riad Kassab, 01098277229, HGH-20260824-V5XM5, cod, pending, 5000.00, 0.00, منوفيه, batanon, حبيبي).',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'orders',
+    column: 'user_id',
+    dataType: undefined,
+    constraint: undefined,
+    file: 'execMain.c',
+    line: '2219',
+    routine: 'ReportNotNullViolationError'
+  }
+}
+Error creating order: _DrizzleQueryError: Failed query: insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"
+params: HGH-20260824-CPFEL,,pending,cod,pending,5000.00,0.00,5000.00,كفر طنبدي - مركز شبين الكوم - المنوفيه
+batanon,Riad Kassab,01098277229,منوفيه,batanon,حبيبي
+    at NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+    ... 2 lines matching cause stack trace ...
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+  query: 'insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"',
+  params: [
+    'HGH-20260824-CPFEL',
+    null,
+    'pending',
+    'cod',
+    'pending',
+    '5000.00',
+    '0.00',
+    '5000.00',
+    'كفر طنبدي - مركز شبين الكوم - المنوفيه\nbatanon',
+    'Riad Kassab',
+    '01098277229',
+    'منوفيه',
+    'batanon',
+    'حبيبي'
+  ],
+  cause: error: null value in column "user_id" of relation "orders" violates not-null constraint
+      at <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\pg@8.22.0\node_modules\pg\lib\client.js:652:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:161:13)
+      at async NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:71:12)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:115:23)
+      at async _NodePgSession.transaction (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:259:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+    length: 465,
+    severity: 'ERROR',
+    code: '23502',
+    detail: 'Failing row contains (3, null, pending, 5000.00, كفر طنبدي - مركز شبين الكوم - المنوف..., 2026-08-24 18:31:26.412629, 2026-08-24 18:31:26.412629, Riad Kassab, 01098277229, HGH-20260824-CPFEL, cod, pending, 5000.00, 0.00, منوفيه, batanon, حبيبي).',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'orders',
+    column: 'user_id',
+    dataType: undefined,
+    constraint: undefined,
+    file: 'execMain.c',
+    line: '2219',
+    routine: 'ReportNotNullViolationError'
+  }
+}
+Error creating order: _DrizzleQueryError: Failed query: insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"
+params: HGH-20260824-V7UNU,,pending,bank_transfer,pending,5000.00,0.00,5000.00,كفر طنبدي - مركز شبين الكوم - المنوفيه
+batanon,Riad Kassab,01098277229,منوفيه,batanon,حبيبي
+    at NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+    ... 2 lines matching cause stack trace ...
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+  query: 'insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"',
+  params: [
+    'HGH-20260824-V7UNU',
+    null,
+    'pending',
+    'bank_transfer',
+    'pending',
+    '5000.00',
+    '0.00',
+    '5000.00',
+    'كفر طنبدي - مركز شبين الكوم - المنوفيه\nbatanon',
+    'Riad Kassab',
+    '01098277229',
+    'منوفيه',
+    'batanon',
+    'حبيبي'
+  ],
+  cause: error: null value in column "user_id" of relation "orders" violates not-null constraint
+      at <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\pg@8.22.0\node_modules\pg\lib\client.js:652:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:161:13)
+      at async NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:71:12)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:115:23)
+      at async _NodePgSession.transaction (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:259:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+    length: 475,
+    severity: 'ERROR',
+    code: '23502',
+    detail: 'Failing row contains (4, null, pending, 5000.00, كفر طنبدي - مركز شبين الكوم - المنوف..., 2026-08-24 18:31:27.373383, 2026-08-24 18:31:27.373383, Riad Kassab, 01098277229, HGH-20260824-V7UNU, bank_transfer, pending, 5000.00, 0.00, منوفيه, batanon, حبيبي).',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'orders',
+    column: 'user_id',
+    dataType: undefined,
+    constraint: undefined,
+    file: 'execMain.c',
+    line: '2219',
+    routine: 'ReportNotNullViolationError'
+  }
+}
+Error creating order: _DrizzleQueryError: Failed query: insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"
+params: HGH-20260824-F94TV,,pending,cod,pending,5000.00,0.00,5000.00,كفر طنبدي - مركز شبين الكوم - المنوفيه
+batanon,Riad Kassab,01098277229,منوفيه,batanon,حبيبي
+    at NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+    ... 2 lines matching cause stack trace ...
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+  query: 'insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"',
+  params: [
+    'HGH-20260824-F94TV',
+    null,
+    'pending',
+    'cod',
+    'pending',
+    '5000.00',
+    '0.00',
+    '5000.00',
+    'كفر طنبدي - مركز شبين الكوم - المنوفيه\nbatanon',
+    'Riad Kassab',
+    '01098277229',
+    'منوفيه',
+    'batanon',
+    'حبيبي'
+  ],
+  cause: error: null value in column "user_id" of relation "orders" violates not-null constraint
+      at <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\pg@8.22.0\node_modules\pg\lib\client.js:652:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:161:13)
+      at async NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:71:12)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:115:23)
+      at async _NodePgSession.transaction (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:259:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+    length: 465,
+    severity: 'ERROR',
+    code: '23502',
+    detail: 'Failing row contains (5, null, pending, 5000.00, كفر طنبدي - مركز شبين الكوم - المنوف..., 2026-08-24 18:31:28.357787, 2026-08-24 18:31:28.357787, Riad Kassab, 01098277229, HGH-20260824-F94TV, cod, pending, 5000.00, 0.00, منوفيه, batanon, حبيبي).',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'orders',
+    column: 'user_id',
+    dataType: undefined,
+    constraint: undefined,
+    file: 'execMain.c',
+    line: '2219',
+    routine: 'ReportNotNullViolationError'
+  }
+}
+Error creating order: _DrizzleQueryError: Failed query: insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"
+params: HGH-20260824-Y1TOO,,pending,cod,pending,5000.00,0.00,5000.00,كفر طنبدي - مركز شبين الكوم - المنوفيه
+batanon,Riad Kassab,01098277229,منوفيه,batanon,حبيبي
+    at NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+    ... 2 lines matching cause stack trace ...
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+  query: 'insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"',
+  params: [
+    'HGH-20260824-Y1TOO',
+    null,
+    'pending',
+    'cod',
+    'pending',
+    '5000.00',
+    '0.00',
+    '5000.00',
+    'كفر طنبدي - مركز شبين الكوم - المنوفيه\nbatanon',
+    'Riad Kassab',
+    '01098277229',
+    'منوفيه',
+    'batanon',
+    'حبيبي'
+  ],
+  cause: error: null value in column "user_id" of relation "orders" violates not-null constraint
+      at <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\pg@8.22.0\node_modules\pg\lib\client.js:652:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:161:13)
+      at async NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:71:12)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:115:23)
+      at async _NodePgSession.transaction (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:259:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+    length: 463,
+    severity: 'ERROR',
+    code: '23502',
+    detail: 'Failing row contains (6, null, pending, 5000.00, كفر طنبدي - مركز شبين الكوم - المنوف..., 2026-08-24 18:31:31.89336, 2026-08-24 18:31:31.89336, Riad Kassab, 01098277229, HGH-20260824-Y1TOO, cod, pending, 5000.00, 0.00, منوفيه, batanon, حبيبي).',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'orders',
+    column: 'user_id',
+    dataType: undefined,
+    constraint: undefined,
+    file: 'execMain.c',
+    line: '2219',
+    routine: 'ReportNotNullViolationError'
+  }
+}
+Error creating order: _DrizzleQueryError: Failed query: insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"
+params: HGH-20260824-KKBYK,,pending,cod,pending,5000.00,0.00,5000.00,كفر طنبدي - مركز شبين الكوم - المنوفيه
+batanon,Riad Kassab,01098277229,منوفيه,batanon,حبيبي
+    at NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+    ... 2 lines matching cause stack trace ...
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+  query: 'insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"',
+  params: [
+    'HGH-20260824-KKBYK',
+    null,
+    'pending',
+    'cod',
+    'pending',
+    '5000.00',
+    '0.00',
+    '5000.00',
+    'كفر طنبدي - مركز شبين الكوم - المنوفيه\nbatanon',
+    'Riad Kassab',
+    '01098277229',
+    'منوفيه',
+    'batanon',
+    'حبيبي'
+  ],
+  cause: error: null value in column "user_id" of relation "orders" violates not-null constraint
+      at <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\pg@8.22.0\node_modules\pg\lib\client.js:652:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:161:13)
+      at async NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:71:12)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:115:23)
+      at async _NodePgSession.transaction (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:259:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+    length: 465,
+    severity: 'ERROR',
+    code: '23502',
+    detail: 'Failing row contains (7, null, pending, 5000.00, كفر طنبدي - مركز شبين الكوم - المنوف..., 2026-08-24 18:31:32.351054, 2026-08-24 18:31:32.351054, Riad Kassab, 01098277229, HGH-20260824-KKBYK, cod, pending, 5000.00, 0.00, منوفيه, batanon, حبيبي).',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'orders',
+    column: 'user_id',
+    dataType: undefined,
+    constraint: undefined,
+    file: 'execMain.c',
+    line: '2219',
+    routine: 'ReportNotNullViolationError'
+  }
+}
+Error creating order: _DrizzleQueryError: Failed query: insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"
+params: HGH-20260824-SX7Y4,,pending,cod,pending,5000.00,0.00,5000.00,كفر طنبدي - مركز شبين الكوم - المنوفيه
+batanon,Riad Kassab,01098277229,منوفيه,batanon,حبيبي
+    at NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+    ... 2 lines matching cause stack trace ...
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+  query: 'insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"',
+  params: [
+    'HGH-20260824-SX7Y4',
+    null,
+    'pending',
+    'cod',
+    'pending',
+    '5000.00',
+    '0.00',
+    '5000.00',
+    'كفر طنبدي - مركز شبين الكوم - المنوفيه\nbatanon',
+    'Riad Kassab',
+    '01098277229',
+    'منوفيه',
+    'batanon',
+    'حبيبي'
+  ],
+  cause: error: null value in column "user_id" of relation "orders" violates not-null constraint
+      at <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\pg@8.22.0\node_modules\pg\lib\client.js:652:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:161:13)
+      at async NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:71:12)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:115:23)
+      at async _NodePgSession.transaction (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:259:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+    length: 465,
+    severity: 'ERROR',
+    code: '23502',
+    detail: 'Failing row contains (8, null, pending, 5000.00, كفر طنبدي - مركز شبين الكوم - المنوف..., 2026-08-24 18:31:32.513558, 2026-08-24 18:31:32.513558, Riad Kassab, 01098277229, HGH-20260824-SX7Y4, cod, pending, 5000.00, 0.00, منوفيه, batanon, حبيبي).',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'orders',
+    column: 'user_id',
+    dataType: undefined,
+    constraint: undefined,
+    file: 'execMain.c',
+    line: '2219',
+    routine: 'ReportNotNullViolationError'
+  }
+}
+Error creating order: _DrizzleQueryError: Failed query: insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"
+params: HGH-20260824-9EPZQ,,pending,cod,pending,1000.00,250.00,1250.00,??? ????? - ???? ???? ????? - ????????`nbatanon,Riad Kassab,010987277229,????????,batanon,?????
+    at NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+    ... 2 lines matching cause stack trace ...
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+  query: 'insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"',
+  params: [
+    'HGH-20260824-9EPZQ',
+    null,
+    'pending',
+    'cod',
+    'pending',
+    '1000.00',
+    '250.00',
+    '1250.00',
+    '??? ????? - ???? ???? ????? - ????????`nbatanon',
+    'Riad Kassab',
+    '010987277229',
+    '????????',
+    'batanon',
+    '?????'
+  ],
+  cause: error: null value in column "user_id" of relation "orders" violates not-null constraint
+      at <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\pg@8.22.0\node_modules\pg\lib\client.js:652:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:161:13)
+      at async NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:71:12)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:115:23)
+      at async _NodePgSession.transaction (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:259:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+    length: 440,
+    severity: 'ERROR',
+    code: '23502',
+    detail: 'Failing row contains (9, null, pending, 1250.00, ??? ????? - ???? ???? ????? - ????????`nbatanon, 2026-08-24 18:32:33.874857, 2026-08-24 18:32:33.874857, Riad Kassab, 010987277229, HGH-20260824-9EPZQ, cod, pending, 1000.00, 250.00, ????????, batanon, ?????).',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'orders',
+    column: 'user_id',
+    dataType: undefined,
+    constraint: undefined,
+    file: 'execMain.c',
+    line: '2219',
+    routine: 'ReportNotNullViolationError'
+  }
+}
+Error creating order: _DrizzleQueryError: Failed query: insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"
+params: HGH-20260824-BBRX8,,pending,cod,pending,5000.00,0.00,5000.00,كفر طنبدي - مركز شبين الكوم - المنوفيه
+batanon,Riad Kassab,01098277229,منوفيه,batanon,حبيبي
+    at NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+    ... 2 lines matching cause stack trace ...
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+  query: 'insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"',
+  params: [
+    'HGH-20260824-BBRX8',
+    null,
+    'pending',
+    'cod',
+    'pending',
+    '5000.00',
+    '0.00',
+    '5000.00',
+    'كفر طنبدي - مركز شبين الكوم - المنوفيه\nbatanon',
+    'Riad Kassab',
+    '01098277229',
+    'منوفيه',
+    'batanon',
+    'حبيبي'
+  ],
+  cause: error: null value in column "user_id" of relation "orders" violates not-null constraint
+      at <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\pg@8.22.0\node_modules\pg\lib\client.js:652:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:161:13)
+      at async NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:71:12)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:115:23)
+      at async _NodePgSession.transaction (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:259:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+    length: 466,
+    severity: 'ERROR',
+    code: '23502',
+    detail: 'Failing row contains (10, null, pending, 5000.00, كفر طنبدي - مركز شبين الكوم - المنوف..., 2026-08-24 18:33:01.947722, 2026-08-24 18:33:01.947722, Riad Kassab, 01098277229, HGH-20260824-BBRX8, cod, pending, 5000.00, 0.00, منوفيه, batanon, حبيبي).',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'orders',
+    column: 'user_id',
+    dataType: undefined,
+    constraint: undefined,
+    file: 'execMain.c',
+    line: '2219',
+    routine: 'ReportNotNullViolationError'
+  }
+}
+Error creating order: _DrizzleQueryError: Failed query: insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"
+params: HGH-20260824-E8X2N,,pending,cod,pending,5000.00,0.00,5000.00,كفر طنبدي - مركز شبين الكوم - المنوفيه
+batanon,Riad Kassab,01098277229,منوفيه,batanon,حبيبي
+    at NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:73:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+    ... 2 lines matching cause stack trace ...
+    at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+  query: 'insert into "orders" ("id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at") values (default, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, default, default) returning "id", "order_number", "user_id", "status", "payment_method", "payment_status", "subtotal", "shipping", "total", "shipping_address", "customer_name", "customer_phone", "customer_governorate", "customer_city", "customer_notes", "created_at", "updated_at"',
+  params: [
+    'HGH-20260824-E8X2N',
+    null,
+    'pending',
+    'cod',
+    'pending',
+    '5000.00',
+    '0.00',
+    '5000.00',
+    'كفر طنبدي - مركز شبين الكوم - المنوفيه\nbatanon',
+    'Riad Kassab',
+    '01098277229',
+    'منوفيه',
+    'batanon',
+    'حبيبي'
+  ],
+  cause: error: null value in column "user_id" of relation "orders" violates not-null constraint
+      at <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\pg@8.22.0\node_modules\pg\lib\client.js:652:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:161:13)
+      at async NodePgPreparedQuery.queryWithCache (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\pg-core\session.ts:71:12)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:154:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:115:23)
+      at async _NodePgSession.transaction (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\node_modules\.pnpm\drizzle-orm@0.45.2_@types+pg@8.20.0_pg@8.22.0\node_modules\src\node-postgres\session.ts:259:19)
+      at async <anonymous> (C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\api-server\src\routes\orders.ts:101:19) {
+    length: 466,
+    severity: 'ERROR',
+    code: '23502',
+    detail: 'Failing row contains (11, null, pending, 5000.00, كفر طنبدي - مركز شبين الكوم - المنوف..., 2026-08-24 18:33:02.512207, 2026-08-24 18:33:02.512207, Riad Kassab, 01098277229, HGH-20260824-E8X2N, cod, pending, 5000.00, 0.00, منوفيه, batanon, حبيبي).',
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: 'public',
+    table: 'orders',
+    column: 'user_id',
+    dataType: undefined,
+    constraint: undefined,
+    file: 'execMain.c',
+    line: '2219',
+    routine: 'ReportNotNullViolationError'
+  }
+}

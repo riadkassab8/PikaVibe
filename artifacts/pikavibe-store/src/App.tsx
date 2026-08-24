@@ -4,21 +4,24 @@ import {
   ArrowRight, Check, ChevronDown, ChevronLeft, ChevronRight, Heart, Instagram, Menu,
   Minus, Plus, Search, Send, ShoppingBag, SlidersHorizontal, Sparkles, Star,
   Truck, X, MessageCircle, MapPin, Mail, Phone, Clock, ShieldCheck, Trash2,
-  Printer, Languages,
+  Printer, Languages, Download,
 } from 'lucide-react';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import logo from '@assets/lOgo_1786638003283.jpg';
-import { categories, products, type Product } from './data/products';
+import { categories as seedCategories, products as seedProducts, type Product } from './data/products';
 import { categoryLabel, localizedProduct, t, type Language } from './i18n';
 import AdminDashboard from './pages/admin/dashboard';
+import { createOrder, fetchCategories, fetchProducts } from './lib/api';
+import LoginPage from './pages/auth/login';
 import './index.css';
 
-type CartItem = { id: string; quantity: number };
-type CustomerInfo = { name: string; phone: string; address: string; notes: string; paymentMethod: string };
+type CartItem = { id: string; quantity: number; variant?: string };
+type CustomerInfo = { name: string; phone: string; governorate: string; city: string; address: string; notes: string; paymentMethod: string };
 type OrderRecord = {
   id: string;
+  orderNumber?: string;
   createdAt: string;
   customer: CustomerInfo;
   items: CartItem[];
@@ -32,13 +35,15 @@ type StoreContextValue = {
   wishlist: string[];
   language: Language;
   setLanguage: (language: Language) => void;
-  addToCart: (id: string, quantity?: number) => void;
-  updateQuantity: (id: string, quantity: number) => void;
-  removeFromCart: (id: string) => void;
+  addToCart: (id: string, quantity?: number, variant?: string) => void;
+  updateQuantity: (id: string, quantity: number, variant?: string) => void;
+  removeFromCart: (id: string, variant?: string) => void;
   clearCart: () => void;
   toggleWishlist: (id: string) => void;
   cartCount: number;
   cartBump: number;
+  products: Product[];
+  categories: string[];
 };
 
 const StoreContext = createContext<StoreContextValue | null>(null);
@@ -58,6 +63,17 @@ function App() {
   const [wishlist, setWishlist] = useState<string[]>(() => readStorage<string[]>('pikavibe-wishlist', []));
   const [language, setLanguage] = useState<Language>(() => readStorage<Language>('pikavibe-language', 'en'));
   const [cartBump, setCartBump] = useState(0);
+  const [catalogProducts, setCatalogProducts] = useState<Product[]>(seedProducts);
+  const [catalogCategories, setCatalogCategories] = useState<string[]>(seedCategories);
+  useEffect(() => {
+    let mounted = true;
+    Promise.all([fetchProducts(), fetchCategories()]).then(([remoteProducts, remoteCategories]) => {
+      if (!mounted) return;
+      if (remoteProducts.length) setCatalogProducts(remoteProducts);
+      if (remoteCategories.length) setCatalogCategories(['All', ...remoteCategories.map((category) => category.name)]);
+    });
+    return () => { mounted = false; };
+  }, []);
   useEffect(() => localStorage.setItem('pikavibe-cart', JSON.stringify(cart)), [cart]);
   useEffect(() => localStorage.setItem('pikavibe-wishlist', JSON.stringify(wishlist)), [wishlist]);
   useEffect(() => {
@@ -66,29 +82,30 @@ function App() {
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
   }, [language]);
   const store = useMemo<StoreContextValue>(() => ({
-    cart, wishlist, language, setLanguage, cartBump,
-    addToCart: (id, quantity = 1) => {
-      const product = products.find((item) => item.id === id);
+    cart, wishlist, language, setLanguage, cartBump, products: catalogProducts, categories: catalogCategories,
+          addToCart: (id, quantity = 1, variant) => {
+
+      const product = catalogProducts.find((item) => item.id === id);
       if (!product || !product.inStock || quantity < 1) return;
       setCartBump((value) => value + 1);
       setCart((items) => {
-        const found = items.find((item) => item.id === id);
+        const found = items.find((item) => item.id === id && item.variant === variant);
         const nextQuantity = Math.min(product.stock, (found?.quantity ?? 0) + quantity);
         return found
-          ? items.map((item) => item.id === id ? { ...item, quantity: nextQuantity } : item)
-          : [...items, { id, quantity: Math.min(product.stock, quantity) }];
+          ? items.map((item) => item.id === id && item.variant === variant ? { ...item, quantity: nextQuantity } : item)
+          : [...items, { id, quantity: Math.min(product.stock, quantity), ...(variant ? { variant } : {}) }];
       });
     },
-    updateQuantity: (id, quantity) => setCart((items) => {
-      const product = products.find((item) => item.id === id);
-      if (quantity < 1) return items.filter((item) => item.id !== id);
-      return product ? items.map((item) => item.id === id ? { ...item, quantity: Math.min(product.stock, quantity) } : item) : items;
+    updateQuantity: (id, quantity, variant) => setCart((items) => {
+      const product = catalogProducts.find((item) => item.id === id);
+      if (quantity < 1) return items.filter((item) => item.id !== id || (variant !== undefined && item.variant !== variant));
+      return product ? items.map((item) => item.id === id && (variant === undefined || item.variant === variant) ? { ...item, quantity: Math.min(product.stock, quantity) } : item) : items;
     }),
-    removeFromCart: (id) => setCart((items) => items.filter((item) => item.id !== id)),
+    removeFromCart: (id, variant) => setCart((items) => items.filter((item) => item.id !== id || (variant !== undefined && item.variant !== variant))),
     clearCart: () => setCart([]),
     toggleWishlist: (id) => setWishlist((items) => items.includes(id) ? items.filter((item) => item !== id) : [...items, id]),
     cartCount: cart.reduce((sum, item) => sum + item.quantity, 0),
-  }), [cart, wishlist, language, cartBump]);
+  }), [cart, wishlist, language, cartBump, catalogProducts, catalogCategories]);
 
   return (
     <StoreContext.Provider value={store}>
@@ -104,6 +121,8 @@ function App() {
               <Route path="/receipt/:id" component={ReceiptPage} />
               <Route path="/about" component={AboutPage} />
               <Route path="/contact" component={ContactPage} />
+              <Route path="/login" component={LoginPage} />
+              <Route path="/admin" component={AdminDashboard} />
               <Route component={NotFoundPage} />
             </Switch>
           </SiteShell>
@@ -129,7 +148,7 @@ function RoutedErrorBoundary({ children }: { children: ReactNode }) {
 }
 
 function SiteShell({ children }: { children: ReactNode }) {
-  const { cartCount, wishlist, language, setLanguage, cartBump } = useStore();
+  const { cartCount, wishlist, language, setLanguage, cartBump, categories } = useStore();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [cartPulse, setCartPulse] = useState(false);
@@ -163,8 +182,8 @@ function SiteShell({ children }: { children: ReactNode }) {
               </button>
               {categoryOpen && (
                 <div className="absolute left-1/2 top-10 w-52 -translate-x-1/2 rounded-2xl border border-border bg-card p-2 shadow-float animate-rise">
-                  {categories.slice(1).map((category) => <Link key={category} href={`/products?category=${encodeURIComponent(category)}`} className="block rounded-xl px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground" data-testid={`link-category-${category.toLowerCase().replaceAll(' ', '-')}`}>{categoryLabel(language, category)}</Link>)}
-                  <Link href="/products" className="mt-1 block border-t border-border px-3 pt-3 text-sm font-bold text-primary" data-testid="link-all-products">{t(language, 'View all products')} <ArrowRight size={13} className="ml-1 inline" /></Link>
+                  {categories.slice(1).map((category) => <Link key={category} onClick={() => setCategoryOpen(false)} href={`/products?category=${encodeURIComponent(category)}`} className="block rounded-xl px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground" data-testid={`link-category-${category.toLowerCase().replaceAll(' ', '-')}`}>{categoryLabel(language, category)}</Link>)}
+                  <Link onClick={() => setCategoryOpen(false)} href="/products" className="mt-1 block border-t border-border px-3 pt-3 text-sm font-bold text-primary" data-testid="link-all-products">{t(language, 'View all products')} <ArrowRight size={13} className="ml-1 inline" /></Link>
                 </div>
               )}
             </div>
@@ -175,6 +194,7 @@ function SiteShell({ children }: { children: ReactNode }) {
             <Link href="/products" className="hidden h-10 w-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-secondary sm:flex" aria-label={t(language, 'Search products')} data-testid="link-search"><Search size={19} strokeWidth={1.8} /></Link>
             <Link href="/products?wishlist=true" className="relative flex h-10 w-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-secondary" aria-label={t(language, 'View wishlist')} data-testid="link-wishlist"><Heart size={19} strokeWidth={1.8} fill={wishlist.length ? 'currentColor' : 'none'} /><CountBadge count={wishlist.length} /></Link>
             <Link href="/cart" className={`relative flex h-10 w-10 items-center justify-center rounded-full bg-[#3D2A1E] text-[#f4ecdf] transition-transform hover:scale-105 ${cartPulse ? 'animate-cart-bump' : ''}`} aria-label={t(language, 'View cart')} data-testid="link-cart"><ShoppingBag size={18} strokeWidth={1.8} /><CountBadge count={cartCount} inverted /></Link>
+            <Link href="/login?admin=true" className="hidden h-10 items-center justify-center rounded-full border border-border px-4 text-xs font-bold text-foreground transition-colors hover:bg-secondary sm:flex" aria-label="Admin login">Admin</Link>
             <button onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')} className="flex h-10 items-center gap-1 rounded-full border border-border px-2.5 text-[11px] font-bold text-foreground transition-colors hover:bg-secondary" aria-label={language === 'en' ? 'العربية' : 'English'} data-testid="button-language-switcher"><Languages size={15} /><span>{language === 'en' ? 'العربية' : 'English'}</span></button>
             <button onClick={() => setMobileOpen(true)} className="ml-1 flex h-10 w-10 items-center justify-center rounded-full border border-border lg:hidden" aria-label={t(language, 'Open navigation')} data-testid="button-open-menu"><Menu size={20} /></button>
           </div>
@@ -224,8 +244,9 @@ function Footer() {
 }
 
 function HomePage() {
-  const { addToCart, wishlist, toggleWishlist, language } = useStore();
+  const { addToCart, wishlist, toggleWishlist, language, products } = useStore();
   const bestsellers = products.filter((product) => product.isBestSeller).slice(0, 4).map((product) => localizedProduct(product, language));
+  const offers = products.filter((product) => product.inStock && Number(product.discount || 0) > 0).slice(0, 4).map((product) => localizedProduct(product, language));
   return <div>
     <section className="relative overflow-hidden bg-[#ead9c0]">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-14 pt-12 sm:px-6 sm:pb-20 sm:pt-16 lg:grid-cols-[.9fr_1.1fr] lg:px-8 lg:pb-24 lg:pt-20">
@@ -248,6 +269,7 @@ function HomePage() {
       <div className="mb-8 flex items-end justify-between gap-4"><div><p className="mb-2 text-xs font-bold uppercase tracking-[.2em] text-primary">{language === 'ar' ? 'بداية جميلة' : 'A good place to start'}</p><h2 className="font-display text-4xl tracking-[-.04em] sm:text-5xl">{language === 'ar' ? 'تسوق حسب الإيقاع' : 'Shop by rhythm'}</h2></div><Link href="/products" className="hidden items-center gap-2 text-sm font-bold text-primary sm:flex" data-testid="categories-view-all">{language === 'ar' ? 'شاهد الكل' : 'See everything'} <ArrowRight size={16} /></Link></div>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-5">{[['Cookware', 'For the lovely mess', 'photo-1556911220-bff31c812dba'], ['Storage', 'Put things in their place', 'photo-1583947215259-38e31be8751f'], ['Cleaning', 'The reset feels good', 'photo-1581578731548-c64695cc6952'], ['Small Appliances', 'Tiny daily luxuries', 'photo-1570222094114-d054a817e56b']].map(([name, tagline, photoId], index) => <Link href={`/products?category=${encodeURIComponent(name)}`} key={name} className={`group relative min-h-[190px] overflow-hidden rounded-2xl ${index % 2 === 0 ? 'bg-[#c98755]' : 'bg-[#a98c70]'} sm:min-h-[250px]`} data-testid={`category-card-${name.toLowerCase().replaceAll(' ', '-')}`}><img src={`https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=700&q=85`} alt="" className="absolute inset-0 h-full w-full object-cover mix-blend-multiply opacity-75 transition-transform duration-500 group-hover:scale-105" /><div className="absolute inset-0 bg-gradient-to-t from-[#3d2a1e]/75 via-transparent to-transparent" /><div className="absolute bottom-4 left-4 text-[#fff8ef] sm:bottom-5 sm:left-5"><h3 className="font-display text-2xl leading-none sm:text-3xl">{categoryLabel(language, name)}</h3><p className="mt-1 text-xs text-[#f0ddc6] sm:text-sm">{language === 'ar' ? ({ Cookware: 'للفوضى الجميلة', Storage: 'ضع كل شيء في مكانه', Cleaning: 'الترتيب يجعلك أفضل', 'Small Appliances': 'رفاهية يومية صغيرة' } as Record<string, string>)[name] : tagline}</p></div></Link>)}</div>
     </section>
+    {offers.length > 0 && <section className="bg-[#fff0df] px-4 py-14 sm:px-6 lg:px-8 lg:py-20"><div className="mx-auto max-w-7xl"><div className="mb-8 flex items-end justify-between gap-4"><div><p className="mb-2 text-xs font-bold uppercase tracking-[.2em] text-primary">{language === 'ar' ? 'لفترة محدودة' : 'Limited time'}</p><h2 className="font-display text-4xl tracking-[-.04em] sm:text-5xl">{language === 'ar' ? 'العروض والخصومات' : 'Offers & discounts'}</h2></div><Link href="/products?sort=offers" className="hidden items-center gap-2 text-sm font-bold text-primary sm:flex">{t(language, 'Shop all')} <ArrowRight size={16} /></Link></div><div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{offers.map((product) => <ProductCard key={product.id} product={product} wished={wishlist.includes(product.id)} onWishlist={() => toggleWishlist(product.id)} onAdd={() => addToCart(product.id)} />)}</div></div></section>}
     <section className="bg-[#f0e6d7] px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
       <div className="mx-auto max-w-7xl"><div className="mb-8 flex items-end justify-between gap-4"><div><p className="mb-2 text-xs font-bold uppercase tracking-[.2em] text-primary">{language === 'ar' ? 'منتجات يعود إليها الناس' : 'The ones people come back for'}</p><h2 className="font-display text-4xl tracking-[-.04em] sm:text-5xl">{language === 'ar' ? 'المفضلة' : 'Customer favourites'}</h2></div><Link href="/products" className="hidden items-center gap-2 text-sm font-bold text-primary sm:flex" data-testid="bestsellers-view-all">{t(language, 'Shop all')} <ArrowRight size={16} /></Link></div><div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{bestsellers.map((product) => <ProductCard key={product.id} product={product} wished={wishlist.includes(product.id)} onWishlist={() => toggleWishlist(product.id)} onAdd={() => addToCart(product.id)} />)}</div></div>
     </section>
@@ -263,14 +285,71 @@ function ProductCard({ product, wished, onWishlist, onAdd }: { product: Product;
   const inCart = cart.find((item) => item.id === product.id)?.quantity ?? 0;
   const canAdd = product.inStock && inCart < product.stock;
   const [added, setAdded] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const handleAdd = () => {
     if (added || !canAdd) return;
     setAdded(true);
     onAdd();
     window.setTimeout(() => setAdded(false), 1100);
   };
+  const stockStatus = product.stock <= 5 ? `Only ${product.stock} left` : product.stock <= 10 ? 'Low stock' : 'In stock';
   return <article className="group min-w-0" data-testid={`card-product-${product.id}`}>
-    <div className="relative aspect-[.92] overflow-hidden rounded-2xl bg-[#e4d6c4]"><Link href={`/products/${product.id}`} data-testid={`link-product-${product.id}`}><img src={product.image} alt={product.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.045]" /></Link><div className="absolute left-3 top-3 flex gap-1.5">{product.isNew && <span className="rounded-full bg-[#f4ecdf] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#3D2A1E]">{t(language, 'New')}</span>}{product.discount && <span className="rounded-full bg-[#C8722E] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white">-{product.discount}%</span>}</div><button onClick={onWishlist} className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-[#f4ecdf]/90 text-[#3D2A1E] backdrop-blur-sm transition-transform hover:scale-110" aria-label={wished ? `${language === 'ar' ? 'إزالة' : 'Remove'} ${product.name}` : `${language === 'ar' ? 'إضافة' : 'Add'} ${product.name}`} data-testid={`button-wishlist-${product.id}`}><Heart size={17} fill={wished ? '#C8722E' : 'none'} color={wished ? '#C8722E' : 'currentColor'} /></button><button onClick={handleAdd} disabled={!canAdd || added} className={`absolute bottom-3 left-3 right-3 flex translate-y-2 items-center justify-center gap-2 rounded-xl py-3 text-xs font-bold shadow-soft transition-all group-hover:translate-y-0 group-hover:opacity-100 disabled:cursor-not-allowed ${added ? 'bg-[#2E9B68] text-white opacity-100 translate-y-0' : 'bg-[#f4ecdf] text-[#3D2A1E] opacity-0 disabled:opacity-60'}`} data-testid={`button-add-${product.id}`}>{added ? <><Check size={15} /> {t(language, 'Added to cart')}</> : <><Plus size={15} /> {canAdd ? t(language, 'Add to cart') : t(language, 'Out of stock')}</>}</button></div><div className="pt-4"><div className="mb-1 flex items-center justify-between gap-3"><span className="text-[10px] font-bold uppercase tracking-[.16em] text-primary">{categoryLabel(language, product.category)}</span><span className="flex items-center gap-1 text-xs font-semibold text-muted-foreground"><Star size={12} fill="#D89B43" color="#D89B43" /> {product.rating}</span></div><Link href={`/products/${product.id}`} className="block font-display text-xl leading-tight text-foreground transition-colors hover:text-primary" data-testid={`link-product-name-${product.id}`}>{product.name}</Link><div className="mt-2 flex items-center gap-2 text-sm font-bold text-foreground"><span>{money(product.price, language)}</span>{product.oldPrice && <del className="font-normal text-muted-foreground">{money(product.oldPrice, language)}</del>}</div></div>
+    <div className="relative aspect-[.92] overflow-hidden rounded-2xl bg-[#e4d6c4]">
+      <Link href={`/products/${product.id}`} data-testid={`link-product-${product.id}`}>
+        {imageError ? (
+          <div className="flex h-full w-full items-center justify-center bg-muted">
+            <span className="text-muted-foreground">Image not available</span>
+          </div>
+        ) : (
+          <img 
+            src={product.image} 
+            alt={product.name} 
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.045]"
+            onError={() => setImageError(true)}
+            loading="lazy"
+          />
+        )}
+      </Link>
+      {!product.inStock && <div className="absolute inset-0 flex items-center justify-center bg-[#3D2A1E]/45"><span className="rounded-full bg-[#f4ecdf] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#8f3025]">{language === 'ar' ? 'نفد المخزون' : 'Out of stock'}</span></div>}
+      <div className="absolute left-3 top-3 flex gap-1.5">
+        {product.isNew && <span className="rounded-full bg-[#f4ecdf] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#3D2A1E]">{t(language, 'New')}</span>}
+        {product.discount && <span className="rounded-full bg-[#C8722E] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white">-{product.discount}%</span>}
+      </div>
+      <button 
+        onClick={onWishlist} 
+        className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-[#f4ecdf]/90 text-[#3D2A1E] backdrop-blur-sm transition-transform hover:scale-110" 
+        aria-label={wished ? `${language === 'ar' ? 'إزالة' : 'Remove'} ${product.name}` : `${language === 'ar' ? 'إضافة' : 'Add'} ${product.name}`} 
+        data-testid={`button-wishlist-${product.id}`}
+      >
+        <Heart size={17} fill={wished ? '#C8722E' : 'none'} color={wished ? '#C8722E' : 'currentColor'} />
+      </button>
+      <button 
+        onClick={handleAdd} 
+        disabled={!canAdd || added} 
+        className={`absolute bottom-3 left-3 right-3 flex translate-y-2 items-center justify-center gap-2 rounded-xl py-3 text-xs font-bold shadow-soft transition-all group-hover:translate-y-0 group-hover:opacity-100 disabled:cursor-not-allowed ${added ? 'bg-[#2E9B68] text-white opacity-100 translate-y-0' : 'bg-[#f4ecdf] text-[#3D2A1E] opacity-0 disabled:opacity-60'}`} 
+        data-testid={`button-add-${product.id}`}
+      >
+        {added ? <><Check size={15} /> {t(language, 'Added to cart')}</> : <><Plus size={15} /> {canAdd ? t(language, 'Add to cart') : t(language, 'Out of stock')}</>}
+      </button>
+    </div>
+    <div className="pt-4">
+      <div className="mb-1 flex items-center justify-between gap-3">
+        <span className="text-[10px] font-bold uppercase tracking-[.16em] text-primary">{categoryLabel(language, product.category)}</span>
+        <span className="flex items-center gap-1 text-xs">
+          <Star size={13} fill="#D89B43" color="#D89B43" /> {product.rating}
+        </span>
+      </div>
+      <Link href={`/products/${product.id}`} className="mb-2 block font-display text-lg leading-tight hover:text-primary" data-testid={`card-product-name-${product.id}`}>
+        {product.name}
+      </Link>
+      <div className="flex items-center justify-between gap-3">
+        <span className="font-bold">{money(product.price, language)}</span>
+        {product.oldPrice && <del className="text-xs text-muted-foreground">{money(product.oldPrice, language)}</del>}
+      </div>
+      <p className={`mt-1 text-xs ${product.inStock ? (product.stock <= 5 ? 'text-destructive' : product.stock <= 10 ? 'text-yellow-600' : 'text-green-600') : 'font-bold text-destructive'}`}>
+        {product.inStock ? stockStatus : (language === 'ar' ? 'نفد المخزون' : 'Out of stock')}
+      </p>
+    </div>
   </article>;
 }
 
@@ -281,7 +360,7 @@ function ProductsPage() {
   const [category, setCategory] = useState(params.get('category') || 'All');
   const [sort, setSort] = useState('featured');
   const [mobileFilters, setMobileFilters] = useState(false);
-  const { addToCart, wishlist, toggleWishlist, language } = useStore();
+  const { addToCart, wishlist, toggleWishlist, language, products, categories } = useStore();
   const filtered = useMemo(() => {
     const matches = products.filter((product) => {
       const visible = localizedProduct(product, language);
@@ -289,12 +368,12 @@ function ProductsPage() {
         && `${visible.name} ${visible.category}`.toLowerCase().includes(query.toLowerCase())
         && (params.get('wishlist') !== 'true' || wishlist.includes(product.id));
     });
-    return [...matches].sort((a, b) => sort === 'price-low' ? a.price - b.price : sort === 'price-high' ? b.price - a.price : sort === 'newest' ? Number(Boolean(b.isNew)) - Number(Boolean(a.isNew)) : Number(Boolean(b.isBestSeller)) - Number(Boolean(a.isBestSeller)));
+    return [...matches].filter((product) => sort !== 'offers' || Number(product.discount || 0) > 0).sort((a, b) => sort === 'price-low' ? a.price - b.price : sort === 'price-high' ? b.price - a.price : sort === 'newest' ? Number(Boolean(b.isNew)) - Number(Boolean(a.isNew)) : sort === 'offers' ? Number(b.discount || 0) - Number(a.discount || 0) : Number(Boolean(b.isBestSeller)) - Number(Boolean(a.isBestSeller)));
   }, [category, params, query, sort, wishlist, language]);
   const updateCategory = (value: string) => { setCategory(value); setLocation(`/products${value === 'All' ? '' : `?category=${encodeURIComponent(value)}`}`); };
   return <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
     <div className="mb-10 max-w-2xl"><p className="mb-3 text-xs font-bold uppercase tracking-[.2em] text-primary">{t(language, 'The PikaVibe edit')}</p><h1 className="font-display text-5xl tracking-[-.055em] sm:text-7xl">{language === 'ar' ? <>مفيد، جميل، <em className="text-primary">مختار بعناية.</em></> : <>Useful, beautiful, <em className="text-primary">well chosen.</em></>}</h1><p className="mt-5 max-w-lg text-base leading-7 text-muted-foreground">{t(language, 'Good things for kitchens, bathrooms and all the in-between moments of home.')}</p></div>
-    <div className="mb-7 flex flex-col gap-3 border-y border-border py-4 sm:flex-row sm:items-center sm:justify-between"><div className="flex items-center gap-3"><button onClick={() => setMobileFilters((open) => !open)} className="flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-semibold lg:hidden" data-testid="button-mobile-filters"><SlidersHorizontal size={15} /> {t(language, 'Filters')}</button><div className={`${mobileFilters ? 'flex' : 'hidden'} flex-wrap gap-2 lg:flex`}>{categories.map((item) => <button key={item} onClick={() => updateCategory(item)} className={`rounded-full px-4 py-2 text-xs font-bold transition-colors ${category === item ? 'bg-[#3D2A1E] text-[#f4ecdf]' : 'bg-secondary text-muted-foreground hover:bg-[#d8c7b3]'}`} data-testid={`filter-category-${item.toLowerCase().replaceAll(' ', '-')}`}>{categoryLabel(language, item)}</button>)}</div></div><div className="flex items-center gap-3"><span className="text-xs text-muted-foreground">{filtered.length} {t(language, filtered.length === 1 ? 'piece' : 'pieces')}</span><label className="relative"><span className="sr-only">{language === 'ar' ? 'ترتيب المنتجات' : 'Sort products'}</span><select value={sort} onChange={(event) => setSort(event.target.value)} className="appearance-none rounded-full border border-border bg-transparent py-2 pl-4 pr-9 text-xs font-bold outline-none focus:ring-2 focus:ring-primary" data-testid="select-sort-products"><option value="featured">{t(language, 'Featured first')}</option><option value="newest">{t(language, 'Newest first')}</option><option value="price-low">{t(language, 'Price: low to high')}</option><option value="price-high">{t(language, 'Price: high to low')}</option></select><ChevronDown size={14} className="pointer-events-none absolute right-3 top-2.5" /></label></div></div>
+    <div className="mb-7 flex flex-col gap-3 border-y border-border py-4 sm:flex-row sm:items-center sm:justify-between"><div className="flex items-center gap-3"><button onClick={() => setMobileFilters((open) => !open)} className="flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-semibold lg:hidden" data-testid="button-mobile-filters"><SlidersHorizontal size={15} /> {t(language, 'Filters')}</button><div className={`${mobileFilters ? 'flex' : 'hidden'} flex-wrap gap-2 lg:flex`}>{categories.map((item) => <button key={item} onClick={() => updateCategory(item)} className={`rounded-full px-4 py-2 text-xs font-bold transition-colors ${category === item ? 'bg-[#3D2A1E] text-[#f4ecdf]' : 'bg-secondary text-muted-foreground hover:bg-[#d8c7b3]'}`} data-testid={`filter-category-${item.toLowerCase().replaceAll(' ', '-')}`}>{categoryLabel(language, item)}</button>)}</div></div><div className="flex items-center gap-3"><span className="text-xs text-muted-foreground">{filtered.length} {t(language, filtered.length === 1 ? 'piece' : 'pieces')}</span><label className="relative"><span className="sr-only">{language === 'ar' ? 'ترتيب المنتجات' : 'Sort products'}</span><select value={sort} onChange={(event) => setSort(event.target.value)} className="appearance-none rounded-full border border-border bg-transparent py-2 pl-4 pr-9 text-xs font-bold outline-none focus:ring-2 focus:ring-primary" data-testid="select-sort-products"><option value="featured">{t(language, 'Featured first')}</option><option value="newest">{t(language, 'Newest first')}</option><option value="price-low">{t(language, 'Price: low to high')}</option><option value="price-high">{t(language, 'Price: high to low')}</option><option value="offers">{language === 'ar' ? 'العروض والخصومات' : 'Offers & discounts'}</option></select><ChevronDown size={14} className="pointer-events-none absolute right-3 top-2.5" /></label></div></div>
     <div className="relative mb-8"><Search className="absolute left-4 top-3.5 text-muted-foreground" size={18} /><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={t(language, 'Search by name or category...')} className="w-full rounded-2xl border border-border bg-card py-3.5 pl-12 pr-4 text-sm outline-none transition-shadow focus:ring-2 focus:ring-primary" aria-label={t(language, 'Search products')} data-testid="input-search-products" /></div>
     {filtered.length ? <div className="grid grid-cols-2 gap-x-3 gap-y-9 sm:grid-cols-3 sm:gap-x-5 lg:grid-cols-4">{filtered.map((product) => <ProductCard key={product.id} product={localizedProduct(product, language)} wished={wishlist.includes(product.id)} onWishlist={() => toggleWishlist(product.id)} onAdd={() => addToCart(product.id)} />)}</div> : <EmptyState title={t(language, 'Nothing in that corner yet.')} body={t(language, 'Try a different search or clear the filters to see the full edit.')} action={t(language, 'Clear filters')} onAction={() => { setQuery(''); updateCategory('All'); }} />}
   </div>;
@@ -302,28 +381,29 @@ function ProductsPage() {
 
 function ProductPage() {
   const { id } = useParams<{ id: string }>();
+  const { addToCart, cart, wishlist, toggleWishlist, language, products } = useStore();
   const product = products.find((item) => item.id === id);
-  const { addToCart, cart, wishlist, toggleWishlist, language } = useStore();
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
   const [added, setAdded] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState('');
   if (!product) return <NotFoundPage />;
   const visibleProduct = localizedProduct(product, language);
-  const inCart = cart.find((item) => item.id === product.id)?.quantity ?? 0;
+  const inCart = cart.filter((item) => item.id === product.id).reduce((sum, item) => sum + item.quantity, 0);
   const availableStock = Math.max(0, product.stock - inCart);
   const canAdd = product.inStock && availableStock > 0;
   const related = products.filter((item) => item.category === product.category && item.id !== product.id).slice(0, 3).map((item) => localizedProduct(item, language));
   const handleAdd = () => {
     if (added || !canAdd) return;
     setAdded(true);
-    addToCart(product.id, Math.min(quantity, availableStock));
+    addToCart(product.id, Math.min(quantity, availableStock), selectedVariant || undefined);
     window.setTimeout(() => setAdded(false), 1200);
   };
   return <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-14">
     <Link href="/products" className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary" data-testid="link-back-products"><ChevronLeft size={16} /> {t(language, 'Back to shop')}</Link>
     <div className="grid gap-10 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
        <div className="flex flex-col-reverse gap-3 sm:flex-row"><div className="flex gap-3 sm:w-20 sm:flex-col">{visibleProduct.images.map((image, index) => <button key={image} onClick={() => setActiveImage(index)} className={`aspect-square w-16 overflow-hidden rounded-xl border-2 sm:w-20 ${index === activeImage ? 'border-primary' : 'border-transparent opacity-65'}`} aria-label={`${language === 'ar' ? 'عرض صورة المنتج' : 'Show product image'} ${index + 1}`} data-testid={`button-product-image-${index}`}><img src={image} alt="" className="h-full w-full object-cover" /></button>)}</div><div className="relative aspect-square min-w-0 flex-1 overflow-hidden rounded-[2rem] bg-secondary"><img src={visibleProduct.images[activeImage]} alt={visibleProduct.name} className="h-full w-full object-cover transition-opacity duration-300" /><div className="absolute left-5 top-5 flex gap-2">{product.isNew && <span className="rounded-full bg-[#f4ecdf] px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest">{t(language, 'New arrival')}</span>}{product.discount && <span className="rounded-full bg-primary px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white">{language === 'ar' ? `وفر ${product.discount}%` : `Save ${product.discount}%`}</span>}</div></div></div>
-       <div className="flex flex-col justify-center"><div className="mb-3 flex items-center justify-between"><span className="text-xs font-bold uppercase tracking-[.18em] text-primary">{categoryLabel(language, visibleProduct.category)}</span><button onClick={() => toggleWishlist(product.id)} className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary" data-testid="button-product-wishlist"><Heart size={18} fill={wishlist.includes(product.id) ? '#C8722E' : 'none'} color={wishlist.includes(product.id) ? '#C8722E' : 'currentColor'} /> {wishlist.includes(product.id) ? t(language, 'Saved') : t(language, 'Save for later')}</button></div><h1 className="font-display text-5xl leading-[.95] tracking-[-.055em] sm:text-6xl">{visibleProduct.name}</h1><div className="mt-5 flex items-center gap-4"><span className="text-xl font-bold">{money(product.price, language)}</span>{product.oldPrice && <del className="text-sm text-muted-foreground">{money(product.oldPrice, language)}</del>}<span className="flex items-center gap-1 border-l border-border pl-4 text-sm"><Star size={15} fill="#D89B43" color="#D89B43" /> {product.rating} <span className="text-muted-foreground">/ 5</span></span></div><p className="mt-7 max-w-lg text-base leading-7 text-muted-foreground">{visibleProduct.description}</p><div className="my-8 border-y border-border py-6"><h2 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-muted-foreground">{t(language, 'Details')}</h2><ul className="grid gap-3 text-sm text-foreground sm:grid-cols-2">{visibleProduct.specifications.map((spec) => <li key={spec} className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-primary" />{spec}</li>)}</ul></div><div className="flex flex-col gap-3 sm:flex-row"><div className="flex h-12 items-center justify-between rounded-xl border border-border bg-card sm:w-36"><button onClick={() => setQuantity((value) => Math.max(1, value - 1))} disabled={!canAdd} className="flex h-full w-11 items-center justify-center text-muted-foreground hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50" aria-label={language === 'ar' ? 'تقليل الكمية' : 'Decrease quantity'} data-testid="button-decrease-quantity"><Minus size={16} /></button><span className="text-sm font-bold" data-testid="text-product-quantity">{Math.min(quantity, Math.max(1, availableStock))}</span><button onClick={() => setQuantity((value) => Math.min(availableStock, value + 1))} disabled={!canAdd || quantity >= availableStock} className="flex h-full w-11 items-center justify-center text-muted-foreground hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50" aria-label={language === 'ar' ? 'زيادة الكمية' : 'Increase quantity'} data-testid="button-increase-quantity"><Plus size={16} /></button></div><button onClick={handleAdd} disabled={!canAdd || added} className={`flex h-12 flex-1 items-center justify-center gap-2 rounded-xl px-6 text-sm font-bold text-primary-foreground transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 ${added ? 'bg-[#2E9B68]' : 'bg-primary'}`} data-testid="button-product-add-to-cart">{added ? <><Check size={18} /> {t(language, 'Added to cart')}</> : <><ShoppingBag size={18} /> {canAdd ? t(language, 'Add to cart') : t(language, 'Out of stock')}</>}</button></div><p className="mt-4 flex items-center gap-2 text-xs font-semibold text-muted-foreground"><Truck size={15} className="text-primary" /> {canAdd ? `${t(language, 'In stock')} · ${availableStock} ${t(language, availableStock === 1 ? 'piece' : 'pieces')} ${t(language, 'available')}` : t(language, 'Out of stock')}</p></div>
+       <div className="flex flex-col justify-center"><div className="mb-3 flex items-center justify-between"><span className="text-xs font-bold uppercase tracking-[.18em] text-primary">{categoryLabel(language, visibleProduct.category)}</span><button onClick={() => toggleWishlist(product.id)} className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary" data-testid="button-product-wishlist"><Heart size={18} fill={wishlist.includes(product.id) ? '#C8722E' : 'none'} color={wishlist.includes(product.id) ? '#C8722E' : 'currentColor'} /> {wishlist.includes(product.id) ? t(language, 'Saved') : t(language, 'Save for later')}</button></div><h1 className="font-display text-5xl leading-[.95] tracking-[-.055em] sm:text-6xl">{visibleProduct.name}</h1><div className="mt-5 flex items-center gap-4"><span className="text-xl font-bold">{money(product.price, language)}</span>{product.oldPrice && <del className="text-sm text-muted-foreground">{money(product.oldPrice, language)}</del>}<span className="flex items-center gap-1 border-l border-border pl-4 text-sm"><Star size={15} fill="#D89B43" color="#D89B43" /> {product.rating} <span className="text-muted-foreground">/ 5</span></span></div><p className="mt-7 max-w-lg text-base leading-7 text-muted-foreground">{visibleProduct.description}</p>{product.variants?.map((variant) => <label key={variant.name} className="mt-6 grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{variant.name}<select value={selectedVariant} onChange={(event) => setSelectedVariant(event.target.value)} className="rounded-xl border border-border bg-card px-4 py-3 text-sm font-normal normal-case tracking-normal outline-none focus:ring-2 focus:ring-primary"><option value="">{language === 'ar' ? 'اختر خياراً' : 'Choose an option'}</option>{variant.options.map((option) => <option key={option} value={`${variant.name}: ${option}`}>{option}</option>)}</select></label>)}<div className="my-8 border-y border-border py-6"><h2 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-muted-foreground">{t(language, 'Details')}</h2><ul className="grid gap-3 text-sm text-foreground sm:grid-cols-2">{visibleProduct.specifications.map((spec) => <li key={spec} className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-primary" />{spec}</li>)}</ul></div><div className="flex flex-col gap-3 sm:flex-row"><div className="flex h-12 items-center justify-between rounded-xl border border-border bg-card sm:w-36"><button onClick={() => setQuantity((value) => Math.max(1, value - 1))} disabled={!canAdd} className="flex h-full w-11 items-center justify-center text-muted-foreground hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50" aria-label={language === 'ar' ? 'تقليل الكمية' : 'Decrease quantity'} data-testid="button-decrease-quantity"><Minus size={16} /></button><span className="text-sm font-bold" data-testid="text-product-quantity">{Math.min(quantity, Math.max(1, availableStock))}</span><button onClick={() => setQuantity((value) => Math.min(availableStock, value + 1))} disabled={!canAdd || quantity >= availableStock} className="flex h-full w-11 items-center justify-center text-muted-foreground hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50" aria-label={language === 'ar' ? 'زيادة الكمية' : 'Increase quantity'} data-testid="button-increase-quantity"><Plus size={16} /></button></div><button onClick={handleAdd} disabled={!canAdd || added} className={`flex h-12 flex-1 items-center justify-center gap-2 rounded-xl px-6 text-sm font-bold text-primary-foreground transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 ${added ? 'bg-[#2E9B68]' : 'bg-primary'}`} data-testid="button-product-add-to-cart">{added ? <><Check size={18} /> {t(language, 'Added to cart')}</> : <><ShoppingBag size={18} /> {canAdd ? t(language, 'Add to cart') : t(language, 'Out of stock')}</>}</button></div><p className="mt-4 flex items-center gap-2 text-xs font-semibold text-muted-foreground"><Truck size={15} className="text-primary" /> {canAdd ? `${t(language, 'In stock')} · ${availableStock} ${t(language, availableStock === 1 ? 'piece' : 'pieces')} ${t(language, 'available')}` : t(language, 'Out of stock')}</p></div>
     </div>
     <div className="mt-20 border-t border-border pt-12"><div className="mb-8 flex items-end justify-between"><div><p className="mb-2 text-xs font-bold uppercase tracking-[.18em] text-primary">{t(language, 'More to consider')}</p><h2 className="font-display text-4xl">{t(language, 'From the same shelf')}</h2></div><div className="hidden gap-2 sm:flex"><button className="flex h-9 w-9 items-center justify-center rounded-full border border-border" data-testid="button-related-previous"><ChevronLeft size={16} /></button><button className="flex h-9 w-9 items-center justify-center rounded-full border border-border" data-testid="button-related-next"><ChevronRight size={16} /></button></div></div><div className="grid grid-cols-2 gap-4 sm:grid-cols-3">{related.map((item) => <ProductCard key={item.id} product={item} wished={wishlist.includes(item.id)} onWishlist={() => toggleWishlist(item.id)} onAdd={() => addToCart(item.id)} />)}</div></div>
   </div>;
@@ -331,93 +411,158 @@ function ProductPage() {
 
 function CartPage() {
   const [, setLocation] = useLocation();
-  const { cart, updateQuantity, removeFromCart, language } = useStore();
+  const { cart, updateQuantity, removeFromCart, language, products } = useStore();
   const items = cart.map((item) => ({ ...item, product: products.find((product) => product.id === item.id) })).filter((item): item is CartItem & { product: Product } => Boolean(item.product));
   const subtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-  return <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16"><div className="mb-10"><p className="mb-3 text-xs font-bold uppercase tracking-[.2em] text-primary">{t(language, 'Your shortlist')}</p><h1 className="font-display text-5xl tracking-[-.05em] sm:text-7xl">{t(language, 'Your cart.')}</h1></div>{items.length ? <div className="grid gap-8 lg:grid-cols-[1fr_360px]"><div className="divide-y divide-border border-y border-border">{items.map(({ product, quantity }) => { const visible = localizedProduct(product, language); return <div key={product.id} className="flex gap-4 py-5 sm:gap-6"><Link href={`/products/${product.id}`} className="h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-secondary sm:h-36 sm:w-36" data-testid={`cart-product-image-${product.id}`}><img src={product.image} alt={visible.name} className="h-full w-full object-cover" /></Link><div className="flex min-w-0 flex-1 flex-col justify-between py-1"><div><div className="mb-1 flex items-start justify-between gap-3"><div><span className="text-[10px] font-bold uppercase tracking-[.14em] text-primary">{categoryLabel(language, visible.category)}</span><Link href={`/products/${product.id}`} className="mt-1 block font-display text-xl leading-tight hover:text-primary" data-testid={`cart-product-name-${product.id}`}>{visible.name}</Link></div><button onClick={() => removeFromCart(product.id)} className="text-muted-foreground hover:text-destructive" aria-label={language === 'ar' ? `إزالة ${visible.name}` : `Remove ${visible.name}`} data-testid={`button-remove-${product.id}`}><Trash2 size={17} /></button></div><span className="text-sm font-bold">{money(product.price, language)}</span></div><div className="flex items-end justify-between"><div className="flex h-9 items-center rounded-lg border border-border"><button onClick={() => updateQuantity(product.id, quantity - 1)} className="flex h-full w-9 items-center justify-center text-muted-foreground hover:text-foreground" aria-label={language === 'ar' ? 'تقليل الكمية' : 'Decrease item quantity'} data-testid={`button-cart-decrease-${product.id}`}><Minus size={14} /></button><span className="min-w-6 text-center text-xs font-bold" data-testid={`text-cart-quantity-${product.id}`}>{quantity}</span><button onClick={() => updateQuantity(product.id, quantity + 1)} className="flex h-full w-9 items-center justify-center text-muted-foreground hover:text-foreground" aria-label={language === 'ar' ? 'زيادة الكمية' : 'Increase item quantity'} data-testid={`button-cart-increase-${product.id}`}><Plus size={14} /></button></div><span className="text-sm font-bold">{money(product.price * quantity, language)}</span></div></div></div>; })}</div><aside className="h-fit rounded-2xl bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:p-8 lg:sticky lg:top-28"><h2 className="font-display text-3xl">{t(language, 'A good choice.')}</h2><div className="mt-6 space-y-3 border-b border-[#614b3a] pb-6 text-sm"><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Subtotal')}</span><span className="font-bold" data-testid="text-cart-subtotal">{money(subtotal, language)}</span></div><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Delivery')}</span><span className="font-bold text-[#e9b98b]">{t(language, 'Confirmed on WhatsApp')}</span></div></div><div className="flex justify-between py-5 text-lg font-bold"><span>{t(language, 'Total')}</span><span data-testid="text-cart-total">{money(subtotal, language)}</span></div><Link href="/checkout" className="flex h-12 items-center justify-center gap-2 rounded-xl bg-[#2E9B68] text-sm font-bold text-white transition-transform hover:-translate-y-0.5" data-testid="link-whatsapp-checkout"><MessageCircle size={18} /> {t(language, 'Continue to checkout')}</Link><p className="mt-4 text-center text-xs leading-5 text-[#bfae9e]">{t(language, "We'll confirm your delivery address, timing and payment options in the chat.")}</p></aside></div> : <EmptyState icon={<ShoppingBag size={25} />} title={t(language, 'Your cart is waiting for a good idea.')} body={t(language, 'Save something useful here, then come back when you’re ready.')} action={t(language, 'Browse the shop')} onAction={() => setLocation('/products')} />}</div>;
+  return <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16"><div className="mb-10"><p className="mb-3 text-xs font-bold uppercase tracking-[.2em] text-primary">{t(language, 'Your shortlist')}</p><h1 className="font-display text-5xl tracking-[-.05em] sm:text-7xl">{t(language, 'Your cart.')}</h1></div>{items.length ? <div className="grid gap-8 lg:grid-cols-[1fr_360px]"><div className="divide-y divide-border border-y border-border">{items.map(({ product, quantity, variant }) => { const visible = localizedProduct(product, language); return <div key={`${product.id}-${variant || ''}`} className="flex gap-4 py-5 sm:gap-6"><Link href={`/products/${product.id}`} className="h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-secondary sm:h-36 sm:w-36" data-testid={`cart-product-image-${product.id}`}><img src={product.image} alt={visible.name} className="h-full w-full object-cover" /></Link><div className="flex min-w-0 flex-1 flex-col justify-between py-1"><div><div className="mb-1 flex items-start justify-between gap-3"><div><span className="text-[10px] font-bold uppercase tracking-[.14em] text-primary">{categoryLabel(language, visible.category)}</span><Link href={`/products/${product.id}`} className="mt-1 block font-display text-xl leading-tight hover:text-primary" data-testid={`cart-product-name-${product.id}`}>{visible.name}</Link>{variant && <span className="mt-1 block text-xs text-muted-foreground">{variant}</span>}</div><button onClick={() => removeFromCart(product.id, variant)} className="text-muted-foreground hover:text-destructive" aria-label={language === 'ar' ? `إزالة ${visible.name}` : `Remove ${visible.name}`} data-testid={`button-remove-${product.id}`}><Trash2 size={17} /></button></div><span className="text-sm font-bold">{money(product.price, language)}</span></div><div className="flex items-end justify-between"><div className="flex h-9 items-center rounded-lg border border-border"><button onClick={() => updateQuantity(product.id, quantity - 1, variant)} className="flex h-full w-9 items-center justify-center text-muted-foreground hover:text-foreground" aria-label={language === 'ar' ? 'تقليل الكمية' : 'Decrease item quantity'} data-testid={`button-cart-decrease-${product.id}`}><Minus size={14} /></button><span className="min-w-6 text-center text-xs font-bold" data-testid={`text-cart-quantity-${product.id}`}>{quantity}</span><button onClick={() => updateQuantity(product.id, quantity + 1, variant)} className="flex h-full w-9 items-center justify-center text-muted-foreground hover:text-foreground" aria-label={language === 'ar' ? 'زيادة الكمية' : 'Increase item quantity'} data-testid={`button-cart-increase-${product.id}`}><Plus size={14} /></button></div><span className="text-right text-sm font-bold" data-testid={`text-cart-line-total-${product.id}`}>{language === 'ar' ? 'الإجمالي: ' : 'Total: '}{money(product.price * quantity, language)}</span></div></div></div>; })}</div><aside className="h-fit rounded-2xl bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:p-8 lg:sticky lg:top-28"><h2 className="font-display text-3xl">{t(language, 'A good choice.')}</h2><div className="mt-6 space-y-3 border-b border-[#614b3a] pb-6 text-sm"><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Subtotal')}</span><span className="font-bold" data-testid="text-cart-subtotal">{money(subtotal, language)}</span></div><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Delivery')}</span><span className="font-bold text-[#e9b98b]">{t(language, 'Confirmed on WhatsApp')}</span></div></div><div className="flex justify-between py-5 text-lg font-bold"><span>{t(language, 'Total')}</span><span data-testid="text-cart-total">{money(subtotal, language)}</span></div><Link href="/checkout" className="flex h-12 items-center justify-center gap-2 rounded-xl bg-[#2E9B68] text-sm font-bold text-white transition-transform hover:-translate-y-0.5" data-testid="link-whatsapp-checkout"><MessageCircle size={18} /> {t(language, 'Continue to checkout')}</Link><p className="mt-4 text-center text-xs leading-5 text-[#bfae9e]">{t(language, "We'll confirm your delivery address, timing and payment options in the chat.")}</p></aside></div> : <EmptyState icon={<ShoppingBag size={25} />} title={t(language, 'Your cart is waiting for a good idea.')} body={t(language, 'Save something useful here, then come back when you’re ready.')} action={t(language, 'Browse the shop')} onAction={() => setLocation('/products')} />}</div>;
 }
 
 function CheckoutPage() {
   const [, setLocation] = useLocation();
-  const { cart, language, clearCart } = useStore();
+  const { cart, language, clearCart, products } = useStore();
   const items = cart.map((item) => ({ ...item, product: products.find((product) => product.id === item.id) })).filter((item): item is CartItem & { product: Product } => Boolean(item.product));
-  const [form, setForm] = useState<CustomerInfo>({ name: '', phone: '', address: '', notes: '', paymentMethod: 'Pay on delivery' });
+  const [form, setForm] = useState<CustomerInfo>({ name: '', phone: '', governorate: '', city: '', address: '', notes: '', paymentMethod: 'cod' });
   const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const subtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
   const discount = items.reduce((sum, item) => sum + ((item.product.oldPrice ?? item.product.price) - item.product.price) * item.quantity, 0);
   const shipping = subtotal >= 5000 ? 0 : 250;
   const total = subtotal + shipping;
 
   if (!items.length) {
-    return <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8"><EmptyState icon={<ShoppingBag size={25} />} title={t(language, 'Your cart is waiting for a good idea.')} body={t(language, 'Save something useful here, then come back when you’re ready.')} action={t(language, 'Browse the shop')} onAction={() => setLocation('/products')} /></div>;
+    return <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8"><EmptyState icon={<ShoppingBag size={25} />} title={t(language, 'Your cart is waiting for a good idea.')} body={t(language, 'Save something useful here, then come back when youâ€™re ready.')} action={t(language, 'Browse the shop')} onAction={() => setLocation('/products')} /></div>;
   }
 
-  const submitOrder = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitOrder = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!form.name.trim() || !form.phone.trim() || !form.address.trim()) {
+    setError('');
+    if (form.name.trim().length < 2 || !/^[+()\d\s-]{7,}$/.test(form.phone.trim()) || !form.governorate.trim() || !form.city.trim() || form.address.trim().length < 8) {
       setError(t(language, 'Please complete the required fields.'));
       return;
     }
-    const order: OrderRecord = {
-      id: `PV-${String(Date.now()).slice(-6)}`,
-      createdAt: new Date().toISOString(),
-      customer: form,
-      items: cart,
-      subtotal,
-      shipping,
-      discount,
-      total,
-    };
-    localStorage.setItem('pikavibe-last-order', JSON.stringify(order));
-    clearCart();
-    setLocation(`/receipt/${order.id}`);
+    setSubmitting(true);
+    try {
+      const saved = await createOrder({
+        customer: { name: form.name.trim(), phone: form.phone.trim(), governorate: form.governorate.trim(), city: form.city.trim(), address: form.address.trim(), notes: form.notes.trim() },
+        items: items.map(({ product, quantity, variant }) => ({ productId: product.backendId ?? product.id, quantity, variant })),
+        paymentMethod: form.paymentMethod,
+      });
+      const order: OrderRecord = {
+        id: String(saved.id),
+        orderNumber: saved.orderNumber,
+        createdAt: saved.createdAt,
+        customer: form,
+        items: cart,
+        subtotal: saved.subtotal,
+        shipping: saved.shipping,
+        discount,
+        total: saved.total,
+      };
+      localStorage.setItem('pikavibe-last-order', JSON.stringify(order));
+      clearCart();
+      setLocation(`/receipt/${order.id}`);
+    } catch (submitError) {
+      const message = submitError instanceof Error ? submitError.message : '';
+      setError(message.includes('stock') ? t(language, 'Some items are no longer available in the requested quantity.') : t(language, 'We could not place the order. Please try again.'));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
+  const inputClass = 'rounded-xl border border-[#d1b99c] bg-[#f7efe4] px-4 py-3.5 text-sm font-normal normal-case tracking-normal outline-none focus:ring-2 focus:ring-primary';
   return <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
-    <div className="mb-10"><p className="mb-3 text-xs font-bold uppercase tracking-[.2em] text-primary">{t(language, 'Checkout.')}</p><h1 className="font-display text-5xl tracking-[-.05em] sm:text-7xl">{t(language, 'Checkout.')}</h1><p className="mt-4 max-w-lg text-base leading-7 text-muted-foreground">{t(language, 'A few details, then we’ll take care of the rest.')}</p></div>
+    <div className="mb-10"><p className="mb-3 text-xs font-bold uppercase tracking-[.2em] text-primary">{t(language, 'Checkout.')}</p><h1 className="font-display text-5xl tracking-[-.05em] sm:text-7xl">{t(language, 'Checkout.')}</h1><p className="mt-4 max-w-lg text-base leading-7 text-muted-foreground">{t(language, 'A few details, then weâ€™ll take care of the rest.')}</p></div>
     <div className="grid gap-10 lg:grid-cols-[1fr_380px]">
-      <form onSubmit={submitOrder} className="rounded-[2rem] bg-[#ead9c0] p-6 sm:p-10">
+      <form onSubmit={submitOrder} className="rounded-[2rem] bg-[#ead9c0] p-6 sm:p-10" noValidate>
         <h2 className="font-display text-3xl">{t(language, 'Your details')}</h2>
-        <div className="mt-8 grid gap-5">
-          <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{t(language, 'Full name')}<input required value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} type="text" className="rounded-xl border border-[#d1b99c] bg-[#f7efe4] px-4 py-3.5 text-sm font-normal normal-case tracking-normal outline-none focus:ring-2 focus:ring-primary" data-testid="input-checkout-name" /></label>
-          <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{t(language, 'Phone number')}<input required value={form.phone} onChange={(event) => setForm({ ...form, phone: event.target.value })} type="tel" className="rounded-xl border border-[#d1b99c] bg-[#f7efe4] px-4 py-3.5 text-sm font-normal normal-case tracking-normal outline-none focus:ring-2 focus:ring-primary" data-testid="input-checkout-phone" /></label>
-          <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{t(language, 'Delivery address')}<textarea required value={form.address} onChange={(event) => setForm({ ...form, address: event.target.value })} rows={3} className="resize-none rounded-xl border border-[#d1b99c] bg-[#f7efe4] px-4 py-3.5 text-sm font-normal normal-case tracking-normal outline-none focus:ring-2 focus:ring-primary" data-testid="textarea-checkout-address" /></label>
-          <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{t(language, 'Notes (optional)')}<textarea value={form.notes} onChange={(event) => setForm({ ...form, notes: event.target.value })} rows={2} className="resize-none rounded-xl border border-[#d1b99c] bg-[#f7efe4] px-4 py-3.5 text-sm font-normal normal-case tracking-normal outline-none focus:ring-2 focus:ring-primary" data-testid="textarea-checkout-notes" /></label>
-          <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{t(language, 'Payment method')}<select value={form.paymentMethod} onChange={(event) => setForm({ ...form, paymentMethod: event.target.value })} className="rounded-xl border border-[#d1b99c] bg-[#f7efe4] px-4 py-3.5 text-sm font-normal normal-case tracking-normal outline-none focus:ring-2 focus:ring-primary" data-testid="select-payment-method"><option value="Pay on delivery">{t(language, 'Pay on delivery')}</option></select></label>
+        <p className="mt-2 text-sm text-muted-foreground">{t(language, 'Guest checkout â€” no account required.')}</p>
+        <div className="mt-8 grid gap-5 sm:grid-cols-2">
+          <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{t(language, 'Full name')}<input required minLength={2} value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} type="text" className={inputClass} data-testid="input-checkout-name" /></label>
+          <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{t(language, 'Phone number')}<input required value={form.phone} onChange={(event) => setForm({ ...form, phone: event.target.value })} type="tel" inputMode="tel" className={inputClass} data-testid="input-checkout-phone" /></label>
+          <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{t(language, 'Governorate')}<input required value={form.governorate} onChange={(event) => setForm({ ...form, governorate: event.target.value })} type="text" className={inputClass} data-testid="input-checkout-governorate" /></label>
+          <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{t(language, 'City')}<input required value={form.city} onChange={(event) => setForm({ ...form, city: event.target.value })} type="text" className={inputClass} data-testid="input-checkout-city" /></label>
+          <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em] sm:col-span-2">{t(language, 'Full address')}<textarea required minLength={8} value={form.address} onChange={(event) => setForm({ ...form, address: event.target.value })} rows={3} className={`resize-none ${inputClass}`} data-testid="textarea-checkout-address" /></label>
+          <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em] sm:col-span-2">{t(language, 'Additional notes')}<textarea value={form.notes} onChange={(event) => setForm({ ...form, notes: event.target.value })} rows={2} className={`resize-none ${inputClass}`} data-testid="textarea-checkout-notes" /></label>
+          <fieldset className="grid gap-3 sm:col-span-2"><legend className="text-xs font-bold uppercase tracking-[.12em]">{t(language, 'Payment method')}</legend><div className="grid gap-3 sm:grid-cols-2"><label className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 text-sm font-semibold ${form.paymentMethod === 'cod' ? 'border-primary bg-[#f7efe4]' : 'border-[#d1b99c]'}`}><input type="radio" name="paymentMethod" value="cod" checked={form.paymentMethod === 'cod'} onChange={(event) => setForm({ ...form, paymentMethod: event.target.value })} />{t(language, 'Cash on delivery')}</label><label className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 text-sm font-semibold ${form.paymentMethod === 'bank_transfer' ? 'border-primary bg-[#f7efe4]' : 'border-[#d1b99c]'}`}><input type="radio" name="paymentMethod" value="bank_transfer" checked={form.paymentMethod === 'bank_transfer'} onChange={(event) => setForm({ ...form, paymentMethod: event.target.value })} />{t(language, 'InstaPay / Bank transfer')}</label></div></fieldset>
         </div>
         {error && <p className="mt-5 rounded-xl bg-[#f6d1c8] px-4 py-3 text-sm font-semibold text-[#8f3025]" role="alert">{error}</p>}
-        <button type="submit" className="mt-8 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary text-sm font-bold text-primary-foreground transition-transform hover:-translate-y-0.5" data-testid="button-submit-order"><Check size={18} /> {t(language, 'Send order')}</button>
+        <button type="submit" disabled={submitting} className="mt-8 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary text-sm font-bold text-primary-foreground transition-transform hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-60" data-testid="button-submit-order"><Check size={18} /> {submitting ? t(language, 'Placing order...') : t(language, 'Confirm order')}</button>
       </form>
-      <aside className="h-fit rounded-2xl bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:p-8 lg:sticky lg:top-28">
-        <h2 className="font-display text-3xl">{t(language, 'Order summary')}</h2>
-        <div className="mt-6 space-y-4 border-b border-[#614b3a] pb-6">{items.map(({ product, quantity }) => { const visible = localizedProduct(product, language); return <div key={product.id} className="flex justify-between gap-4 text-sm"><span className="text-[#d5c6b4]">{visible.name} × {quantity}</span><span className="shrink-0 font-bold">{money(product.price * quantity, language)}</span></div>; })}</div>
-        <div className="mt-5 space-y-3 text-sm"><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Subtotal')}</span><span>{money(subtotal, language)}</span></div><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Discount')}</span><span className="text-[#e9b98b]">-{money(discount, language)}</span></div><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, shipping ? 'Delivery fee' : 'Free delivery')}</span><span>{shipping ? money(shipping, language) : t(language, 'Free delivery')}</span></div></div>
-        <div className="mt-5 flex justify-between border-t border-[#614b3a] pt-5 text-lg font-bold"><span>{t(language, 'Total')}</span><span>{money(total, language)}</span></div>
-      </aside>
+      <aside className="h-fit rounded-2xl bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:p-8 lg:sticky lg:top-28"><h2 className="font-display text-3xl">{t(language, 'Order summary')}</h2><div className="mt-6 space-y-4 border-b border-[#614b3a] pb-6">{items.map(({ product, quantity, variant }) => { const visible = localizedProduct(product, language); return <div key={`${product.id}-${variant || ''}`} className="flex justify-between gap-4 text-sm"><span className="text-[#d5c6b4]">{visible.name} أ— {quantity}</span><span className="shrink-0 font-bold">{money(product.price * quantity, language)}</span></div>; })}</div><div className="mt-5 space-y-3 text-sm"><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Subtotal')}</span><span>{money(subtotal, language)}</span></div><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Discount')}</span><span className="text-[#e9b98b]">-{money(discount, language)}</span></div><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, shipping ? 'Delivery fee' : 'Free delivery')}</span><span>{shipping ? money(shipping, language) : t(language, 'Free delivery')}</span></div></div><div className="mt-5 flex justify-between border-t border-[#614b3a] pt-5 text-lg font-bold"><span>{t(language, 'Total')}</span><span>{money(total, language)}</span></div></aside>
     </div>
   </div>;
 }
-
 function ReceiptPage() {
   const { id } = useParams<{ id: string }>();
-  const { language } = useStore();
+  const { language, products } = useStore();
   const order = readStorage<OrderRecord | null>('pikavibe-last-order', null);
+  const [receiptImageUrl, setReceiptImageUrl] = useState('');
+  const [imageLoading, setImageLoading] = useState(true);
+  useEffect(() => {
+    let cancelled = false;
+    if (!order || order.id !== id) { setImageLoading(false); return () => { cancelled = true; }; }
+    setImageLoading(true);
+    createReceiptImage(order, products, language).then((blob) => {
+      if (cancelled) return;
+      setReceiptImageUrl((previous) => { if (previous) URL.revokeObjectURL(previous); return URL.createObjectURL(blob); });
+      setImageLoading(false);
+    }).catch(() => { if (!cancelled) setImageLoading(false); });
+    return () => { cancelled = true; };
+  }, [id, order?.id, language, products]);
   if (!order || order.id !== id) return <NotFoundPage />;
-  const whatsappMessage = buildReceiptMessage(order, language);
+  const whatsappMessage = buildReceiptMessage(order, language, products);
   const date = new Date(order.createdAt);
   return <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
     <div className="mb-8 text-center"><div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[#d7efdf] text-[#2E9B68]"><Check size={32} /></div><p className="mb-3 text-xs font-bold uppercase tracking-[.2em] text-primary">{t(language, 'Order confirmed')}</p><h1 className="font-display text-5xl tracking-[-.05em] sm:text-7xl">{t(language, 'Thank you for choosing PikaVibe.')}</h1><p className="mx-auto mt-5 max-w-xl text-base leading-7 text-muted-foreground">{t(language, 'Your order has been received. We’ll contact you shortly to confirm delivery.')}</p></div>
     <article className="overflow-hidden rounded-[2rem] border border-border bg-card shadow-soft">
-      <div className="flex flex-col justify-between gap-5 bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:flex-row sm:items-end sm:p-9"><div><div className="flex items-center gap-3"><img src={logo} alt="" className="h-12 w-12 rounded-full object-cover" /><span className="font-display text-3xl">PikaVibe</span></div><p className="mt-4 text-sm text-[#cdbbab]">{t(language, 'Order receipt')}</p></div><div className="sm:text-right"><p className="text-xs uppercase tracking-[.16em] text-[#d9a77d]">{t(language, 'Order number')}</p><p className="mt-1 font-display text-2xl">{order.id}</p></div></div>
+      <div className="flex flex-col justify-between gap-5 bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:flex-row sm:items-end sm:p-9"><div><div className="flex items-center gap-3"><img src={logo} alt="" className="h-12 w-12 rounded-full object-cover" /><span className="font-display text-3xl">PikaVibe</span></div><p className="mt-4 text-sm text-[#cdbbab]">{t(language, 'Order receipt')}</p></div><div className="sm:text-right"><p className="text-xs uppercase tracking-[.16em] text-[#d9a77d]">{t(language, 'Order number')}</p><p className="mt-1 font-display text-2xl">{order.orderNumber || order.id}</p></div></div>
       <div className="grid gap-8 p-6 sm:grid-cols-2 sm:p-9"><div><p className="text-xs font-bold uppercase tracking-[.14em] text-muted-foreground">{t(language, 'Date')}</p><p className="mt-2 text-sm font-semibold">{date.toLocaleString(language === 'ar' ? 'ar-EG' : 'en-KE', { dateStyle: 'medium', timeStyle: 'short' })}</p></div><div><p className="text-xs font-bold uppercase tracking-[.14em] text-muted-foreground">{t(language, 'Order status')}</p><p className="mt-2 inline-flex rounded-full bg-[#d7efdf] px-3 py-1 text-sm font-bold text-[#26754d]">{t(language, 'Pending')}</p></div><div><p className="text-xs font-bold uppercase tracking-[.14em] text-muted-foreground">{t(language, 'Customer')}</p><p className="mt-2 text-sm font-semibold">{order.customer.name}</p><p className="mt-1 text-sm text-muted-foreground">{order.customer.phone}</p></div><div><p className="text-xs font-bold uppercase tracking-[.14em] text-muted-foreground">{t(language, 'Address')}</p><p className="mt-2 text-sm leading-6">{order.customer.address}</p></div></div>
       <div className="border-t border-border px-6 py-6 sm:px-9"><h2 className="font-display text-3xl">{t(language, 'Products')}</h2><div className="mt-5 divide-y divide-border">{order.items.map((item) => { const product = products.find((entry) => entry.id === item.id); if (!product) return null; const visible = localizedProduct(product, language); return <div key={item.id} className="flex items-center justify-between gap-4 py-4 text-sm"><div className="flex items-center gap-3"><img src={product.image} alt="" className="h-14 w-14 rounded-xl object-cover" /><div><p className="font-semibold">{visible.name}</p><p className="mt-1 text-muted-foreground">{t(language, 'Quantity')}: {item.quantity}</p></div></div><span className="font-bold">{money(product.price * item.quantity, language)}</span></div>; })}</div></div>
       <div className="border-t border-border bg-[#f0e6d7] p-6 sm:p-9"><div className="ml-auto max-w-sm space-y-3 text-sm"><div className="flex justify-between"><span className="text-muted-foreground">{t(language, 'Subtotal')}</span><span>{money(order.subtotal, language)}</span></div><div className="flex justify-between"><span className="text-muted-foreground">{t(language, 'Shipping')}</span><span>{order.shipping ? money(order.shipping, language) : t(language, 'Free delivery')}</span></div><div className="flex justify-between"><span className="text-muted-foreground">{t(language, 'Discount')}</span><span className="text-primary">-{money(order.discount, language)}</span></div><div className="flex justify-between border-t border-[#d1b99c] pt-4 text-lg font-bold"><span>{t(language, 'Total')}</span><span>{money(order.total, language)}</span></div><div className="flex justify-between pt-2"><span className="text-muted-foreground">{t(language, 'Payment method')}</span><span className="font-semibold">{t(language, order.customer.paymentMethod)}</span></div></div></div>
     </article>
-    <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row"><a href={whatsappUrl(whatsappMessage)} target="_blank" rel="noreferrer" className="flex h-12 items-center justify-center gap-2 rounded-xl bg-[#2E9B68] px-6 text-sm font-bold text-white transition-transform hover:-translate-y-0.5" data-testid="link-send-receipt-whatsapp"><MessageCircle size={18} /> {t(language, 'Send receipt via WhatsApp')}</a><button onClick={() => window.print()} className="flex h-12 items-center justify-center gap-2 rounded-xl border border-border px-6 text-sm font-bold transition-colors hover:bg-secondary" data-testid="button-print-receipt"><Printer size={18} /> {t(language, 'Print receipt')}</button><Link href="/products" className="flex h-12 items-center justify-center gap-2 rounded-xl px-5 text-sm font-bold text-primary" data-testid="link-receipt-continue">{t(language, 'Continue shopping')} <ArrowRight size={17} /></Link></div>
+    {receiptImageUrl && <div className="mt-8 rounded-2xl border border-border bg-card p-4 shadow-soft"><p className="mb-3 text-sm font-bold">{language === 'ar' ? 'صورة الإيصال الجاهزة للإرسال' : 'Receipt image ready to send'}</p><img src={receiptImageUrl} alt="Order receipt" className="mx-auto max-h-[720px] w-full rounded-xl object-contain" /></div>}
+    <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">{receiptImageUrl ? <a href={receiptImageUrl} download={`pika-vibe-order-${order.orderNumber || order.id}.png`} className="flex h-12 items-center justify-center gap-2 rounded-xl bg-primary px-6 text-sm font-bold text-primary-foreground transition-transform hover:-translate-y-0.5" data-testid="link-download-receipt-image"><Download size={18} /> {language === 'ar' ? 'تحميل صورة الإيصال' : 'Download receipt image'}</a> : <button disabled className="flex h-12 items-center justify-center gap-2 rounded-xl bg-primary px-6 text-sm font-bold text-primary-foreground opacity-60">{imageLoading ? (language === 'ar' ? 'جاري تجهيز الإيصال...' : 'Preparing receipt...') : (language === 'ar' ? 'تعذر تجهيز الصورة' : 'Receipt image unavailable')}</button>}<a href={whatsappUrl(whatsappMessage)} target="_blank" rel="noreferrer" className="flex h-12 items-center justify-center gap-2 rounded-xl bg-[#2E9B68] px-6 text-sm font-bold text-white transition-transform hover:-translate-y-0.5" data-testid="link-send-receipt-whatsapp"><MessageCircle size={18} /> {language === 'ar' ? 'فتح واتساب وإرسال تفاصيل الطلب' : 'Open WhatsApp with order details'}</a><button onClick={() => window.print()} className="flex h-12 items-center justify-center gap-2 rounded-xl border border-border px-6 text-sm font-bold transition-colors hover:bg-secondary" data-testid="button-print-receipt"><Printer size={18} /> {t(language, 'Print receipt')}</button><Link href="/products" className="flex h-12 items-center justify-center gap-2 rounded-xl px-5 text-sm font-bold text-primary" data-testid="link-receipt-continue">{t(language, 'Continue shopping')} <ArrowRight size={17} /></Link></div>
   </div>;
 }
 
-function buildReceiptMessage(order: OrderRecord, language: Language) {
+async function createReceiptImage(order: OrderRecord, products: Product[], language: Language): Promise<Blob> {
+  const canvas = document.createElement('canvas');
+  const width = 1000;
+  const rowHeight = 150;
+  const height = 360 + order.items.length * rowHeight + 330;
+  canvas.width = width * 2; canvas.height = height * 2;
+  const context = canvas.getContext('2d');
+  if (!context) throw new Error('Canvas unavailable');
+  context.scale(2, 2);
+  const ctx = context;
+  const isArabic = language === 'ar';
+  const text = (value: string, x: number, y: number, size = 22, color = '#3D2A1E', weight = '400') => { ctx.fillStyle = color; ctx.font = `${weight} ${size}px Arial, sans-serif`; ctx.textAlign = isArabic ? 'right' : 'left'; ctx.fillText(value, x, y); };
+  ctx.fillStyle = '#f4ecdf'; ctx.fillRect(0, 0, width, height);
+  ctx.fillStyle = '#3D2A1E'; ctx.fillRect(0, 0, width, 150);
+  text('PikaVibe', isArabic ? width - 60 : 60, 68, 42, '#f4ecdf', '700');
+  text(isArabic ? 'إيصال الطلب' : 'Order receipt', isArabic ? width - 60 : 60, 108, 20, '#d9a77d', '400');
+  text(`${isArabic ? 'رقم الطلب' : 'Order'}: ${order.orderNumber || order.id}`, isArabic ? width - 60 : width - 60, 82, 22, '#f4ecdf', '700');
+  const left = isArabic ? width - 60 : 60;
+  const right = isArabic ? 60 : width - 60;
+  let y = 205;
+  text(`${isArabic ? 'العميل' : 'Customer'}: ${order.customer.name}`, left, y, 22); text(`${isArabic ? 'الهاتف' : 'Phone'}: ${order.customer.phone}`, right, y, 22, '#6f6256');
+  y += 42; text(`${isArabic ? 'العنوان' : 'Address'}: ${order.customer.address}`, left, y, 20, '#6f6256');
+  y += 65; ctx.strokeStyle = '#d1b99c'; ctx.beginPath(); ctx.moveTo(60, y); ctx.lineTo(width - 60, y); ctx.stroke(); y += 45;
+  for (const item of order.items) {
+    const product = products.find((entry) => entry.id === item.id); if (!product) continue;
+    const visible = localizedProduct(product, language); const image = await loadReceiptImage(product.image); const imageX = isArabic ? width - 175 : 75;
+    if (image) { ctx.drawImage(image, imageX, y - 25, 100, 100); } else { ctx.fillStyle = '#ead9c0'; ctx.fillRect(imageX, y - 25, 100, 100); }
+    const infoX = isArabic ? width - 200 : 205; text(visible.name, infoX, y + 5, 23, '#3D2A1E', '700'); text(`${isArabic ? 'الكمية' : 'Qty'}: ${item.quantity}`, infoX, y + 42, 18, '#6f6256'); text(money(product.price * item.quantity, language), right, y + 25, 21, '#C15F2D', '700');
+    y += rowHeight;
+  }
+  ctx.fillStyle = '#ead9c0'; ctx.fillRect(0, y - 15, width, height - y + 15);
+  const totalX = isArabic ? width - 60 : width - 60; text(`${isArabic ? 'المجموع الفرعي' : 'Subtotal'}: ${money(order.subtotal, language)}`, totalX, y + 35, 20, '#6f6256'); text(`${isArabic ? 'الشحن' : 'Shipping'}: ${order.shipping ? money(order.shipping, language) : (isArabic ? 'مجاني' : 'Free')}`, totalX, y + 75, 20, '#6f6256'); text(`${isArabic ? 'الإجمالي' : 'Total'}: ${money(order.total, language)}`, totalX, y + 130, 30, '#3D2A1E', '700'); text(isArabic ? 'شكرًا لطلبكم من PikaVibe' : 'Thank you for your order from PikaVibe', isArabic ? width - 60 : 60, height - 45, 18, '#6f6256');
+  return new Promise((resolve, reject) => canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error('Could not create receipt image')), 'image/png'));
+}
+
+function loadReceiptImage(source: string): Promise<HTMLImageElement | null> { return new Promise((resolve) => { if (!source || source === '/') return resolve(null); const image = new Image(); image.crossOrigin = 'anonymous'; image.onload = () => resolve(image); image.onerror = () => resolve(null); image.src = source; }); }
+
+function buildReceiptMessage(order: OrderRecord, language: Language, products: Product[]) {
   const isArabic = language === 'ar';
   const date = new Date(order.createdAt).toLocaleDateString(isArabic ? 'ar-EG' : 'en-KE');
   const productLines = order.items.map((item) => {

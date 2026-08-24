@@ -66,13 +66,27 @@ const translations: Record<Language, Record<string, string>> = {
     'Your details': 'بياناتك',
     'Full name': 'الاسم بالكامل',
     'Phone number': 'رقم الهاتف',
+    Governorate: 'المحافظة',
+    City: 'المدينة',
+    'Full address': 'العنوان بالكامل',
+    'Additional notes': 'ملاحظات إضافية',
     'Delivery address': 'عنوان التوصيل',
     'Notes (optional)': 'ملاحظات (اختياري)',
     'Payment method': 'طريقة الدفع',
+    'Cash on delivery': 'الدفع عند الاستلام',
+    cod: 'الدفع عند الاستلام',
+    'InstaPay / Bank transfer': 'إنستا باي / تحويل بنكي',
+    bank_transfer: 'إنستا باي / تحويل بنكي',
     'Pay on delivery': 'الدفع عند الاستلام',
+    'Guest checkout — no account required.': 'إتمام الطلب كزائر — لا يحتاج إلى حساب.',
+    'Confirm order': 'تأكيد الطلب',
+    'Placing order...': 'جارٍ إنشاء الطلب...',
+    'Some items are no longer available in the requested quantity.': 'بعض المنتجات لم تعد متاحة بالكمية المطلوبة.',
     'Send order': 'إرسال الطلب',
     'Order summary': 'ملخص الطلب',
     'Free delivery': 'توصيل مجاني',
+    'Estimated delivery': 'التوصيل المتوقع',
+    '2–5 business days': 'خلال ٢–٥ أيام عمل',
     'Delivery fee': 'رسوم التوصيل',
     'Please complete the required fields.': 'يرجى إكمال الحقول المطلوبة.',
     'Order confirmed': 'تم تأكيد الطلب',
@@ -219,8 +233,9 @@ export function categoryLabel(language: Language, category: string) {
 }
 
 export function localizedProduct(product: Product, language: Language): Product {
-  if (language === 'en') return product;
   const translated = productArabic[product.id];
-  if (!translated) return product;
+  const savedName = language === 'ar' ? product.nameAr : product.nameEn;
+  if (savedName) return { ...product, name: savedName };
+  if (language === 'en' || !translated) return product;
   return { ...product, ...translated };
 }

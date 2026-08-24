@@ -1,0 +1,10 @@
+$ vite --config vite.config.ts --host 0.0.0.0
+[31mfailed to load config from E:\Desktop folders\react_app\Ecommerce_projects\New folder\Home-Goods-Hub\artifacts\pikavibe-store\vite.config.ts[39m
+[2m7:58:15 PM[22m [31m[1m[vite][22m[39m config must export or return an object.
+[2m7:58:15 PM[22m [31m[1m[vite][22m[39m server restart failed
+[31mfailed to load config from E:\Desktop folders\react_app\Ecommerce_projects\New folder\Home-Goods-Hub\artifacts\pikavibe-store\vite.config.ts[39m
+[2m7:58:32 PM[22m [31m[1m[vite][22m[39m config must export or return an object.
+[2m7:58:32 PM[22m [31m[1m[vite][22m[39m server restart failed
+[31mfailed to load config from E:\Desktop folders\react_app\Ecommerce_projects\New folder\Home-Goods-Hub\artifacts\pikavibe-store\vite.config.ts[39m
+[2m7:59:44 PM[22m [31m[1m[vite][22m[39m config must export or return an object.
+[2m7:59:44 PM[22m [31m[1m[vite][22m[39m server restart failed

@@ -1,6 +1,9 @@
 export type Product = {
   id: string;
+  backendId?: number;
   name: string;
+  nameAr?: string | null;
+  nameEn?: string | null;
   category: string;
   price: number;
   oldPrice?: number;
@@ -14,6 +17,8 @@ export type Product = {
   stock: number;
   isNew?: boolean;
   isBestSeller?: boolean;
+  active?: boolean;
+  variants?: Array<{ name: string; options: string[] }>;
 };
 
 const photo = (id: string, width = 900) =>

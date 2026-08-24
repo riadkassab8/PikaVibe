@@ -1,0 +1,4 @@
+$ vite --config vite.config.ts --host 0.0.0.0
+E0000 00:00:1787156442.460434   15800 ctxmenu.cc:220] UNKNOWN: From legacy status [type.googleapis.com/drive.ds.Status='UNKNOWN_STATUS']
+=== Source Location Trace: === 
+apps/drive/fs/ipc/shell_ipc_client.cc:630

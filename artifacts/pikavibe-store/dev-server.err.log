@@ -1,0 +1,13 @@
+$ vite --config vite.config.ts --host 0.0.0.0
+E0000 00:00:1787155214.024290   12896 ctxmenu.cc:220] UNKNOWN: From legacy status [type.googleapis.com/drive.ds.Status='UNKNOWN_STATUS']
+=== Source Location Trace: === 
+apps/drive/fs/ipc/shell_ipc_client.cc:630
+[31mfailed to load config from E:\Desktop folders\react_app\Ecommerce_projects\New folder\Home-Goods-Hub\artifacts\pikavibe-store\vite.config.ts[39m
+[31merror when starting dev server:
+Error: The service was stopped
+    at E:\Desktop folders\react_app\Ecommerce_projects\New folder\Home-Goods-Hub\node_modules\.pnpm\esbuild@0.27.3\node_modules\esbuild\lib\main.js:949:34
+    at responseCallbacks.<computed> (E:\Desktop folders\react_app\Ecommerce_projects\New folder\Home-Goods-Hub\node_modules\.pnpm\esbuild@0.27.3\node_modules\esbuild\lib\main.js:603:9)
+    at Socket.afterClose (E:\Desktop folders\react_app\Ecommerce_projects\New folder\Home-Goods-Hub\node_modules\.pnpm\esbuild@0.27.3\node_modules\esbuild\lib\main.js:594:28)
+    at Socket.emit (node:events:520:35)
+    at endReadableNT (node:internal/streams/readable:1729:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)[39m

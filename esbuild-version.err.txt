@@ -1,0 +1,3 @@
+E0000 00:00:1787580032.631289   15348 ctxmenu.cc:220] UNKNOWN: From legacy status [type.googleapis.com/drive.ds.Status='UNKNOWN_STATUS']
+=== Source Location Trace: === 
+apps/drive/fs/ipc/shell_ipc_client.cc:630
