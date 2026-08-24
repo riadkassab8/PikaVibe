@@ -12,6 +12,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import logo from '@assets/lOgo_1786638003283.jpg';
 import { categories, products, type Product } from './data/products';
 import { categoryLabel, localizedProduct, t, type Language } from './i18n';
+import AdminDashboard from './pages/admin/dashboard';
 import './index.css';
 
 type CartItem = { id: string; quantity: number };
