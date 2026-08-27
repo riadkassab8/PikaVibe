@@ -1,6 +1,6 @@
-import app from "../src/app";
-import { logger } from "../src/lib/logger";
-import { seedCatalog } from "../src/lib/seed";
+import app from "../src/app.js";
+import { logger } from "../src/lib/logger.js";
+import { seedCatalog } from "../src/lib/seed.js";
 
 let seedPromise: Promise<void> | undefined;
 
