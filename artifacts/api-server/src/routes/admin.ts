@@ -1,9 +1,9 @@
 import { Router, type IRouter } from "express";
 import { desc, eq, sql } from "drizzle-orm";
-import { db } from "../../../../lib/db/src/index";
-import { ordersTable, productsTable } from "../../../../lib/db/src/schema/index";
-import { createAdminToken, requireAdmin, verifyAdminPassword } from "../middleware/auth";
-import { addAdminRealtimeClient, startAdminRealtimeHeartbeat } from "../lib/realtime";
+import { db } from "../../../../lib/db/src/index.js";
+import { ordersTable, productsTable } from "../../../../lib/db/src/schema/index.js";
+import { createAdminToken, requireAdmin, verifyAdminPassword } from "../middleware/auth.js";
+import { addAdminRealtimeClient, startAdminRealtimeHeartbeat } from "../lib/realtime.js";
 
 const router: IRouter = Router();
 

@@ -1,8 +1,8 @@
 ﻿import { Router, type IRouter } from "express";
 import { and, desc, eq, sql } from "drizzle-orm";
-import { db } from "../../../../lib/db/src/index";
-import { productsTable } from "../../../../lib/db/src/schema/index";
-import { getAdminEmailFromRequest, requireAdmin } from "../middleware/auth";
+import { db } from "../../../../lib/db/src/index.js";
+import { productsTable } from "../../../../lib/db/src/schema/index.js";
+import { getAdminEmailFromRequest, requireAdmin } from "../middleware/auth.js";
 
 const router: IRouter = Router();
 

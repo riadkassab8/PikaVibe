@@ -1,9 +1,9 @@
 import { Router, type IRouter } from "express";
 import { and, desc, eq, gte, sql } from "drizzle-orm";
-import { db } from "../../../../lib/db/src/index";
-import { orderItemsTable, ordersTable, productsTable } from "../../../../lib/db/src/schema/index";
-import { requireAdmin } from "../middleware/auth";
-import { emitNewOrder } from "../lib/realtime";
+import { db } from "../../../../lib/db/src/index.js";
+import { orderItemsTable, ordersTable, productsTable } from "../../../../lib/db/src/schema/index.js";
+import { requireAdmin } from "../middleware/auth.js";
+import { emitNewOrder } from "../lib/realtime.js";
 
 const router: IRouter = Router();
 const ORDER_STATUSES = ["pending", "confirmed", "processing", "shipped", "delivered", "cancelled"] as const;

@@ -1,6 +1,6 @@
 import { eq, sql } from "drizzle-orm";
-import { db } from "../../../../lib/db/src/index";
-import { productsTable } from "../../../../lib/db/src/schema/index";
+import { db } from "../../../../lib/db/src/index.js";
+import { productsTable } from "../../../../lib/db/src/schema/index.js";
 
 const photo = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=900&q=85`;
 const catalog = [

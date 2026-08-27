@@ -1,8 +1,8 @@
 ﻿import { Router, type IRouter } from "express";
 import { asc, eq, sql } from "drizzle-orm";
-import { db } from "../../../../lib/db/src/index";
-import { categoriesTable, productsTable } from "../../../../lib/db/src/schema/index";
-import { requireAdmin } from "../middleware/auth";
+import { db } from "../../../../lib/db/src/index.js";
+import { categoriesTable, productsTable } from "../../../../lib/db/src/schema/index.js";
+import { requireAdmin } from "../middleware/auth.js";
 
 const router: IRouter = Router();
 const DEFAULT_CATEGORIES = ["Cookware", "Storage", "Cleaning", "Bathroom", "Small Appliances", "Dining"];

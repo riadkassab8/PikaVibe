@@ -1,8 +1,8 @@
 import express, { type Express, type NextFunction, type Request, type Response } from "express";
 import cors from "cors";
 import pinoHttpModule from "pino-http";
-import router from "./routes";
-import { logger } from "./lib/logger";
+import router from "./routes/index.js";
+import { logger } from "./lib/logger.js";
 
 const pinoHttp = pinoHttpModule as unknown as (options: { logger: typeof logger }) => any;
 const app: Express = express();
