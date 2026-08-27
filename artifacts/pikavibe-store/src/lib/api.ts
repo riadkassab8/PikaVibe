@@ -1,4 +1,4 @@
-const configuredApiUrl = String(import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const configuredApiUrl = String(import.meta.env.VITE_API_URL || 'https://pika-vibe-pikavibe-store.vercel.app').replace(/\/$/, '');
 const API_BASE_URL = configuredApiUrl
   ? (configuredApiUrl.endsWith('/api') ? configuredApiUrl : `${configuredApiUrl}/api`)
   : '/api';
