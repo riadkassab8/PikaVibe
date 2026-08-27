@@ -1,4 +1,7 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+const configuredApiUrl = String(import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const API_BASE_URL = configuredApiUrl
+  ? (configuredApiUrl.endsWith('/api') ? configuredApiUrl : `${configuredApiUrl}/api`)
+  : '/api';
 
 export type ApiProduct = {
   id: string;
@@ -11,7 +14,7 @@ export type ApiProduct = {
   basePrice?: number;
   oldPrice?: number;
   discount?: number;
-  discountPercent?: number;
+  discountPercent?: number | null;
   discountActive?: boolean;
   discountStartsAt?: string | null;
   discountEndsAt?: string | null;
@@ -76,7 +79,6 @@ export type OrderPayload = {
 
 export type OrderResponse = AdminOrder;
 export type NewOrderListener = (order: AdminOrder) => void;
-export type RealtimeStatusListener = (connected: boolean) => void;
 
 function adminHeaders(): Record<string, string> {
   const token = localStorage.getItem('pikavibe-admin-token');
@@ -111,11 +113,11 @@ function normalizeProduct(product: any): ApiProduct {
     price,
     basePrice: product.basePrice == null ? undefined : Number(product.basePrice),
     oldPrice,
-    discount: product.discount ?? (oldPrice && oldPrice > price ? Math.round(((oldPrice - price) / oldPrice) * 100) : undefined),
+    discount: oldPrice && oldPrice > price ? Math.round(((oldPrice - price) / oldPrice) * 100) : undefined,
     discountPercent: product.discountPercent == null ? undefined : Number(product.discountPercent),
-    discountActive: Boolean(product.discountActive),
-    discountStartsAt: product.discountStartsAt ?? null,
-    discountEndsAt: product.discountEndsAt ?? null,
+    discountActive: product.discountActive == null ? undefined : Boolean(product.discountActive),
+    discountStartsAt: product.discountStartsAt == null ? undefined : String(product.discountStartsAt),
+    discountEndsAt: product.discountEndsAt == null ? undefined : String(product.discountEndsAt),
     image: images[0] || '',
     images,
     description: String(product.description || ''),
@@ -214,13 +216,12 @@ export async function adminLogin(email: string, password: string) {
   });
 }
 
-export function subscribeToNewOrders(onOrder: NewOrderListener, onStatus?: RealtimeStatusListener) {
+export function subscribeToNewOrders(onOrder: NewOrderListener, onConnectionChange?: (connected: boolean) => void) {
   const controller = new AbortController();
-  let retryTimer: number | undefined;
   const run = async () => {
     const response = await fetch(`${API_BASE_URL}/admin/events`, { headers: adminHeaders(), signal: controller.signal });
     if (!response.ok || !response.body) throw new Error('Realtime connection failed');
-    onStatus?.(true);
+    onConnectionChange?.(true);
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let buffer = '';
@@ -238,12 +239,10 @@ export function subscribeToNewOrders(onOrder: NewOrderListener, onStatus?: Realt
     }
   };
   void run().catch((error) => {
-    if (controller.signal.aborted) return;
-    onStatus?.(false);
-    console.warn(error);
-    retryTimer = window.setTimeout(() => { void run(); }, 3000);
+    onConnectionChange?.(false);
+    if (!controller.signal.aborted) console.warn(error);
   });
-  return () => { controller.abort(); if (retryTimer) window.clearTimeout(retryTimer); onStatus?.(false); };
+  return () => controller.abort();
 }
 
 export async function fetchDashboard() {
