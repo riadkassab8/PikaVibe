@@ -1,7 +1,9 @@
 const configuredApiUrl = String(import.meta.env.VITE_API_URL || 'https://pika-vibe-pikavibe-store-he3pissa7.vercel.app').replace(/\/$/, '');
-const API_BASE_URL = configuredApiUrl
-  ? (configuredApiUrl.endsWith('/api') ? configuredApiUrl : `${configuredApiUrl}/api`)
-  : '/api';
+const API_BASE_URL = import.meta.env.PROD
+  ? 'https://pika-vibe-pikavibe-store.vercel.app/api'
+  : (configuredApiUrl
+    ? (configuredApiUrl.endsWith('/api') ? configuredApiUrl : `${configuredApiUrl}/api`)
+    : '/api');
 
 export type ApiProduct = {
   id: string;
