@@ -1,14 +1,18 @@
 import express, { type Express, type NextFunction, type Request, type Response } from "express";
 import cors from "cors";
 import pinoHttpModule from "pino-http";
-import router from "./routes/index.js";
-import { logger } from "./lib/logger.js";
+import router from "./routes";
+import { logger } from "./lib/logger";
 
 const pinoHttp = pinoHttpModule as unknown as (options: { logger: typeof logger }) => any;
 const app: Express = express();
 
 app.use(pinoHttp({ logger }));
-const allowedOrigins = (process.env.FRONTEND_URL || '').split(',').map((origin) => origin.trim()).filter(Boolean);
+const allowedOrigins = [
+  ...((process.env.FRONTEND_URL || '').split(',').map((origin) => origin.trim()).filter(Boolean)),
+  'https://pika-vibe-storefront.vercel.app',
+  'http://localhost:5173',
+].filter((origin, index, origins) => origins.indexOf(origin) === index);
 app.use(cors({ origin: (origin, callback) => callback(null, !origin || !allowedOrigins.length || allowedOrigins.includes(origin)) }));
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
