@@ -30,6 +30,9 @@ export type ApiProduct = {
   isNew?: boolean;
   isBestSeller?: boolean;
   active?: boolean;
+  installmentAvailable?: boolean;
+  installmentMinMonths?: number | null;
+  installmentMaxMonths?: number | null;
   variants?: Array<{ name: string; options: string[] }>;
 };
 
@@ -128,6 +131,9 @@ function normalizeProduct(product: any): ApiProduct {
     stock: Math.max(0, Number(product.stock) || 0),
     inStock: product.active !== false && (Number(product.stock) || 0) > 0,
     active: product.active !== false,
+    installmentAvailable: Boolean(product.installmentAvailable),
+    installmentMinMonths: product.installmentMinMonths == null ? null : Number(product.installmentMinMonths),
+    installmentMaxMonths: product.installmentMaxMonths == null ? null : Number(product.installmentMaxMonths),
     isBestSeller: Boolean(product.featured || product.isBestSeller),
     variants: Array.isArray(product.variants) ? product.variants : [],
   };

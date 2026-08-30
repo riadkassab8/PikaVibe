@@ -47,7 +47,15 @@ function productInput(body: Record<string, unknown>, partial = false) {
   const variants = Array.isArray(body.variants) ? body.variants : [];
   const specifications = Array.isArray(body.specifications) ? body.specifications.map(String).filter(Boolean) : [];
   const discountPercent = Number(body.discountPercent ?? 0);
+  const installmentAvailable = body.installmentAvailable === undefined
+    ? (body.installmentMinMonths !== undefined || body.installmentMaxMonths !== undefined ? true : undefined)
+    : Boolean(body.installmentAvailable);
+  const installmentMinMonths = body.installmentMinMonths === undefined || body.installmentMinMonths === null || body.installmentMinMonths === '' ? 2 : Number(body.installmentMinMonths);
+  const installmentMaxMonths = body.installmentMaxMonths === undefined || body.installmentMaxMonths === null || body.installmentMaxMonths === '' ? 6 : Number(body.installmentMaxMonths);
   if (body.discountPercent !== undefined && (!Number.isFinite(discountPercent) || discountPercent < 0 || discountPercent > 100)) throw new Error("Discount must be between 0 and 100 percent");
+  if (installmentAvailable === true && (!Number.isInteger(installmentMinMonths) || !Number.isInteger(installmentMaxMonths) || installmentMinMonths < 1 || installmentMaxMonths < 1 || installmentMinMonths > 60 || installmentMaxMonths > 60 || installmentMinMonths > installmentMaxMonths)) {
+    throw new Error("Installment months must be whole numbers from 1 to 60, with the minimum no greater than the maximum");
+  }
   if (!partial && (!name || !String(body.category ?? "").trim() || !Number.isFinite(price))) {
     throw new Error("name, category and a valid price are required");
   }
@@ -69,6 +77,7 @@ function productInput(body: Record<string, unknown>, partial = false) {
     ...(body.discountActive !== undefined ? { discountActive: Boolean(body.discountActive) } : {}),
     ...(body.discountStartsAt !== undefined ? { discountStartsAt: optionalDate(body.discountStartsAt) } : {}),
     ...(body.discountEndsAt !== undefined ? { discountEndsAt: optionalDate(body.discountEndsAt) } : {}),
+    ...(installmentAvailable !== undefined ? { installmentAvailable, installmentMinMonths: installmentAvailable ? installmentMinMonths : null, installmentMaxMonths: installmentAvailable ? installmentMaxMonths : null } : {}),
     ...(body.imageUrl !== undefined || body.image !== undefined || body.images !== undefined ? { imageUrl: images[0] || "", images } : {}),
     ...(body.specifications !== undefined ? { specifications } : {}),
     ...(body.variants !== undefined ? { variants } : {}),
@@ -122,11 +131,12 @@ router.post("/", requireAdmin, async (req, res) => {
       category: String(input.category), stock: Number(input.stock ?? 0),
       rating: String(input.rating ?? "4.80"), featured: Boolean(input.featured), active: input.active !== false,
       discountPercent: String(input.discountPercent ?? "0"), discountActive: Boolean(input.discountActive), discountStartsAt: input.discountStartsAt ?? null, discountEndsAt: input.discountEndsAt ?? null,
+      installmentAvailable: Boolean(input.installmentAvailable), installmentMinMonths: input.installmentMinMonths ?? null, installmentMaxMonths: input.installmentMaxMonths ?? null,
     }) as any).returning();
     return res.status(201).json(serializeProduct(product));
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to create product";
-    return res.status(message.startsWith("name") || message.startsWith("Price") || message.startsWith("Stock") || message.startsWith("Variants") ? 400 : 500).json({ error: message });
+    return res.status(message.startsWith("name") || message.startsWith("Price") || message.startsWith("Stock") || message.startsWith("Variants") || message.startsWith("Installment") ? 400 : 500).json({ error: message });
   }
 });
 

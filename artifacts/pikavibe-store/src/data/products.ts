@@ -18,6 +18,9 @@ export type Product = {
   isNew?: boolean;
   isBestSeller?: boolean;
   active?: boolean;
+  installmentAvailable?: boolean;
+  installmentMinMonths?: number | null;
+  installmentMaxMonths?: number | null;
   variants?: Array<{ name: string; options: string[] }>;
 };
 
