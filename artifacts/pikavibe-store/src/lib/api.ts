@@ -38,6 +38,32 @@ export type ApiProduct = {
 
 export type AdminCategory = { id: number; slug: string; name: string; nameAr?: string | null; nameEn?: string | null; active: boolean };
 
+export type StoreSettings = {
+  storeName: string;
+  logoUrl: string;
+  primaryColor: string;
+  inkColor: string;
+  backgroundColor: string;
+  surfaceColor: string;
+  secondaryColor: string;
+  accentColor: string;
+  successColor: string;
+  mutedTextColor: string;
+};
+
+export const defaultStoreSettings: StoreSettings = {
+  storeName: 'PikaVibe',
+  logoUrl: '',
+  primaryColor: '#C8722E',
+  inkColor: '#3D2A1E',
+  backgroundColor: '#f4ecdf',
+  surfaceColor: '#fbf8f3',
+  secondaryColor: '#ead9c0',
+  accentColor: '#d9a77d',
+  successColor: '#2E9B68',
+  mutedTextColor: '#765e4c',
+};
+
 export type AdminOrder = {
   id: number;
   orderNumber: string;
@@ -137,6 +163,19 @@ function normalizeProduct(product: any): ApiProduct {
     isBestSeller: Boolean(product.featured || product.isBestSeller),
     variants: Array.isArray(product.variants) ? product.variants : [],
   };
+}
+
+export async function fetchStoreSettings(): Promise<StoreSettings> {
+  try { return { ...defaultStoreSettings, ...(await request<StoreSettings>('/store-settings')) }; }
+  catch (error) { console.error('Error fetching store settings:', error); return defaultStoreSettings; }
+}
+
+export async function fetchAdminStoreSettings(): Promise<StoreSettings> {
+  return request<StoreSettings>('/admin/store-settings');
+}
+
+export async function updateStoreSettings(settings: StoreSettings): Promise<StoreSettings> {
+  return request<StoreSettings>('/admin/store-settings', { method: 'PUT', body: JSON.stringify(settings) });
 }
 
 export async function fetchCategories(all = false): Promise<AdminCategory[]> {

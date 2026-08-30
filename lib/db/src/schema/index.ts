@@ -30,6 +30,24 @@ export const insertCategorySchema = createInsertSchema(categoriesTable).omit({ i
 export type InsertCategory = typeof categoriesTable.$inferInsert;
 export type Category = typeof categoriesTable.$inferSelect;
 
+export const storeSettingsTable = pgTable("store_settings", {
+  id: serial("id").primaryKey(),
+  storeName: text("store_name").notNull().default("PikaVibe"),
+  logoUrl: text("logo_url").notNull().default(""),
+  primaryColor: text("primary_color").notNull().default("#C8722E"),
+  inkColor: text("ink_color").notNull().default("#3D2A1E"),
+  backgroundColor: text("background_color").notNull().default("#f4ecdf"),
+  surfaceColor: text("surface_color").notNull().default("#fbf8f3"),
+  secondaryColor: text("secondary_color").notNull().default("#ead9c0"),
+  accentColor: text("accent_color").notNull().default("#d9a77d"),
+  successColor: text("success_color").notNull().default("#2E9B68"),
+  mutedTextColor: text("muted_text_color").notNull().default("#765e4c"),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+export const insertStoreSettingsSchema = createInsertSchema(storeSettingsTable).omit({ id: true, updatedAt: true });
+export type InsertStoreSettings = typeof storeSettingsTable.$inferInsert;
+export type StoreSettings = typeof storeSettingsTable.$inferSelect;
+
 export const productsTable = pgTable("products", {
   id: serial("id").primaryKey(),
   slug: text("slug").notNull().unique(),

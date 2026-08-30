@@ -13,7 +13,7 @@ import logo from '@assets/lOgo_1786638003283.jpg';
 import { categories as seedCategories, products as seedProducts, type Product } from './data/products';
 import { categoryLabel, localizedProduct, t, type Language } from './i18n';
 import AdminDashboard from './pages/admin/dashboard';
-import { createOrder, fetchCategories, fetchProducts } from './lib/api';
+import { createOrder, fetchCategories, fetchProducts, fetchStoreSettings, type StoreSettings, defaultStoreSettings } from './lib/api';
 import LoginPage from './pages/auth/login';
 import './index.css';
 
@@ -44,6 +44,7 @@ type StoreContextValue = {
   cartBump: number;
   products: Product[];
   categories: string[];
+  storeSettings: StoreSettings;
 };
 
 const StoreContext = createContext<StoreContextValue | null>(null);
@@ -51,6 +52,27 @@ const WHATSAPP = '201023279424';
 const money = (value: number, language: Language = 'en') => language === 'ar'
   ? `${value.toLocaleString('ar-EG')} شلن كيني`
   : `KES ${value.toLocaleString('en-KE')}`;
+
+function hexToHsl(hex: string): string {
+  const value = hex.replace('#', '');
+  const r = parseInt(value.slice(0, 2), 16) / 255;
+  const g = parseInt(value.slice(2, 4), 16) / 255;
+  const b = parseInt(value.slice(4, 6), 16) / 255;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0;
+  let s = 0;
+  const l = (max + min) / 2;
+  if (max !== min) {
+    const delta = max - min;
+    s = l > 0.5 ? delta / (2 - max - min) : delta / (max + min);
+    if (max === r) h = (g - b) / delta + (g < b ? 6 : 0);
+    else if (max === g) h = (b - r) / delta + 2;
+    else h = (r - g) / delta + 4;
+    h /= 6;
+  }
+  return `${Math.round(h * 360)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`;
+}
 
 function useStore() {
   const value = useContext(StoreContext);
@@ -65,15 +87,43 @@ function App() {
   const [cartBump, setCartBump] = useState(0);
   const [catalogProducts, setCatalogProducts] = useState<Product[]>(seedProducts);
   const [catalogCategories, setCatalogCategories] = useState<string[]>(seedCategories);
+  const [storeSettings, setStoreSettings] = useState<StoreSettings>(defaultStoreSettings);
   useEffect(() => {
     let mounted = true;
-    Promise.all([fetchProducts(), fetchCategories()]).then(([remoteProducts, remoteCategories]) => {
+    Promise.all([fetchProducts(), fetchCategories(), fetchStoreSettings()]).then(([remoteProducts, remoteCategories, remoteSettings]) => {
       if (!mounted) return;
       if (remoteProducts.length) setCatalogProducts(remoteProducts);
       if (remoteCategories.length) setCatalogCategories(['All', ...remoteCategories.map((category) => category.name)]);
+      setStoreSettings(remoteSettings);
     });
     return () => { mounted = false; };
   }, []);
+  useEffect(() => {
+    const root = document.documentElement;
+    const tokens: Record<string, string> = {
+      '--primary': hexToHsl(storeSettings.primaryColor),
+      '--ring': hexToHsl(storeSettings.primaryColor),
+      '--foreground': hexToHsl(storeSettings.inkColor),
+      '--card-foreground': hexToHsl(storeSettings.inkColor),
+      '--secondary-foreground': hexToHsl(storeSettings.inkColor),
+      '--accent-foreground': hexToHsl(storeSettings.inkColor),
+      '--background': hexToHsl(storeSettings.backgroundColor),
+      '--card': hexToHsl(storeSettings.surfaceColor),
+      '--secondary': hexToHsl(storeSettings.secondaryColor),
+      '--muted': hexToHsl(storeSettings.secondaryColor),
+      '--muted-foreground': hexToHsl(storeSettings.mutedTextColor),
+      '--accent': hexToHsl(storeSettings.accentColor),
+      '--store-primary': storeSettings.primaryColor,
+      '--store-ink': storeSettings.inkColor,
+      '--store-background': storeSettings.backgroundColor,
+      '--store-surface': storeSettings.surfaceColor,
+      '--store-secondary': storeSettings.secondaryColor,
+      '--store-accent': storeSettings.accentColor,
+      '--store-success': storeSettings.successColor,
+      '--store-muted': storeSettings.mutedTextColor,
+    };
+    Object.entries(tokens).forEach(([name, value]) => root.style.setProperty(name, value));
+  }, [storeSettings]);
   useEffect(() => localStorage.setItem('pikavibe-cart', JSON.stringify(cart)), [cart]);
   useEffect(() => localStorage.setItem('pikavibe-wishlist', JSON.stringify(wishlist)), [wishlist]);
   useEffect(() => {
@@ -105,7 +155,8 @@ function App() {
     clearCart: () => setCart([]),
     toggleWishlist: (id) => setWishlist((items) => items.includes(id) ? items.filter((item) => item !== id) : [...items, id]),
     cartCount: cart.reduce((sum, item) => sum + item.quantity, 0),
-  }), [cart, wishlist, language, cartBump, catalogProducts, catalogCategories]);
+    storeSettings,
+  }), [cart, wishlist, language, cartBump, catalogProducts, catalogCategories, storeSettings]);
 
   return (
     <StoreContext.Provider value={store}>
@@ -148,7 +199,7 @@ function RoutedErrorBoundary({ children }: { children: ReactNode }) {
 }
 
 function SiteShell({ children }: { children: ReactNode }) {
-  const { cartCount, wishlist, language, setLanguage, cartBump, categories } = useStore();
+  const { cartCount, wishlist, language, setLanguage, cartBump, categories, storeSettings } = useStore();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [cartPulse, setCartPulse] = useState(false);
@@ -161,16 +212,16 @@ function SiteShell({ children }: { children: ReactNode }) {
     return () => window.clearTimeout(timeout);
   }, [cartBump]);
   return (
-    <div className="grain min-h-[100dvh] bg-background">
+    <div className="grain store-theme min-h-[100dvh] bg-background">
       <div className="bg-[#3D2A1E] px-4 py-2 text-center text-[11px] font-semibold uppercase tracking-[.18em] text-[#E8DFD0]">
         {t(language, 'Free delivery in Nairobi on orders over KES 5,000')}
       </div>
       <header className="sticky top-0 z-40 border-b border-[#d6c8b5] bg-[#f4ecdf]/95 backdrop-blur-md">
         <div className="mx-auto flex h-[74px] max-w-7xl items-center justify-between gap-5 px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-2.5" data-testid="link-logo">
-            <img src={logo} alt="PikaVibe Kenyan Kitchenware" className="h-12 w-12 rounded-full object-cover shadow-sm" />
+            <img src={storeSettings.logoUrl || logo} alt={`${storeSettings.storeName} logo`} className="h-12 w-12 rounded-full object-cover shadow-sm" />
             <div className="hidden leading-none sm:block">
-              <span className="font-display text-[25px] font-bold tracking-[-.04em] text-[#3D2A1E]">PikaVibe</span>
+              <span className="font-display text-[25px] font-bold tracking-[-.04em] text-[#3D2A1E]">{storeSettings.storeName}</span>
               <span className="mt-1 block text-[9px] font-bold uppercase tracking-[.18em] text-[#C8722E]">Kenyan kitchenware</span>
             </div>
           </Link>
@@ -231,15 +282,15 @@ function MobileMenu({ close }: { close: () => void }) {
 }
 
 function Footer() {
-  const { language } = useStore();
+  const { language, storeSettings } = useStore();
   return <footer className="mt-20 bg-[#3D2A1E] px-4 pb-8 pt-14 text-[#E8DFD0] sm:px-6 lg:px-8">
     <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1.5fr_1fr_1fr_1.3fr]">
-      <div><div className="flex items-center gap-3"><img src={logo} alt="" className="h-12 w-12 rounded-full object-cover" /><span className="font-display text-3xl">PikaVibe</span></div><p className="mt-5 max-w-xs text-sm leading-6 text-[#d5c6b4]">{language === 'ar' ? 'أشياء مدروسة لطريقة طبخك وتنظيفك ولمّ شمل عائلتك وصنع بيتك في كينيا.' : 'Thoughtful things for the way you cook, clean, gather and make a home in Kenya.'}</p></div>
+      <div><div className="flex items-center gap-3"><img src={storeSettings.logoUrl || logo} alt={`${storeSettings.storeName} logo`} className="h-12 w-12 rounded-full object-cover" /><span className="font-display text-3xl">{storeSettings.storeName}</span></div><p className="mt-5 max-w-xs text-sm leading-6 text-[#d5c6b4]">{language === 'ar' ? 'أشياء مدروسة لطريقة طبخك وتنظيفك ولمّ شمل عائلتك وصنع بيتك في كينيا.' : 'Thoughtful things for the way you cook, clean, gather and make a home in Kenya.'}</p></div>
       <div><h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[#d9a77d]">{t(language, 'Shop')}</h3><div className="grid gap-3 text-sm text-[#d5c6b4]"><Link href="/products" className="hover:text-white" data-testid="footer-link-shop">{t(language, 'All products')}</Link><Link href="/products?category=Cookware" className="hover:text-white" data-testid="footer-link-cookware">{categoryLabel(language, 'Cookware')}</Link><Link href="/products?category=Storage" className="hover:text-white" data-testid="footer-link-storage">{categoryLabel(language, 'Storage')}</Link><Link href="/products?category=Cleaning" className="hover:text-white" data-testid="footer-link-cleaning">{categoryLabel(language, 'Cleaning')}</Link></div></div>
-      <div><h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[#d9a77d]">PikaVibe</h3><div className="grid gap-3 text-sm text-[#d5c6b4]"><Link href="/about" className="hover:text-white" data-testid="footer-link-about">{t(language, 'Our story')}</Link><Link href="/contact" className="hover:text-white" data-testid="footer-link-contact">{t(language, 'Contact us')}</Link><a href={whatsappUrl(language === 'ar' ? 'مرحباً بيكاڤايب!' : 'Hello PikaVibe!')} target="_blank" rel="noreferrer" className="hover:text-white" data-testid="footer-link-whatsapp">{t(language, 'WhatsApp support')}</a></div></div>
+      <div><h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[#d9a77d]">{storeSettings.storeName}</h3><div className="grid gap-3 text-sm text-[#d5c6b4]"><Link href="/about" className="hover:text-white" data-testid="footer-link-about">{t(language, 'Our story')}</Link><Link href="/contact" className="hover:text-white" data-testid="footer-link-contact">{t(language, 'Contact us')}</Link><a href={whatsappUrl(language === 'ar' ? 'مرحباً بيكاڤايب!' : 'Hello PikaVibe!')} target="_blank" rel="noreferrer" className="hover:text-white" data-testid="footer-link-whatsapp">{t(language, 'WhatsApp support')}</a></div></div>
       <div><h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[#d9a77d]">{t(language, 'Stay in the loop')}</h3><p className="mb-4 text-sm leading-6 text-[#d5c6b4]">{t(language, 'New drops, useful kitchen notes and the occasional good idea.')}</p><form onSubmit={(event) => { event.preventDefault(); }} className="flex border-b border-[#92745c] pb-2"><input type="email" placeholder={t(language, 'Your email address')} className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-[#aa927d]" aria-label={t(language, 'Your email address')} data-testid="input-newsletter-email" /><button type="submit" aria-label={language === 'ar' ? 'اشتراك' : 'Subscribe'} className="text-[#e9b98b]" data-testid="button-newsletter-submit"><Send size={17} /></button></form></div>
     </div>
-    <div className="mx-auto mt-12 flex max-w-7xl flex-col justify-between gap-3 border-t border-[#604b3a] pt-6 text-xs text-[#aa927d] sm:flex-row"><span>© 2025 PikaVibe Kitchenware. {t(language, 'Made for Kenyan homes.')}</span><span className="flex items-center gap-4"><Instagram size={14} /> {t(language, 'Nairobi · Kenya')}</span></div>
+    <div className="mx-auto mt-12 flex max-w-7xl flex-col justify-between gap-3 border-t border-[#604b3a] pt-6 text-xs text-[#aa927d] sm:flex-row"><span>© 2025 {storeSettings.storeName}. {t(language, 'Made for Kenyan homes.')}</span><span className="flex items-center gap-4"><Instagram size={14} /> {t(language, 'Nairobi · Kenya')}</span></div>
   </footer>;
 }
 
@@ -502,7 +553,7 @@ function CheckoutPage() {
 }
 function ReceiptPage() {
   const { id } = useParams<{ id: string }>();
-  const { language, products } = useStore();
+  const { language, products, storeSettings } = useStore();
   const order = readStorage<OrderRecord | null>('pikavibe-last-order', null);
   const [receiptImageUrl, setReceiptImageUrl] = useState('');
   const [imageLoading, setImageLoading] = useState(true);
@@ -523,7 +574,7 @@ function ReceiptPage() {
   return <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
     <div className="mb-8 text-center"><div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[#d7efdf] text-[#2E9B68]"><Check size={32} /></div><p className="mb-3 text-xs font-bold uppercase tracking-[.2em] text-primary">{t(language, 'Order confirmed')}</p><h1 className="font-display text-5xl tracking-[-.05em] sm:text-7xl">{t(language, 'Thank you for choosing PikaVibe.')}</h1><p className="mx-auto mt-5 max-w-xl text-base leading-7 text-muted-foreground">{t(language, 'Your order has been received. We’ll contact you shortly to confirm delivery.')}</p></div>
     <article className="overflow-hidden rounded-[2rem] border border-border bg-card shadow-soft">
-      <div className="flex flex-col justify-between gap-5 bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:flex-row sm:items-end sm:p-9"><div><div className="flex items-center gap-3"><img src={logo} alt="" className="h-12 w-12 rounded-full object-cover" /><span className="font-display text-3xl">PikaVibe</span></div><p className="mt-4 text-sm text-[#cdbbab]">{t(language, 'Order receipt')}</p></div><div className="sm:text-right"><p className="text-xs uppercase tracking-[.16em] text-[#d9a77d]">{t(language, 'Order number')}</p><p className="mt-1 font-display text-2xl">{order.orderNumber || order.id}</p></div></div>
+      <div className="flex flex-col justify-between gap-5 bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:flex-row sm:items-end sm:p-9"><div><div className="flex items-center gap-3"><img src={storeSettings.logoUrl || logo} alt={`${storeSettings.storeName} logo`} className="h-12 w-12 rounded-full object-cover" /><span className="font-display text-3xl">{storeSettings.storeName}</span></div><p className="mt-4 text-sm text-[#cdbbab]">{t(language, 'Order receipt')}</p></div><div className="sm:text-right"><p className="text-xs uppercase tracking-[.16em] text-[#d9a77d]">{t(language, 'Order number')}</p><p className="mt-1 font-display text-2xl">{order.orderNumber || order.id}</p></div></div>
       <div className="grid gap-8 p-6 sm:grid-cols-2 sm:p-9"><div><p className="text-xs font-bold uppercase tracking-[.14em] text-muted-foreground">{t(language, 'Date')}</p><p className="mt-2 text-sm font-semibold">{date.toLocaleString(language === 'ar' ? 'ar-EG' : 'en-KE', { dateStyle: 'medium', timeStyle: 'short' })}</p></div><div><p className="text-xs font-bold uppercase tracking-[.14em] text-muted-foreground">{t(language, 'Order status')}</p><p className="mt-2 inline-flex rounded-full bg-[#d7efdf] px-3 py-1 text-sm font-bold text-[#26754d]">{t(language, 'Pending')}</p></div><div><p className="text-xs font-bold uppercase tracking-[.14em] text-muted-foreground">{t(language, 'Customer')}</p><p className="mt-2 text-sm font-semibold">{order.customer.name}</p><p className="mt-1 text-sm text-muted-foreground">{order.customer.phone}</p></div><div><p className="text-xs font-bold uppercase tracking-[.14em] text-muted-foreground">{t(language, 'Address')}</p><p className="mt-2 text-sm leading-6">{order.customer.address}</p></div></div>
       <div className="border-t border-border px-6 py-6 sm:px-9"><h2 className="font-display text-3xl">{t(language, 'Products')}</h2><div className="mt-5 divide-y divide-border">{order.items.map((item) => { const product = products.find((entry) => entry.id === item.id); if (!product) return null; const visible = localizedProduct(product, language); return <div key={item.id} className="flex items-center justify-between gap-4 py-4 text-sm"><div className="flex items-center gap-3"><img src={product.image} alt="" className="h-14 w-14 rounded-xl object-cover" /><div><p className="font-semibold">{visible.name}</p><p className="mt-1 text-muted-foreground">{t(language, 'Quantity')}: {item.quantity}</p></div></div><span className="font-bold">{money(product.price * item.quantity, language)}</span></div>; })}</div></div>
       <div className="border-t border-border bg-[#f0e6d7] p-6 sm:p-9"><div className="ml-auto max-w-sm space-y-3 text-sm"><div className="flex justify-between"><span className="text-muted-foreground">{t(language, 'Subtotal')}</span><span>{money(order.subtotal, language)}</span></div><div className="flex justify-between"><span className="text-muted-foreground">{t(language, 'Shipping')}</span><span>{order.shipping ? money(order.shipping, language) : t(language, 'Free delivery')}</span></div><div className="flex justify-between"><span className="text-muted-foreground">{t(language, 'Discount')}</span><span className="text-primary">-{money(order.discount, language)}</span></div><div className="flex justify-between border-t border-[#d1b99c] pt-4 text-lg font-bold"><span>{t(language, 'Total')}</span><span>{money(order.total, language)}</span></div><div className="flex justify-between pt-2"><span className="text-muted-foreground">{t(language, 'Payment method')}</span><span className="font-semibold">{t(language, order.customer.paymentMethod)}</span></div></div></div>
