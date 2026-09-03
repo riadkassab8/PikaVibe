@@ -80,6 +80,23 @@ export const insertProductSchema = createInsertSchema(productsTable).omit({ id: 
 export type InsertProduct = typeof productsTable.$inferInsert;
 export type Product = typeof productsTable.$inferSelect;
 
+export const couponsTable = pgTable("coupons", {
+  id: serial("id").primaryKey(),
+  code: text("code").notNull().unique(),
+  discountType: text("discount_type").notNull().default("percent"),
+  discountValue: decimal("discount_value", { precision: 10, scale: 2 }).notNull(),
+  active: boolean("active").notNull().default(true),
+  startsAt: timestamp("starts_at"),
+  endsAt: timestamp("ends_at"),
+  usageLimit: integer("usage_limit"),
+  usedCount: integer("used_count").notNull().default(0),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+export const insertCouponSchema = createInsertSchema(couponsTable).omit({ id: true, createdAt: true, updatedAt: true });
+export type InsertCoupon = typeof couponsTable.$inferInsert;
+export type Coupon = typeof couponsTable.$inferSelect;
+
 export const ordersTable = pgTable("orders", {
   id: serial("id").primaryKey(),
   orderNumber: text("order_number").notNull().unique(),
@@ -90,6 +107,8 @@ export const ordersTable = pgTable("orders", {
   subtotal: decimal("subtotal", { precision: 10, scale: 2 }).notNull().default("0"),
   shipping: decimal("shipping", { precision: 10, scale: 2 }).notNull().default("0"),
   total: decimal("total", { precision: 10, scale: 2 }).notNull().default("0"),
+  couponCode: text("coupon_code"),
+  couponDiscount: decimal("coupon_discount", { precision: 10, scale: 2 }).notNull().default("0"),
   shippingAddress: text("shipping_address").notNull().default(""),
   customerName: text("customer_name").notNull().default("Guest"),
   customerPhone: text("customer_phone").notNull().default(""),

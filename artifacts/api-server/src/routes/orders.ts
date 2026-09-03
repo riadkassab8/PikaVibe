@@ -1,7 +1,8 @@
 import { Router, type IRouter } from "express";
-import { and, desc, eq, gte, sql } from "drizzle-orm";
+import { and, desc, eq, gte, isNull, or, sql } from "drizzle-orm";
 import { db } from "../../../../lib/db/src/index.js";
-import { orderItemsTable, ordersTable, productsTable } from "../../../../lib/db/src/schema/index.js";
+import { couponsTable, orderItemsTable, ordersTable, productsTable } from "../../../../lib/db/src/schema/index.js";
+import { activeCoupon, discountFor } from "./coupons.js";
 import { requireAdmin } from "../middleware/auth.js";
 import { emitNewOrder } from "../lib/realtime.js";
 
@@ -35,6 +36,8 @@ async function responseForOrder(order: any) {
     status: order.status,
     paymentMethod: order.paymentMethod,
     paymentStatus: order.paymentStatus,
+    couponCode: order.couponCode || undefined,
+    couponDiscount: money(order.couponDiscount || 0),
     subtotal: money(order.subtotal),
     shipping: money(order.shipping),
     total: money(order.total),
@@ -92,6 +95,7 @@ router.post("/", async (req, res) => {
     const address = String(customer.address || "").trim();
     const notes = String(customer.notes || "").trim();
     const paymentMethod = String(body.paymentMethod || "");
+    const couponCode = String(body.couponCode || "").trim().toUpperCase();
     if (name.length < 2 || phone.length < 7 || !governorate || !city || address.length < 8 || !rawItems.length) {
       return res.status(400).json({ error: "Complete customer information and at least one item are required" });
     }
@@ -120,10 +124,18 @@ router.post("/", async (req, res) => {
         resolvedItems.push({ id: product.id, name: product.name, price: effectivePrice(product), quantity: item.quantity, variant: item.variant });
       }
       const subtotal = money(resolvedItems.reduce((sum, item) => sum + item.price * item.quantity, 0));
+      let couponDiscount = 0;
+      if (couponCode) {
+        const [coupon] = await tx.select().from(couponsTable).where(eq(couponsTable.code, couponCode));
+        if (!coupon || !activeCoupon(coupon)) throw new Error("INVALID_COUPON");
+        couponDiscount = discountFor(coupon, subtotal);
+        const [reserved] = await tx.update(couponsTable).set({ usedCount: sql`${couponsTable.usedCount} + 1`, updatedAt: new Date() }).where(and(eq(couponsTable.id, coupon.id), or(isNull(couponsTable.usageLimit), sql`${couponsTable.usedCount} < ${couponsTable.usageLimit}`))).returning({ id: couponsTable.id });
+        if (!reserved) throw new Error("COUPON_UNAVAILABLE");
+      }
       const shipping = subtotal >= 5000 ? 0 : 250;
-      const total = money(subtotal + shipping);
+      const total = money(subtotal - couponDiscount + shipping);
       const [order] = await tx.insert(ordersTable).values({
-        orderNumber: orderNumber(), userId: null, status: "pending", paymentMethod, paymentStatus: "pending",
+        orderNumber: orderNumber(), userId: null, status: "pending", paymentMethod, paymentStatus: "pending", couponCode: couponCode || null, couponDiscount: couponDiscount.toFixed(2),
         subtotal: subtotal.toFixed(2), shipping: shipping.toFixed(2), total: total.toFixed(2), shippingAddress: address,
         customerName: name, customerPhone: phone, customerGovernorate: governorate, customerCity: city, customerNotes: notes,
       }).returning();
@@ -134,7 +146,7 @@ router.post("/", async (req, res) => {
         const [decremented] = await tx.update(productsTable).set({ stock: sql`${productsTable.stock} - ${item.quantity}`, updatedAt: new Date() }).where(and(eq(productsTable.id, item.id), gte(productsTable.stock, item.quantity))).returning({ id: productsTable.id });
         if (!decremented) throw new Error("INSUFFICIENT_STOCK");
       }
-      return { order, subtotal, shipping, total };
+      return { order, subtotal, shipping, couponDiscount, total };
     });
     const orderResponse = await responseForOrder(saved.order);
     emitNewOrder(orderResponse);
@@ -142,6 +154,8 @@ router.post("/", async (req, res) => {
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to create order";
     if (message === "PRODUCT_NOT_FOUND") return res.status(404).json({ error: "One of the selected products is no longer available" });
+    if (message === "INVALID_COUPON") return res.status(400).json({ error: "Coupon is invalid or expired" });
+    if (message === "COUPON_UNAVAILABLE") return res.status(409).json({ error: "Coupon usage limit has been reached" });
     if (message.startsWith("INSUFFICIENT_STOCK")) return res.status(409).json({ error: "One of the selected products does not have enough stock" });
     if (message === "STOCK_UPDATE_FAILED") return res.status(409).json({ error: "Stock changed while placing the order. Please try again" });
     console.error("Error creating order:", error);

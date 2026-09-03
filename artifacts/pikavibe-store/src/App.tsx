@@ -13,7 +13,7 @@ import logo from '@assets/lOgo_1786638003283.jpg';
 import { categories as seedCategories, products as seedProducts, type Product } from './data/products';
 import { categoryLabel, localizedProduct, t, type Language } from './i18n';
 import AdminDashboard from './pages/admin/dashboard';
-import { createOrder, fetchCategories, fetchProducts, fetchStoreSettings, type StoreSettings, defaultStoreSettings } from './lib/api';
+import { createOrder, fetchCategories, fetchProducts, fetchStoreSettings, validateCoupon, type StoreSettings, defaultStoreSettings } from './lib/api';
 import LoginPage from './pages/auth/login';
 import './index.css';
 
@@ -481,16 +481,37 @@ function CheckoutPage() {
   const { cart, language, clearCart, products } = useStore();
   const items = cart.map((item) => ({ ...item, product: products.find((product) => product.id === item.id) })).filter((item): item is CartItem & { product: Product } => Boolean(item.product));
   const [form, setForm] = useState<CustomerInfo>({ name: '', phone: '', governorate: '', city: '', address: '', notes: '', paymentMethod: 'cod' });
+  const [couponCode, setCouponCode] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discount: number } | null>(null);
+  const [couponMessage, setCouponMessage] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [checkingCoupon, setCheckingCoupon] = useState(false);
   const subtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-  const discount = items.reduce((sum, item) => sum + ((item.product.oldPrice ?? item.product.price) - item.product.price) * item.quantity, 0);
+  const productDiscount = items.reduce((sum, item) => sum + ((item.product.oldPrice ?? item.product.price) - item.product.price) * item.quantity, 0);
+  const couponDiscount = appliedCoupon?.discount ?? 0;
+  const discount = productDiscount + couponDiscount;
   const shipping = subtotal >= 5000 ? 0 : 250;
-  const total = subtotal + shipping;
+  const total = Math.max(0, subtotal - couponDiscount + shipping);
 
   if (!items.length) {
     return <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8"><EmptyState icon={<ShoppingBag size={25} />} title={t(language, 'Your cart is waiting for a good idea.')} body={t(language, 'Save something useful here, then come back when youâ€™re ready.')} action={t(language, 'Browse the shop')} onAction={() => setLocation('/products')} /></div>;
   }
+
+  const applyCoupon = async () => {
+    const code = couponCode.trim().toUpperCase();
+    if (!code) return;
+    setCheckingCoupon(true); setCouponMessage('');
+    try {
+      const result = await validateCoupon(code, subtotal);
+      setAppliedCoupon({ code: result.code, discount: result.discount });
+      setCouponCode(result.code);
+      setCouponMessage(language === 'ar' ? `تم تطبيق الكوبون وتوفير ${money(result.discount, language)}` : `Coupon applied. You saved ${money(result.discount, language)}`);
+    } catch (couponError) {
+      setAppliedCoupon(null);
+      setCouponMessage(couponError instanceof Error ? couponError.message : (language === 'ar' ? 'الكوبون غير صالح أو منتهي.' : 'Coupon is invalid or expired.'));
+    } finally { setCheckingCoupon(false); }
+  };
 
   const submitOrder = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -505,6 +526,7 @@ function CheckoutPage() {
         customer: { name: form.name.trim(), phone: form.phone.trim(), governorate: form.governorate.trim(), city: form.city.trim(), address: form.address.trim(), notes: form.notes.trim() },
         items: items.map(({ product, quantity, variant }) => ({ productId: product.backendId ?? product.id, quantity, variant })),
         paymentMethod: form.paymentMethod,
+        couponCode: appliedCoupon?.code,
       });
       const order: OrderRecord = {
         id: String(saved.id),
@@ -542,12 +564,13 @@ function CheckoutPage() {
           <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{t(language, 'City')}<input required value={form.city} onChange={(event) => setForm({ ...form, city: event.target.value })} type="text" className={inputClass} data-testid="input-checkout-city" /></label>
           <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em] sm:col-span-2">{t(language, 'Full address')}<textarea required minLength={8} value={form.address} onChange={(event) => setForm({ ...form, address: event.target.value })} rows={3} className={`resize-none ${inputClass}`} data-testid="textarea-checkout-address" /></label>
           <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em] sm:col-span-2">{t(language, 'Additional notes')}<textarea value={form.notes} onChange={(event) => setForm({ ...form, notes: event.target.value })} rows={2} className={`resize-none ${inputClass}`} data-testid="textarea-checkout-notes" /></label>
+          <div className="sm:col-span-2"><label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{language === 'ar' ? 'كود الخصم' : 'Discount coupon'}<div className="flex gap-2"><input value={couponCode} onChange={(event) => { setCouponCode(event.target.value.toUpperCase()); setAppliedCoupon(null); setCouponMessage(''); }} placeholder={language === 'ar' ? 'مثال: WELCOME10' : 'e.g. WELCOME10'} className={`min-w-0 flex-1 ${inputClass}`} data-testid="input-coupon-code" /><button type="button" onClick={applyCoupon} disabled={checkingCoupon || !couponCode.trim()} className="rounded-xl bg-[#3D2A1E] px-4 py-3 text-xs font-bold text-[#f4ecdf] disabled:opacity-50" data-testid="button-apply-coupon">{checkingCoupon ? '…' : (language === 'ar' ? 'تطبيق' : 'Apply')}</button></div></label>{couponMessage && <p className={`mt-2 text-xs font-semibold ${appliedCoupon ? 'text-[#26754d]' : 'text-[#8f3025]'}`}>{couponMessage}</p>}</div>
           <fieldset className="grid gap-3 sm:col-span-2"><legend className="text-xs font-bold uppercase tracking-[.12em]">{t(language, 'Payment method')}</legend><div className="grid gap-3 sm:grid-cols-2"><label className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 text-sm font-semibold ${form.paymentMethod === 'cod' ? 'border-primary bg-[#f7efe4]' : 'border-[#d1b99c]'}`}><input type="radio" name="paymentMethod" value="cod" checked={form.paymentMethod === 'cod'} onChange={(event) => setForm({ ...form, paymentMethod: event.target.value })} />{t(language, 'Cash on delivery')}</label><label className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 text-sm font-semibold ${form.paymentMethod === 'bank_transfer' ? 'border-primary bg-[#f7efe4]' : 'border-[#d1b99c]'}`}><input type="radio" name="paymentMethod" value="bank_transfer" checked={form.paymentMethod === 'bank_transfer'} onChange={(event) => setForm({ ...form, paymentMethod: event.target.value })} />{t(language, 'InstaPay / Bank transfer')}</label></div></fieldset>
         </div>
         {error && <p className="mt-5 rounded-xl bg-[#f6d1c8] px-4 py-3 text-sm font-semibold text-[#8f3025]" role="alert">{error}</p>}
         <button type="submit" disabled={submitting} className="mt-8 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary text-sm font-bold text-primary-foreground transition-transform hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-60" data-testid="button-submit-order"><Check size={18} /> {submitting ? t(language, 'Placing order...') : t(language, 'Confirm order')}</button>
       </form>
-      <aside className="h-fit rounded-2xl bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:p-8 lg:sticky lg:top-28"><h2 className="font-display text-3xl">{t(language, 'Order summary')}</h2><div className="mt-6 space-y-4 border-b border-[#614b3a] pb-6">{items.map(({ product, quantity, variant }) => { const visible = localizedProduct(product, language); return <div key={`${product.id}-${variant || ''}`} className="flex justify-between gap-4 text-sm"><div><span className="text-[#d5c6b4]">{visible.name} أ— {quantity}</span><InstallmentInfo product={product} language={language} className="mt-1" /></div><span className="shrink-0 font-bold">{money(product.price * quantity, language)}</span></div>; })}</div><div className="mt-5 space-y-3 text-sm"><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Subtotal')}</span><span>{money(subtotal, language)}</span></div><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Discount')}</span><span className="text-[#e9b98b]">-{money(discount, language)}</span></div><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, shipping ? 'Delivery fee' : 'Free delivery')}</span><span>{shipping ? money(shipping, language) : t(language, 'Free delivery')}</span></div></div><div className="mt-5 flex justify-between border-t border-[#614b3a] pt-5 text-lg font-bold"><span>{t(language, 'Total')}</span><span>{money(total, language)}</span></div></aside>
+      <aside className="h-fit rounded-2xl bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:p-8 lg:sticky lg:top-28"><h2 className="font-display text-3xl">{t(language, 'Order summary')}</h2><div className="mt-6 space-y-4 border-b border-[#614b3a] pb-6">{items.map(({ product, quantity, variant }) => { const visible = localizedProduct(product, language); return <div key={`${product.id}-${variant || ''}`} className="flex justify-between gap-4 text-sm"><div><span className="text-[#d5c6b4]">{visible.name} أ— {quantity}</span><InstallmentInfo product={product} language={language} className="mt-1" /></div><span className="shrink-0 font-bold">{money(product.price * quantity, language)}</span></div>; })}</div><div className="mt-5 space-y-3 text-sm"><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Subtotal')}</span><span>{money(subtotal, language)}</span></div><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Discount')}</span><span className="text-[#e9b98b]">-{money(productDiscount, language)}</span></div>{couponDiscount > 0 && <div className="flex justify-between"><span className="text-[#cdbbab]">{language === 'ar' ? `كوبون ${appliedCoupon?.code}` : `Coupon ${appliedCoupon?.code}`}</span><span className="text-[#e9b98b]">-{money(couponDiscount, language)}</span></div>}<div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, shipping ? 'Delivery fee' : 'Free delivery')}</span><span>{shipping ? money(shipping, language) : t(language, 'Free delivery')}</span></div></div><div className="mt-5 flex justify-between border-t border-[#614b3a] pt-5 text-lg font-bold"><span>{t(language, 'Total')}</span><span>{money(total, language)}</span></div></aside>
     </div>
   </div>;
 }

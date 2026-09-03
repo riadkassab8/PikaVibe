@@ -5,6 +5,7 @@ import ordersRouter from "./orders.js";
 import adminRouter from "./admin.js";
 import categoriesRouter from "./categories.js";
 import settingsRouter from "./settings.js";
+import couponsRouter from "./coupons.js";
 
 const router: IRouter = Router();
 router.use(healthRouter);
@@ -13,6 +14,7 @@ router.use("/categories", categoriesRouter);
 router.use("/orders", ordersRouter);
 router.use("/admin", adminRouter);
 router.use(settingsRouter);
+router.use("/coupons", couponsRouter);
 
 export default router;
 

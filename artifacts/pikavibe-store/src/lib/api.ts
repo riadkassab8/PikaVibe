@@ -37,6 +37,8 @@ export type ApiProduct = {
 };
 
 export type AdminCategory = { id: number; slug: string; name: string; nameAr?: string | null; nameEn?: string | null; active: boolean };
+export type Coupon = { id: number; code: string; discountType: 'percent' | 'fixed'; discountValue: number; active: boolean; startsAt?: string | null; endsAt?: string | null; usageLimit?: number | null; usedCount: number };
+export type CouponInput = { code: string; discountType: 'percent' | 'fixed'; discountValue: number; active: boolean; startsAt?: string | null; endsAt?: string | null; usageLimit?: number | null };
 
 export type StoreSettings = {
   storeName: string;
@@ -73,6 +75,8 @@ export type AdminOrder = {
   subtotal: number;
   shipping: number;
   total: number;
+  couponCode?: string;
+  couponDiscount?: number;
   customer: {
     name: string;
     phone: string;
@@ -106,10 +110,17 @@ export type OrderPayload = {
     variant?: string;
   }>;
   paymentMethod: string;
+  couponCode?: string;
 };
 
 export type OrderResponse = AdminOrder;
 export type NewOrderListener = (order: AdminOrder) => void;
+
+export async function fetchCoupons(): Promise<Coupon[]> { return request<Coupon[]>('/coupons'); }
+export async function createCoupon(input: CouponInput): Promise<Coupon> { return request<Coupon>('/coupons', { method: 'POST', body: JSON.stringify(input) }); }
+export async function updateCoupon(id: number, input: CouponInput): Promise<Coupon> { return request<Coupon>(`/coupons/${id}`, { method: 'PUT', body: JSON.stringify(input) }); }
+export async function deleteCoupon(id: number) { return request<{ message: string }>(`/coupons/${id}`, { method: 'DELETE' }); }
+export async function validateCoupon(code: string, subtotal: number) { return request<{ code: string; discountType: string; discountValue: number; discount: number; subtotal: number }>('/coupons/validate', { method: 'POST', body: JSON.stringify({ code, subtotal }) }); }
 
 function adminHeaders(): Record<string, string> {
   const token = localStorage.getItem('pikavibe-admin-token');
