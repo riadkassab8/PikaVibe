@@ -33699,3 +33699,5198 @@
       }
     }
     [35mresponseTime[39m: 150
+[23:10:00.656] [32mINFO[39m (19344): [36mrequest aborted[39m
+    [35mreq[39m: {
+      "id": 870,
+      "method": "GET",
+      "url": "/api/admin/events",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 49539
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "text/event-stream; charset=utf-8",
+        "cache-control": "no-cache, no-transform",
+        "connection": "keep-alive",
+        "x-accel-buffering": "no"
+      }
+    }
+    [35mresponseTime[39m: 1382536
+[01:55:22.338] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 871,
+      "method": "OPTIONS",
+      "url": "/api/products",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57818
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[01:55:22.339] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 872,
+      "method": "OPTIONS",
+      "url": "/api/categories",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 52672
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[01:55:23.299] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 875,
+      "method": "OPTIONS",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 50688
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[01:55:23.301] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 876,
+      "method": "OPTIONS",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 60290
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[01:55:23.302] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 877,
+      "method": "OPTIONS",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 64158
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[01:55:23.303] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 878,
+      "method": "OPTIONS",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 62798
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[01:55:23.304] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 879,
+      "method": "OPTIONS",
+      "url": "/api/admin/events",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 50688
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[01:55:23.351] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 873,
+      "method": "GET",
+      "url": "/api/products",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"c2f-UyTtfpBPntbeXvmRA9VYmPNdMko\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 52672
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"c2f-UyTtfpBPntbeXvmRA9VYmPNdMko\""
+      }
+    }
+    [35mresponseTime[39m: 80
+[01:55:23.351] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 874,
+      "method": "GET",
+      "url": "/api/categories",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"2d9-iFcEJwsTk9B0EjnzaCWAT9w759w\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57818
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"2d9-iFcEJwsTk9B0EjnzaCWAT9w759w\""
+      }
+    }
+    [35mresponseTime[39m: 79
+[01:55:23.360] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 881,
+      "method": "GET",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"361-7ViyVfhKBXSrmTODKmzzhmkpJE4\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 62798
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"361-7ViyVfhKBXSrmTODKmzzhmkpJE4\""
+      }
+    }
+    [35mresponseTime[39m: 48
+[01:55:23.373] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 883,
+      "method": "GET",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"9a-bTBjh8m1qS9cbCCo4UjDF0fRb5E\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 60290
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"9a-bTBjh8m1qS9cbCCo4UjDF0fRb5E\""
+      }
+    }
+    [35mresponseTime[39m: 59
+[01:55:23.406] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 882,
+      "method": "GET",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"b76-XowKBcs7tuMnLpP7fH3MClgTNac\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 64158
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"b76-XowKBcs7tuMnLpP7fH3MClgTNac\""
+      }
+    }
+    [35mresponseTime[39m: 93
+[01:55:23.458] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 880,
+      "method": "GET",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"def-x+iE3+QBCtsV48pCTmTo1HQmznU\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 50688
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"def-x+iE3+QBCtsV48pCTmTo1HQmznU\""
+      }
+    }
+    [35mresponseTime[39m: 147
+[02:00:41.014] [32mINFO[39m (19344): [36mrequest aborted[39m
+    [35mreq[39m: {
+      "id": 884,
+      "method": "GET",
+      "url": "/api/admin/events",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 52672
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "text/event-stream; charset=utf-8",
+        "cache-control": "no-cache, no-transform",
+        "connection": "keep-alive",
+        "x-accel-buffering": "no"
+      }
+    }
+    [35mresponseTime[39m: 317662
+[02:00:41.318] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 885,
+      "method": "OPTIONS",
+      "url": "/api/products",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 63531
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:41.320] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 886,
+      "method": "OPTIONS",
+      "url": "/api/categories",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 56444
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 1
+[02:00:41.349] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 889,
+      "method": "OPTIONS",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61436
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:41.351] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 890,
+      "method": "OPTIONS",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 51319
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:41.353] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 891,
+      "method": "OPTIONS",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61592
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:41.354] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 892,
+      "method": "OPTIONS",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 51921
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:41.356] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 893,
+      "method": "OPTIONS",
+      "url": "/api/admin/events",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61436
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:41.394] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 887,
+      "method": "GET",
+      "url": "/api/products",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"c2f-UyTtfpBPntbeXvmRA9VYmPNdMko\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 56444
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"c2f-UyTtfpBPntbeXvmRA9VYmPNdMko\""
+      }
+    }
+    [35mresponseTime[39m: 65
+[02:00:41.395] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 888,
+      "method": "GET",
+      "url": "/api/categories",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"2d9-iFcEJwsTk9B0EjnzaCWAT9w759w\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 63531
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"2d9-iFcEJwsTk9B0EjnzaCWAT9w759w\""
+      }
+    }
+    [35mresponseTime[39m: 65
+[02:00:41.435] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 894,
+      "method": "GET",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"def-x+iE3+QBCtsV48pCTmTo1HQmznU\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61436
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"def-x+iE3+QBCtsV48pCTmTo1HQmznU\""
+      }
+    }
+    [35mresponseTime[39m: 64
+[02:00:41.437] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 895,
+      "method": "GET",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"361-7ViyVfhKBXSrmTODKmzzhmkpJE4\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 51921
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"361-7ViyVfhKBXSrmTODKmzzhmkpJE4\""
+      }
+    }
+    [35mresponseTime[39m: 61
+[02:00:41.443] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 896,
+      "method": "GET",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"b76-XowKBcs7tuMnLpP7fH3MClgTNac\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61592
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"b76-XowKBcs7tuMnLpP7fH3MClgTNac\""
+      }
+    }
+    [35mresponseTime[39m: 65
+[02:00:41.450] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 897,
+      "method": "GET",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"9a-bTBjh8m1qS9cbCCo4UjDF0fRb5E\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 51319
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"9a-bTBjh8m1qS9cbCCo4UjDF0fRb5E\""
+      }
+    }
+    [35mresponseTime[39m: 70
+[02:00:41.994] [32mINFO[39m (19344): [36mrequest aborted[39m
+    [35mreq[39m: {
+      "id": 898,
+      "method": "GET",
+      "url": "/api/admin/events",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 56444
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "text/event-stream; charset=utf-8",
+        "cache-control": "no-cache, no-transform",
+        "connection": "keep-alive",
+        "x-accel-buffering": "no"
+      }
+    }
+    [35mresponseTime[39m: 599
+[02:00:42.252] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 899,
+      "method": "GET",
+      "url": "/api/products",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"c2f-UyTtfpBPntbeXvmRA9VYmPNdMko\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 51319
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"c2f-UyTtfpBPntbeXvmRA9VYmPNdMko\""
+      }
+    }
+    [35mresponseTime[39m: 4
+[02:00:42.255] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 901,
+      "method": "GET",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"def-x+iE3+QBCtsV48pCTmTo1HQmznU\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 51921
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"def-x+iE3+QBCtsV48pCTmTo1HQmznU\""
+      }
+    }
+    [35mresponseTime[39m: 6
+[02:00:42.259] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 902,
+      "method": "GET",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"361-7ViyVfhKBXSrmTODKmzzhmkpJE4\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61436
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"361-7ViyVfhKBXSrmTODKmzzhmkpJE4\""
+      }
+    }
+    [35mresponseTime[39m: 9
+[02:00:42.259] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 900,
+      "method": "GET",
+      "url": "/api/categories",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"2d9-iFcEJwsTk9B0EjnzaCWAT9w759w\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61592
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"2d9-iFcEJwsTk9B0EjnzaCWAT9w759w\""
+      }
+    }
+    [35mresponseTime[39m: 10
+[02:00:42.262] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 904,
+      "method": "GET",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"9a-bTBjh8m1qS9cbCCo4UjDF0fRb5E\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57646
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"9a-bTBjh8m1qS9cbCCo4UjDF0fRb5E\""
+      }
+    }
+    [35mresponseTime[39m: 11
+[02:00:42.415] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 903,
+      "method": "GET",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"b76-XowKBcs7tuMnLpP7fH3MClgTNac\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 63531
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"b76-XowKBcs7tuMnLpP7fH3MClgTNac\""
+      }
+    }
+    [35mresponseTime[39m: 165
+[02:00:42.928] [32mINFO[39m (19344): [36mrequest aborted[39m
+    [35mreq[39m: {
+      "id": 905,
+      "method": "GET",
+      "url": "/api/admin/events",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 51319
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "text/event-stream; charset=utf-8",
+        "cache-control": "no-cache, no-transform",
+        "connection": "keep-alive",
+        "x-accel-buffering": "no"
+      }
+    }
+    [35mresponseTime[39m: 671
+[02:00:43.143] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 906,
+      "method": "OPTIONS",
+      "url": "/api/products",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 63531
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:43.144] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 907,
+      "method": "OPTIONS",
+      "url": "/api/categories",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57646
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:43.152] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 908,
+      "method": "GET",
+      "url": "/api/products",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57646
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "3119",
+        "etag": "W/\"c2f-UyTtfpBPntbeXvmRA9VYmPNdMko\""
+      }
+    }
+    [35mresponseTime[39m: 4
+[02:00:43.153] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 909,
+      "method": "GET",
+      "url": "/api/categories",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 63531
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "729",
+        "etag": "W/\"2d9-iFcEJwsTk9B0EjnzaCWAT9w759w\""
+      }
+    }
+    [35mresponseTime[39m: 4
+[02:00:43.167] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 910,
+      "method": "OPTIONS",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 63531
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:43.168] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 911,
+      "method": "OPTIONS",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57646
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:43.169] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 912,
+      "method": "OPTIONS",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61592
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:43.169] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 913,
+      "method": "OPTIONS",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61436
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:43.170] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 914,
+      "method": "OPTIONS",
+      "url": "/api/admin/events",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 51921
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:43.185] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 915,
+      "method": "GET",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 51921
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "3567",
+        "etag": "W/\"def-x+iE3+QBCtsV48pCTmTo1HQmznU\""
+      }
+    }
+    [35mresponseTime[39m: 4
+[02:00:43.189] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 916,
+      "method": "GET",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61436
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "865",
+        "etag": "W/\"361-7ViyVfhKBXSrmTODKmzzhmkpJE4\""
+      }
+    }
+    [35mresponseTime[39m: 7
+[02:00:43.190] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 917,
+      "method": "GET",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61592
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "2934",
+        "etag": "W/\"b76-XowKBcs7tuMnLpP7fH3MClgTNac\""
+      }
+    }
+    [35mresponseTime[39m: 8
+[02:00:43.191] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 918,
+      "method": "GET",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57646
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "154",
+        "etag": "W/\"9a-bTBjh8m1qS9cbCCo4UjDF0fRb5E\""
+      }
+    }
+    [35mresponseTime[39m: 8
+[02:00:43.628] [32mINFO[39m (19344): [36mrequest aborted[39m
+    [35mreq[39m: {
+      "id": 919,
+      "method": "GET",
+      "url": "/api/admin/events",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 63531
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "text/event-stream; charset=utf-8",
+        "cache-control": "no-cache, no-transform",
+        "connection": "keep-alive",
+        "x-accel-buffering": "no"
+      }
+    }
+    [35mresponseTime[39m: 444
+[02:00:43.843] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 920,
+      "method": "OPTIONS",
+      "url": "/api/products",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57646
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:43.844] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 921,
+      "method": "OPTIONS",
+      "url": "/api/categories",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61592
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:43.856] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 922,
+      "method": "GET",
+      "url": "/api/products",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61592
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "3119",
+        "etag": "W/\"c2f-UyTtfpBPntbeXvmRA9VYmPNdMko\""
+      }
+    }
+    [35mresponseTime[39m: 2
+[02:00:43.862] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 923,
+      "method": "GET",
+      "url": "/api/categories",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57646
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "729",
+        "etag": "W/\"2d9-iFcEJwsTk9B0EjnzaCWAT9w759w\""
+      }
+    }
+    [35mresponseTime[39m: 3
+[02:00:43.866] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 924,
+      "method": "OPTIONS",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61436
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:43.869] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 925,
+      "method": "OPTIONS",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61592
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:43.869] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 926,
+      "method": "OPTIONS",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 51921
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:43.870] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 927,
+      "method": "OPTIONS",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 63394
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:43.873] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 928,
+      "method": "OPTIONS",
+      "url": "/api/admin/events",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57646
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 1
+[02:00:43.885] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 929,
+      "method": "GET",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57646
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "3567",
+        "etag": "W/\"def-x+iE3+QBCtsV48pCTmTo1HQmznU\""
+      }
+    }
+    [35mresponseTime[39m: 2
+[02:00:43.891] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 930,
+      "method": "GET",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 63394
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "865",
+        "etag": "W/\"361-7ViyVfhKBXSrmTODKmzzhmkpJE4\""
+      }
+    }
+    [35mresponseTime[39m: 5
+[02:00:43.892] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 931,
+      "method": "GET",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 51921
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "2934",
+        "etag": "W/\"b76-XowKBcs7tuMnLpP7fH3MClgTNac\""
+      }
+    }
+    [35mresponseTime[39m: 6
+[02:00:43.893] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 932,
+      "method": "GET",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61592
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "154",
+        "etag": "W/\"9a-bTBjh8m1qS9cbCCo4UjDF0fRb5E\""
+      }
+    }
+    [35mresponseTime[39m: 6
+[02:00:51.983] [32mINFO[39m (19344): [36mrequest aborted[39m
+    [35mreq[39m: {
+      "id": 933,
+      "method": "GET",
+      "url": "/api/admin/events",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "pragma": "no-cache",
+        "cache-control": "no-cache",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61436
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "text/event-stream; charset=utf-8",
+        "cache-control": "no-cache, no-transform",
+        "connection": "keep-alive",
+        "x-accel-buffering": "no"
+      }
+    }
+    [35mresponseTime[39m: 8096
+[02:00:54.272] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 934,
+      "method": "OPTIONS",
+      "url": "/api/admin/login",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "POST",
+        "access-control-request-headers": "authorization,content-type",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61322
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization,content-type",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:54.354] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 935,
+      "method": "POST",
+      "url": "/api/admin/login",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "content-length": "60",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61322
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "251",
+        "etag": "W/\"fb-mlO8H4Zvg2ZaEcpmPzn8NlYM8/A\""
+      }
+    }
+    [35mresponseTime[39m: 80
+[02:00:54.398] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 936,
+      "method": "OPTIONS",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61322
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:54.401] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 937,
+      "method": "OPTIONS",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 56100
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 1
+[02:00:54.402] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 938,
+      "method": "OPTIONS",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 56283
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:54.404] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 939,
+      "method": "OPTIONS",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 51316
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:54.404] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 940,
+      "method": "OPTIONS",
+      "url": "/api/admin/events",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 55522
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:00:54.479] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 941,
+      "method": "GET",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"def-x+iE3+QBCtsV48pCTmTo1HQmznU\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 55522
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"def-x+iE3+QBCtsV48pCTmTo1HQmznU\""
+      }
+    }
+    [35mresponseTime[39m: 63
+[02:00:54.484] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 942,
+      "method": "GET",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"361-7ViyVfhKBXSrmTODKmzzhmkpJE4\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 51316
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"361-7ViyVfhKBXSrmTODKmzzhmkpJE4\""
+      }
+    }
+    [35mresponseTime[39m: 65
+[02:00:54.491] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 944,
+      "method": "GET",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"9a-bTBjh8m1qS9cbCCo4UjDF0fRb5E\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 56100
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"9a-bTBjh8m1qS9cbCCo4UjDF0fRb5E\""
+      }
+    }
+    [35mresponseTime[39m: 70
+[02:00:54.536] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 943,
+      "method": "GET",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"b76-XowKBcs7tuMnLpP7fH3MClgTNac\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 56283
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"b76-XowKBcs7tuMnLpP7fH3MClgTNac\""
+      }
+    }
+    [35mresponseTime[39m: 116
+[02:01:16.069] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 946,
+      "method": "OPTIONS",
+      "url": "/api/orders/20/status",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "PUT",
+        "access-control-request-headers": "authorization,content-type",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 54779
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization,content-type",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 1
+[02:01:16.126] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 947,
+      "method": "PUT",
+      "url": "/api/orders/20/status",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "content-length": "22",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 54779
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "579",
+        "etag": "W/\"243-jH8rWOicXwa3l1AWO0NbIhx/NeE\""
+      }
+    }
+    [35mresponseTime[39m: 52
+[02:01:16.136] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 948,
+      "method": "OPTIONS",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 54779
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:01:16.137] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 949,
+      "method": "OPTIONS",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57245
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:01:16.139] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 950,
+      "method": "OPTIONS",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 62248
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 1
+[02:01:16.139] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 951,
+      "method": "OPTIONS",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 64223
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:01:16.147] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 952,
+      "method": "GET",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"def-x+iE3+QBCtsV48pCTmTo1HQmznU\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 64223
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "3568",
+        "etag": "W/\"df0-FumkpmkUHmSYp2OTI+KBiPLxbXM\""
+      }
+    }
+    [35mresponseTime[39m: 2
+[02:01:16.192] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 953,
+      "method": "GET",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"361-7ViyVfhKBXSrmTODKmzzhmkpJE4\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 62248
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"361-7ViyVfhKBXSrmTODKmzzhmkpJE4\""
+      }
+    }
+    [35mresponseTime[39m: 47
+[02:01:16.199] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 955,
+      "method": "GET",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"9a-bTBjh8m1qS9cbCCo4UjDF0fRb5E\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 54779
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "154",
+        "etag": "W/\"9a-57ONkLyvmaUiLkM3f2+uDmcdknM\""
+      }
+    }
+    [35mresponseTime[39m: 53
+[02:01:16.328] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 954,
+      "method": "GET",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"b76-XowKBcs7tuMnLpP7fH3MClgTNac\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57245
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "2936",
+        "etag": "W/\"b78-vcP9PuuuILHna9IZdik9stPOROs\""
+      }
+    }
+    [35mresponseTime[39m: 182
+[02:01:17.800] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 956,
+      "method": "PUT",
+      "url": "/api/orders/20/status",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "content-length": "22",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57245
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "579",
+        "etag": "W/\"243-k+dXSkUZKfAWDrEGCx0VynJ5Wkc\""
+      }
+    }
+    [35mresponseTime[39m: 6
+[02:01:17.812] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 957,
+      "method": "GET",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"df0-FumkpmkUHmSYp2OTI+KBiPLxbXM\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57245
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"df0-FumkpmkUHmSYp2OTI+KBiPLxbXM\""
+      }
+    }
+    [35mresponseTime[39m: 4
+[02:01:17.815] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 958,
+      "method": "GET",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"361-7ViyVfhKBXSrmTODKmzzhmkpJE4\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 54779
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"361-7ViyVfhKBXSrmTODKmzzhmkpJE4\""
+      }
+    }
+    [35mresponseTime[39m: 6
+[02:01:17.817] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 960,
+      "method": "GET",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"9a-57ONkLyvmaUiLkM3f2+uDmcdknM\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 64223
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "154",
+        "etag": "W/\"9a-vPjWZZLgG7ztiVhVizURIfp8dU4\""
+      }
+    }
+    [35mresponseTime[39m: 6
+[02:01:17.855] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 959,
+      "method": "GET",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"b78-vcP9PuuuILHna9IZdik9stPOROs\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 62248
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "2936",
+        "etag": "W/\"b78-VmjZBcR5GskObLaUntx/n9T91oY\""
+      }
+    }
+    [35mresponseTime[39m: 45
+[02:01:22.626] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 961,
+      "method": "OPTIONS",
+      "url": "/api/categories/2",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "PUT",
+        "access-control-request-headers": "authorization,content-type",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 62248
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization,content-type",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 1
+[02:01:22.633] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 962,
+      "method": "PUT",
+      "url": "/api/categories/2",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "content-length": "70",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 62248
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "134",
+        "etag": "W/\"86-1TStU+GhESCrpEih2CQGj13YDwY\""
+      }
+    }
+    [35mresponseTime[39m: 4
+[02:01:22.642] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 963,
+      "method": "OPTIONS",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 62248
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:01:22.642] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 964,
+      "method": "OPTIONS",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 64223
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:01:22.642] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 965,
+      "method": "OPTIONS",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 54779
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:01:22.642] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 966,
+      "method": "OPTIONS",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57245
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:01:22.652] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 967,
+      "method": "GET",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"df0-FumkpmkUHmSYp2OTI+KBiPLxbXM\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57245
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"df0-FumkpmkUHmSYp2OTI+KBiPLxbXM\""
+      }
+    }
+    [35mresponseTime[39m: 3
+[02:01:22.655] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 968,
+      "method": "GET",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"361-7ViyVfhKBXSrmTODKmzzhmkpJE4\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 54779
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "864",
+        "etag": "W/\"360-yHhJroTCjVL0m+h8KB0c7ZfPLv8\""
+      }
+    }
+    [35mresponseTime[39m: 6
+[02:01:22.655] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 969,
+      "method": "GET",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"b78-VmjZBcR5GskObLaUntx/n9T91oY\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 64223
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"b78-VmjZBcR5GskObLaUntx/n9T91oY\""
+      }
+    }
+    [35mresponseTime[39m: 5
+[02:01:22.656] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 970,
+      "method": "GET",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"9a-vPjWZZLgG7ztiVhVizURIfp8dU4\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 62248
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"9a-vPjWZZLgG7ztiVhVizURIfp8dU4\""
+      }
+    }
+    [35mresponseTime[39m: 5
+[02:01:31.848] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 971,
+      "method": "OPTIONS",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 64408
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 1
+[02:01:31.850] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 972,
+      "method": "OPTIONS",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 49973
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 1
+[02:01:31.850] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 973,
+      "method": "OPTIONS",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 54103
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:01:31.850] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 974,
+      "method": "OPTIONS",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 58409
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:01:31.861] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 975,
+      "method": "GET",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"df0-FumkpmkUHmSYp2OTI+KBiPLxbXM\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 58409
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"df0-FumkpmkUHmSYp2OTI+KBiPLxbXM\""
+      }
+    }
+    [35mresponseTime[39m: 3
+[02:01:31.863] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 976,
+      "method": "GET",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"360-yHhJroTCjVL0m+h8KB0c7ZfPLv8\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 54103
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"360-yHhJroTCjVL0m+h8KB0c7ZfPLv8\""
+      }
+    }
+    [35mresponseTime[39m: 4
+[02:01:31.864] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 977,
+      "method": "GET",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"b78-VmjZBcR5GskObLaUntx/n9T91oY\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 49973
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"b78-VmjZBcR5GskObLaUntx/n9T91oY\""
+      }
+    }
+    [35mresponseTime[39m: 4
+[02:01:31.865] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 978,
+      "method": "GET",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"9a-vPjWZZLgG7ztiVhVizURIfp8dU4\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 64408
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"9a-vPjWZZLgG7ztiVhVizURIfp8dU4\""
+      }
+    }
+    [35mresponseTime[39m: 5
+[02:01:32.040] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 979,
+      "method": "GET",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"df0-FumkpmkUHmSYp2OTI+KBiPLxbXM\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 64408
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"df0-FumkpmkUHmSYp2OTI+KBiPLxbXM\""
+      }
+    }
+    [35mresponseTime[39m: 4
+[02:01:32.042] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 980,
+      "method": "GET",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"360-yHhJroTCjVL0m+h8KB0c7ZfPLv8\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 49973
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"360-yHhJroTCjVL0m+h8KB0c7ZfPLv8\""
+      }
+    }
+    [35mresponseTime[39m: 5
+[02:01:32.044] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 981,
+      "method": "GET",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"b78-VmjZBcR5GskObLaUntx/n9T91oY\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 54103
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"b78-VmjZBcR5GskObLaUntx/n9T91oY\""
+      }
+    }
+    [35mresponseTime[39m: 6
+[02:01:32.044] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 982,
+      "method": "GET",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"9a-vPjWZZLgG7ztiVhVizURIfp8dU4\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 58409
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"9a-vPjWZZLgG7ztiVhVizURIfp8dU4\""
+      }
+    }
+    [35mresponseTime[39m: 6
+[02:01:32.220] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 983,
+      "method": "GET",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"df0-FumkpmkUHmSYp2OTI+KBiPLxbXM\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 58409
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"df0-FumkpmkUHmSYp2OTI+KBiPLxbXM\""
+      }
+    }
+    [35mresponseTime[39m: 3
+[02:01:32.222] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 984,
+      "method": "GET",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"360-yHhJroTCjVL0m+h8KB0c7ZfPLv8\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 54103
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"360-yHhJroTCjVL0m+h8KB0c7ZfPLv8\""
+      }
+    }
+    [35mresponseTime[39m: 4
+[02:01:32.224] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 985,
+      "method": "GET",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"b78-VmjZBcR5GskObLaUntx/n9T91oY\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 49973
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"b78-VmjZBcR5GskObLaUntx/n9T91oY\""
+      }
+    }
+    [35mresponseTime[39m: 6
+[02:01:32.225] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 986,
+      "method": "GET",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"9a-vPjWZZLgG7ztiVhVizURIfp8dU4\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 64408
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"9a-vPjWZZLgG7ztiVhVizURIfp8dU4\""
+      }
+    }
+    [35mresponseTime[39m: 6
+[02:01:32.393] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 987,
+      "method": "GET",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"df0-FumkpmkUHmSYp2OTI+KBiPLxbXM\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 64408
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"df0-FumkpmkUHmSYp2OTI+KBiPLxbXM\""
+      }
+    }
+    [35mresponseTime[39m: 4
+[02:01:32.396] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 988,
+      "method": "GET",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"360-yHhJroTCjVL0m+h8KB0c7ZfPLv8\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 49973
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"360-yHhJroTCjVL0m+h8KB0c7ZfPLv8\""
+      }
+    }
+    [35mresponseTime[39m: 6
+[02:01:32.398] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 989,
+      "method": "GET",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"b78-VmjZBcR5GskObLaUntx/n9T91oY\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 54103
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"b78-VmjZBcR5GskObLaUntx/n9T91oY\""
+      }
+    }
+    [35mresponseTime[39m: 7
+[02:01:32.399] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 990,
+      "method": "GET",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"9a-vPjWZZLgG7ztiVhVizURIfp8dU4\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 58409
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"9a-vPjWZZLgG7ztiVhVizURIfp8dU4\""
+      }
+    }
+    [35mresponseTime[39m: 7
+[02:02:02.988] [32mINFO[39m (19344): [36mrequest aborted[39m
+    [35mreq[39m: {
+      "id": 945,
+      "method": "GET",
+      "url": "/api/admin/events",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61322
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "text/event-stream; charset=utf-8",
+        "cache-control": "no-cache, no-transform",
+        "connection": "keep-alive",
+        "x-accel-buffering": "no"
+      }
+    }
+    [35mresponseTime[39m: 68566
+[02:18:07.595] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 991,
+      "method": "OPTIONS",
+      "url": "/api/admin/login",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "POST",
+        "access-control-request-headers": "authorization,content-type",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57316
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization,content-type",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:18:07.748] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 992,
+      "method": "POST",
+      "url": "/api/admin/login",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "content-length": "60",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57316
+    }
+    [35mres[39m: {
+      "statusCode": 200,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "251",
+        "etag": "W/\"fb-aDysVxm092F2d5uD6iykaRBGnbc\""
+      }
+    }
+    [35mresponseTime[39m: 148
+[02:18:07.837] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 993,
+      "method": "OPTIONS",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57316
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 1
+[02:18:07.839] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 994,
+      "method": "OPTIONS",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 55556
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:18:07.841] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 995,
+      "method": "OPTIONS",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 61812
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 1
+[02:18:07.843] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 996,
+      "method": "OPTIONS",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 62550
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 1
+[02:18:07.843] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 997,
+      "method": "OPTIONS",
+      "url": "/api/admin/events",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "accept": "*/*",
+        "access-control-request-method": "GET",
+        "access-control-request-headers": "authorization",
+        "origin": "http://localhost:5173",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8"
+      },
+      "remoteAddress": "::1",
+      "remotePort": 62132
+    }
+    [35mres[39m: {
+      "statusCode": 204,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin, Access-Control-Request-Headers",
+        "access-control-allow-methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "access-control-allow-headers": "authorization",
+        "content-length": "0"
+      }
+    }
+    [35mresponseTime[39m: 0
+[02:18:07.977] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 998,
+      "method": "GET",
+      "url": "/api/products?includeInactive=true",
+      "query": {
+        "includeInactive": "true"
+      },
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"df0-FumkpmkUHmSYp2OTI+KBiPLxbXM\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 62132
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"df0-FumkpmkUHmSYp2OTI+KBiPLxbXM\""
+      }
+    }
+    [35mresponseTime[39m: 125
+[02:18:07.979] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 999,
+      "method": "GET",
+      "url": "/api/categories/all",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"360-yHhJroTCjVL0m+h8KB0c7ZfPLv8\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 62550
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"360-yHhJroTCjVL0m+h8KB0c7ZfPLv8\""
+      }
+    }
+    [35mresponseTime[39m: 126
+[02:18:07.983] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 1002,
+      "method": "GET",
+      "url": "/api/admin/dashboard",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"9a-vPjWZZLgG7ztiVhVizURIfp8dU4\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 57316
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"9a-vPjWZZLgG7ztiVhVizURIfp8dU4\""
+      }
+    }
+    [35mresponseTime[39m: 127
+[02:18:08.065] [32mINFO[39m (19344): [36mrequest completed[39m
+    [35mreq[39m: {
+      "id": 1001,
+      "method": "GET",
+      "url": "/api/orders",
+      "query": {},
+      "params": {},
+      "headers": {
+        "host": "localhost:5000",
+        "connection": "keep-alive",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[Redacted]",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
+        "sec-ch-ua": "\"Not=A?Brand\";v=\"99\", \"Microsoft Edge\";v=\"151\", \"Chromium\";v=\"151\"",
+        "dnt": "1",
+        "sec-ch-ua-mobile": "?0",
+        "accept": "*/*",
+        "origin": "http://localhost:5173",
+        "sec-fetch-site": "same-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "referer": "http://localhost:5173/",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ar;q=0.8",
+        "if-none-match": "W/\"b78-VmjZBcR5GskObLaUntx/n9T91oY\""
+      },
+      "remoteAddress": "::1",
+      "remotePort": 55556
+    }
+    [35mres[39m: {
+      "statusCode": 304,
+      "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "etag": "W/\"b78-VmjZBcR5GskObLaUntx/n9T91oY\""
+      }
+    }
+    [35mresponseTime[39m: 210
