@@ -467,7 +467,47 @@ function CouponsManagement() {
     } catch (error) { closeAlert(); await notifyError('تعذر حفظ الكوبون', error instanceof Error ? error.message : 'حدث خطأ غير متوقع.'); }
   };
   const edit = (coupon: Coupon) => { setEditing(coupon.id); setDraft({ code: coupon.code, discountType: coupon.discountType, discountValue: coupon.discountValue, active: coupon.active, startsAt: coupon.startsAt || null, endsAt: coupon.endsAt || null, usageLimit: coupon.usageLimit ?? null }); };
-  const disable = async (coupon: Coupon) => { const result = await confirmAction('تعطيل الكوبون؟', `لن يستطيع العملاء استخدام ${coupon.code} بعد التعطيل.`); if (!result.isConfirmed) return; try { showLoading('جارٍ تعطيل الكوبون…'); await deleteCoupon(coupon.id); closeAlert(); await load(); await notifySuccess('تم تعطيل الكوبون'); } catch (error) { closeAlert(); await notifyError('تعذر تعطيل الكوبون', error instanceof Error ? error.message : 'حدث خطأ غير متوقع.'); } };
-  return <section className="rounded-2xl border border-border bg-card p-6 shadow-soft"><div><p className="mb-2 text-xs font-bold uppercase tracking-[.18em] text-primary">التسويق</p><h3 className="font-display text-3xl">كوبونات الخصم</h3><p className="mt-2 text-sm text-muted-foreground">أنشئ كوبونات بنسبة مئوية أو قيمة ثابتة وحدد مدة الاستخدام.</p></div><div className="mt-5 grid gap-3 rounded-xl bg-secondary p-4 md:grid-cols-6"><input value={draft.code} onChange={(event) => setDraft({ ...draft, code: event.target.value.toUpperCase() })} placeholder="WELCOME10" className="rounded-lg border border-border bg-background px-3 py-2 text-sm md:col-span-2" /><select value={draft.discountType} onChange={(event) => setDraft({ ...draft, discountType: event.target.value as CouponInput['discountType'] })} className="rounded-lg border border-border bg-background px-3 py-2 text-sm"><option value="percent">نسبة %</option><option value="fixed">قيمة ثابتة</option></select><input type="number" min="0.01" value={draft.discountValue} onChange={(event) => setDraft({ ...draft, discountValue: Number(event.target.value) })} placeholder="قيمة الخصم" className="rounded-lg border border-border bg-background px-3 py-2 text-sm" /><input type="number" min="1" value={draft.usageLimit ?? ''} onChange={(event) => setDraft({ ...draft, usageLimit: event.target.value ? Number(event.target.value) : null })} placeholder="حد الاستخدام" className="rounded-lg border border-border bg-background px-3 py-2 text-sm" /><div className="flex gap-2"><button onClick={save} className="flex-1 rounded-lg bg-primary px-3 py-2 text-xs font-bold text-primary-foreground">{editing ? 'حفظ التعديل' : 'إضافة'}</button>{editing && <button onClick={() => { setEditing(null); setDraft(empty); }} className="rounded-lg border border-border px-3 py-2 text-xs font-bold">إلغاء</button>}</div></div><div className="mt-5 space-y-3">{loading ? <p className="text-sm text-muted-foreground">جارٍ تحميل الكوبونات…</p> : coupons.length ? coupons.map((coupon) => <div key={coupon.id} className="flex flex-col gap-3 rounded-xl border border-border p-4 sm:flex-row sm:items-center sm:justify-between"><div><div className="flex items-center gap-2"><strong className="tracking-wider">{coupon.code}</strong><span className={`rounded-full px-2 py-1 text-[10px] font-bold ${coupon.active ? 'bg-green-100 text-green-800' : 'bg-muted text-muted-foreground'}`}>{coupon.active ? 'مفعل' : 'متوقف'}</span></div><p className="mt-1 text-xs text-muted-foreground">{coupon.discountType === 'percent' ? `${coupon.discountValue}% خصم` : `${coupon.discountValue} خصم ثابت`} · مستخدم {coupon.usedCount}{coupon.usageLimit ? ` من ${coupon.usageLimit}` : ''}</p></div><div className="flex gap-3 text-xs font-bold"><button onClick={() => edit(coupon)} className="text-primary hover:underline">تعديل</button>{coupon.active && <button onClick={() => disable(coupon)} className="text-destructive hover:underline">تعطيل</button>}</div></div>) : <p className="rounded-xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">لا توجد كوبونات حتى الآن.</p>}</div></section>;
-}
+  const toggleActive = async (coupon: Coupon) => {
+    const nextActive = !coupon.active;
+    const result = await confirmAction(
+      nextActive ? 'تفعيل الكوبون؟' : 'تعطيل الكوبون؟',
+      nextActive
+        ? `سيتمكن العملاء من استخدام ${coupon.code} مرة أخرى.`
+        : `لن يستطيع العملاء استخدام ${coupon.code} بعد التعطيل.`
+    );
 
+    if (!result.isConfirmed) return;
+
+    try {
+      showLoading(nextActive ? 'جارٍ تفعيل الكوبون…' : 'جارٍ تعطيل الكوبون…');
+
+      await updateCoupon(coupon.id, {
+        code: coupon.code,
+        discountType: coupon.discountType,
+        discountValue: Number(coupon.discountValue),
+        active: nextActive,
+        startsAt: coupon.startsAt || null,
+        endsAt: coupon.endsAt || null,
+        usageLimit: coupon.usageLimit ?? null,
+      });
+
+      closeAlert();
+      await load();
+      await notifySuccess(nextActive ? 'تم تفعيل الكوبون' : 'تم تعطيل الكوبون');
+    } catch (error) {
+      closeAlert();
+      await notifyError(
+        nextActive ? 'تعذر تفعيل الكوبون' : 'تعذر تعطيل الكوبون',
+        error instanceof Error ? error.message : 'حدث خطأ غير متوقع.'
+      );
+    }
+  };
+
+  return <section className="rounded-2xl border border-border bg-card p-6 shadow-soft"><div><p className="mb-2 text-xs font-bold uppercase tracking-[.18em] text-primary">التسويق</p><h3 className="font-display text-3xl">كوبونات الخصم</h3><p className="mt-2 text-sm text-muted-foreground">أنشئ كوبونات بنسبة مئوية أو قيمة ثابتة وحدد مدة الاستخدام.</p></div><div className="mt-5 grid gap-3 rounded-xl bg-secondary p-4 md:grid-cols-6"><input value={draft.code} onChange={(event) => setDraft({ ...draft, code: event.target.value.toUpperCase() })} placeholder="WELCOME10" className="rounded-lg border border-border bg-background px-3 py-2 text-sm md:col-span-2" /><select value={draft.discountType} onChange={(event) => setDraft({ ...draft, discountType: event.target.value as CouponInput['discountType'] })} className="rounded-lg border border-border bg-background px-3 py-2 text-sm"><option value="percent">نسبة %</option><option value="fixed">قيمة ثابتة</option></select><input type="number" min="0.01" value={draft.discountValue} onChange={(event) => setDraft({ ...draft, discountValue: Number(event.target.value) })} placeholder="قيمة الخصم" className="rounded-lg border border-border bg-background px-3 py-2 text-sm" /><input type="number" min="1" value={draft.usageLimit ?? ''} onChange={(event) => setDraft({ ...draft, usageLimit: event.target.value ? Number(event.target.value) : null })} placeholder="حد الاستخدام" className="rounded-lg border border-border bg-background px-3 py-2 text-sm" /><div className="flex gap-2"><button onClick={save} className="flex-1 rounded-lg bg-primary px-3 py-2 text-xs font-bold text-primary-foreground">{editing ? 'حفظ التعديل' : 'إضافة'}</button>{editing && <button onClick={() => { setEditing(null); setDraft(empty); }} className="rounded-lg border border-border px-3 py-2 text-xs font-bold">إلغاء</button>}</div></div><div className="mt-5 space-y-3">{loading ? <p className="text-sm text-muted-foreground">جارٍ تحميل الكوبونات…</p> : coupons.length ? coupons.map((coupon) => <div key={coupon.id} className="flex flex-col gap-3 rounded-xl border border-border p-4 sm:flex-row sm:items-center sm:justify-between"><div><div className="flex items-center gap-2"><strong className="tracking-wider">{coupon.code}</strong><span className={`rounded-full px-2 py-1 text-[10px] font-bold ${coupon.active ? 'bg-green-100 text-green-800' : 'bg-muted text-muted-foreground'}`}>{coupon.active ? 'مفعل' : 'متوقف'}</span></div><p className="mt-1 text-xs text-muted-foreground">{coupon.discountType === 'percent' ? `${coupon.discountValue}% خصم` : `${coupon.discountValue} خصم ثابت`} · مستخدم {coupon.usedCount}{coupon.usageLimit ? ` من ${coupon.usageLimit}` : ''}</p></div><div className="flex gap-3 text-xs font-bold"><button onClick={() => edit(coupon)} className="text-primary hover:underline">تعديل</button><button
+    onClick={() => toggleActive(coupon)}
+    className={coupon.active ? 'text-destructive hover:underline' : 'text-green-700 hover:underline'}
+  >
+    {coupon.active ? 'تعطيل' : 'تفعيل'}
+  </button>
+  </div></div>) : <p className="rounded-xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">لا توجد كوبونات حتى الآن.</p>}</div></section>;
+}
