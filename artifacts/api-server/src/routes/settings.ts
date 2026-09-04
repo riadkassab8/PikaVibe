@@ -65,12 +65,10 @@ router.get("/admin/store-settings", requireAdmin, async (_req, res) => {
 router.put("/admin/store-settings", requireAdmin, async (req, res) => {
   try {
     const values = readPayload(req.body || {});
-    const [existing] = await db.select({ id: storeSettingsTable.id }).from(storeSettingsTable).limit(1);
-    if (existing) {
-      await db.update(storeSettingsTable).set({ ...values, updatedAt: new Date() }).where(eq(storeSettingsTable.id, existing.id));
-    } else {
-      await db.insert(storeSettingsTable).values(values);
-    }
+    await db.insert(storeSettingsTable).values({ id: 1, ...values }).onConflictDoUpdate({
+      target: storeSettingsTable.id,
+      set: { ...values, updatedAt: new Date() },
+    });
     return res.json(values);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to save store settings";
