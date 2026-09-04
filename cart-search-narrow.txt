@@ -1,0 +1,1012 @@
+﻿
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\pages\admin\dashboard.tsx:1:import { useEffect, useMemo, useState } 
+from 'react';
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\pages\admin\dashboard.tsx:2:import { useLocation } from 'wouter';
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\pages\admin\dashboard.tsx:3:import { Bell, LayoutDashboard, Package, 
+ShoppingCart, Tags, Users, Settings, LogOut, Plus, Search, X, Save, RefreshCw 
+} from 'lucide-react';
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\pages\admin\dashboard.tsx:4:import { closeAlert, confirmAction, 
+notifyError, notifyInfo, notifySuccess, showLoading } from '@/lib/alerts';
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\pages\admin\dashboard.tsx:5:import { createCategory, createProduct, 
+deleteCategory, deleteProduct, fetchCategories, fetchDashboard, fetchOrders, 
+fetchProducts, subscribeToNewOrders, updateCategory, updateOrderStatus, 
+updateProduct, type AdminCategory, type AdminOrder, type ApiProduct } from 
+'@/lib/api';
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\pages\admin\dashboard.tsx:66:    { id: 'overview', label: 'الرئيسية', 
+icon: LayoutDashboard },
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\pages\admin\dashboard.tsx:67:    { id: 'products', label: 'المنتجات 
+والمخزون', icon: Package },
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\pages\admin\dashboard.tsx:68:    { id: 'orders', label: 'الطلبات', 
+icon: ShoppingCart },
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\pages\admin\dashboard.tsx:69:    { id: 'customers', label: 'العملاء', 
+icon: Users },
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\pages\admin\dashboard.tsx:70:    { id: 'categories', label: 'الأقسام', 
+icon: Tags },
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\pages\admin\dashboard.tsx:182:  const filtered = useMemo(() => 
+orders.filter((order) => (status === 'all' || order.status === status) && 
+`${order.orderNumber} ${order.customer.name} 
+${order.customer.phone}`.toLowerCase().includes(query.toLowerCase())), 
+[orders, query, status]);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\pages\admin\dashboard.tsx:183:  const changeStatus = async (id: number, 
+next: string) => { showLoading('جارٍ تحديث حالة الطلب…'); try { await 
+updateOrderStatus(id, next); closeAlert(); await onRefresh(); 
+setSelected((current) => current?.id === id ? { ...current, status: next } : 
+current); await notifySuccess('تم تحديث حالة الطلب', `الحالة الجديدة: 
+${next}`); } catch (error) { closeAlert(); await notifyError('تعذر تحديث حالة 
+الطلب', error instanceof Error ? error.message : 'حدث خطأ غير متوقع.'); } };
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\pages\admin\dashboard.tsx:184:  return <div 
+className="space-y-6"><div><p className="mb-2 text-xs font-bold uppercase 
+tracking-[.18em] text-primary">إدارة وتنفيذ الطلبات</p><h2 
+className="font-display text-5xl tracking-[-.05em]">الطلبات</h2></div><div 
+className="flex flex-col gap-3 sm:flex-row"><div className="relative 
+flex-1"><Search className="absolute left-4 top-3.5 h-4 w-4 
+text-muted-foreground" /><input value={query} onChange={(event) => 
+setQuery(event.target.value)} placeholder="ابحث برقم الطلب أو الاسم أو الهاتف" 
+className="w-full rounded-xl border border-border bg-card py-3 pl-11 pr-4 
+text-sm outline-none focus:ring-2 focus:ring-primary" /></div><select 
+value={status} onChange={(event) => setStatus(event.target.value)} 
+className="rounded-xl border border-border bg-card px-4 py-3 text-sm"><option 
+value="all">كل الحالات</option>{statuses.map((item) => <option 
+key={item}>{item}</option>)}</select></div>{selected && <div 
+className="rounded-2xl border border-border bg-card p-6 shadow-soft"><div 
+className="flex items-start justify-between"><div><p className="text-xs 
+font-bold uppercase tracking-wider text-primary">تفاصيل الطلب</p><h3 
+className="mt-1 font-display 
+text-3xl">{selected.orderNumber}</h3></div><button onClick={() => 
+setSelected(null)}><X className="h-5 w-5" /></button></div><div 
+className="mt-5 grid gap-5 text-sm sm:grid-cols-2"><div><p 
+className="text-muted-foreground">العميل</p><p className="font-semibold">{selec
+ted.customer.name}</p><p>{selected.customer.phone}</p></div><div><p className="
+text-muted-foreground">التوصيل</p><p>{selected.customer.governorate} · 
+{selected.customer.city}</p><p>{selected.customer.address}</p></div><div><p 
+className="text-muted-foreground">الدفع</p><p 
+className="font-semibold">{selected.paymentMethod === 'cod' ? 'الدفع عند 
+الاستلام' : 'إنستاباي / تحويل 
+بنكي'}</p><p>{selected.paymentStatus}</p></div><div><p 
+className="text-muted-foreground">الإجمالي</p><p className="font-display 
+text-2xl">{money(selected.total)}</p></div></div><div className="mt-5 border-t 
+border-border pt-5"><p className="mb-3 text-sm font-semibold">تغيير 
+الحالة</p><div className="flex flex-wrap gap-2">{statuses.map((item) => 
+<button key={item} onClick={() => changeStatus(selected.id, item)} 
+className={`rounded-full px-3 py-2 text-xs font-bold capitalize 
+${selected.status === item ? 'bg-primary text-primary-foreground' : 
+'bg-secondary text-muted-foreground 
+hover:text-foreground'}`}>{item}</button>)}</div></div><div className="mt-5 
+border-t border-border pt-5">{selected.items.map((item) => <div 
+key={`${item.productId}-${item.variant || ''}`} className="flex 
+justify-between border-b border-border py-3 text-sm 
+last:border-0"><span>{item.name} × {item.quantity}</span><span 
+className="font-bold">{money(item.price * 
+item.quantity)}</span></div>)}</div></div>}
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\pages\admin\dashboard.tsx:185:    <div className="overflow-x-auto 
+rounded-2xl border border-border bg-card shadow-soft"><table className="w-full 
+min-w-[760px] text-right"><thead><tr className="border-b border-border text-xs 
+uppercase tracking-wider text-muted-foreground"><th className="px-5 
+py-4">الطلب</th><th className="px-5 py-4">Customer</th><th className="px-5 
+py-4">الإجمالي</th><th className="px-5 py-4">الحالة</th><th className="px-5 
+py-4">تاريخ الإنشاء</th><th className="px-5 
+py-4"></th></tr></thead><tbody>{filtered.map((order) => <tr key={order.id} 
+className="border-b border-border last:border-0"><td className="px-5 py-4"><p 
+className="font-semibold">{order.orderNumber}</p><p className="text-xs 
+text-muted-foreground">#{order.id}</p></td><td className="px-5 py-4"><p 
+className="font-semibold">{order.customer.name}</p><p className="text-xs 
+text-muted-foreground">{order.customer.phone}</p></td><td className="px-5 py-4 
+text-sm font-bold">{money(order.total)}</td><td className="px-5 py-4"><span 
+className="rounded-full bg-secondary px-3 py-1 text-xs font-bold 
+capitalize">{order.status}</span></td><td className="px-5 py-4 text-sm 
+text-muted-foreground">{new 
+Date(order.createdAt).toLocaleDateString()}</td><td className="px-5 
+py-4"><button onClick={() => setSelected(order)} className="text-sm 
+font-semibold text-primary hover:underline">عرض 
+التفاصيل</button></td></tr>)}</tbody></table>{!filtered.length && <p 
+className="p-10 text-center text-sm text-muted-foreground">لا توجد طلبات 
+مطابقة.</p>}</div></div>;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\pages\admin\dashboard.tsx:186:}
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:18:import './index.css';
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:19:
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:20:type CartItem = { id: string; quantity: number; variant?: 
+string };
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:21:type CustomerInfo = { name: string; phone: string; 
+governorate: string; city: string; address: string; notes: string; 
+paymentMethod: string };
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:22:type OrderRecord = {
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:25:  createdAt: string;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:26:  customer: CustomerInfo;
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:27:  items: CartItem[];
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:28:  subtotal: number;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:29:  shipping: number;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:32:};
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:33:type StoreContextValue = {
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:34:  cart: CartItem[];
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:35:  wishlist: string[];
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:36:  language: Language;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:37:  setLanguage: (language: Language) => void;
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:38:  addToCart: (id: string, quantity?: number, variant?: 
+string) => void;
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:39:  updateQuantity: (id: string, quantity: number, variant?: 
+string) => void;
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:40:  removeFromCart: (id: string, variant?: string) => void;
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:41:  clearCart: () => void;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:42:  toggleWishlist: (id: string) => void;
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:43:  cartCount: number;
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:44:  cartBump: number;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:45:  products: Product[];
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:46:  categories: string[];
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:60:
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:61:function App() {
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:62:  const [cart, setCart] = useState<CartItem[]>(() => 
+readStorage<CartItem[]>('pikavibe-cart', []));
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:63:  const [wishlist, setWishlist] = useState<string[]>(() => 
+readStorage<string[]>('pikavibe-wishlist', []));
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:64:  const [language, setLanguage] = useState<Language>(() => 
+readStorage<Language>('pikavibe-language', 'en'));
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:65:  const [cartBump, setCartBump] = useState(0);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:66:  const [catalogProducts, setCatalogProducts] = 
+useState<Product[]>(seedProducts);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:67:  const [catalogCategories, setCatalogCategories] = 
+useState<string[]>(seedCategories);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:75:    return () => { mounted = false; };
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:76:  }, []);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:77:  useEffect(() => localStorage.setItem('pikavibe-cart', 
+JSON.stringify(cart)), [cart]);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:78:  useEffect(() => localStorage.setItem('pikavibe-wishlist', 
+JSON.stringify(wishlist)), [wishlist]);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:79:  useEffect(() => {
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:83:  }, [language]);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:84:  const store = useMemo<StoreContextValue>(() => ({
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:85:    cart, wishlist, language, setLanguage, cartBump, 
+products: catalogProducts, categories: catalogCategories,
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:86:          addToCart: (id, quantity = 1, variant) => {
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:87:
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:88:      const product = catalogProducts.find((item) => item.id 
+=== id);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:89:      if (!product || !product.inStock || quantity < 1) 
+return;
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:90:      setCartBump((value) => value + 1);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:91:      setCart((items) => {
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:92:        const found = items.find((item) => item.id === id && 
+item.variant === variant);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:93:        const nextQuantity = Math.min(product.stock, 
+(found?.quantity ?? 0) + quantity);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:94:        return found
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:95:          ? items.map((item) => item.id === id && 
+item.variant === variant ? { ...item, quantity: nextQuantity } : item)
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:96:          : [...items, { id, quantity: 
+Math.min(product.stock, quantity), ...(variant ? { variant } : {}) }];
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:97:      });
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:98:    },
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:99:    updateQuantity: (id, quantity, variant) => 
+setCart((items) => {
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:100:      const product = catalogProducts.find((item) => 
+item.id === id);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:101:      if (quantity < 1) return items.filter((item) => 
+item.id !== id || (variant !== undefined && item.variant !== variant));
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:102:      return product ? items.map((item) => item.id === id 
+&& (variant === undefined || item.variant === variant) ? { ...item, quantity: 
+Math.min(product.stock, quantity) } : item) : items;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:103:    }),
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:104:    removeFromCart: (id, variant) => setCart((items) => 
+items.filter((item) => item.id !== id || (variant !== undefined && 
+item.variant !== variant))),
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:105:    clearCart: () => setCart([]),
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:106:    toggleWishlist: (id) => setWishlist((items) => 
+items.includes(id) ? items.filter((item) => item !== id) : [...items, id]),
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:107:    cartCount: cart.reduce((sum, item) => sum + 
+item.quantity, 0),
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:108:  }), [cart, wishlist, language, cartBump, catalogProducts, 
+catalogCategories]);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:109:
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:110:  return (
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:117:              <Route path="/products" 
+component={ProductsPage} />
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:118:              <Route path="/products/:id" 
+component={ProductPage} />
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:119:              <Route path="/cart" component={CartPage} />
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:120:              <Route path="/checkout" 
+component={CheckoutPage} />
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:121:              <Route path="/receipt/:id" 
+component={ReceiptPage} />
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:149:
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:150:function SiteShell({ children }: { children: ReactNode }) {
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:151:  const { cartCount, wishlist, language, setLanguage, 
+cartBump, categories } = useStore();
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:152:  const [mobileOpen, setMobileOpen] = useState(false);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:153:  const [categoryOpen, setCategoryOpen] = useState(false);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:154:  const [cartPulse, setCartPulse] = useState(false);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:155:  const [location] = useLocation();
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:156:  useEffect(() => setMobileOpen(false), [location]);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:157:  useEffect(() => {
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:158:    if (!cartBump) return;
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:159:    setCartPulse(true);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:160:    const timeout = window.setTimeout(() => 
+setCartPulse(false), 650);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:161:    return () => window.clearTimeout(timeout);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:162:  }, [cartBump]);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:163:  return (
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:164:    <div className="grain min-h-[100dvh] bg-background">
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:194:            <Link href="/products" className="hidden h-10 
+w-10 items-center justify-center rounded-full text-foreground 
+transition-colors hover:bg-secondary sm:flex" aria-label={t(language, 'Search 
+products')} data-testid="link-search"><Search size={19} strokeWidth={1.8} 
+/></Link>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:195:            <Link href="/products?wishlist=true" 
+className="relative flex h-10 w-10 items-center justify-center rounded-full 
+text-foreground transition-colors hover:bg-secondary" aria-label={t(language, 
+'View wishlist')} data-testid="link-wishlist"><Heart size={19} 
+strokeWidth={1.8} fill={wishlist.length ? 'currentColor' : 'none'} 
+/><CountBadge count={wishlist.length} /></Link>
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:196:            <Link href="/cart" className={`relative flex 
+h-10 w-10 items-center justify-center rounded-full bg-[#3D2A1E] text-[#f4ecdf] 
+transition-transform hover:scale-105 ${cartPulse ? 'animate-cart-bump' : ''}`} 
+aria-label={t(language, 'View cart')} data-testid="link-cart"><ShoppingBag 
+size={18} strokeWidth={1.8} /><CountBadge count={cartCount} inverted /></Link>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:197:            <Link href="/login?admin=true" 
+className="hidden h-10 items-center justify-center rounded-full border 
+border-border px-4 text-xs font-bold text-foreground transition-colors 
+hover:bg-secondary sm:flex" aria-label="Admin login">Admin</Link>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:198:            <button onClick={() => setLanguage(language === 
+'en' ? 'ar' : 'en')} className="flex h-10 items-center gap-1 rounded-full 
+border border-border px-2.5 text-[11px] font-bold text-foreground 
+transition-colors hover:bg-secondary" aria-label={language === 'en' ? 
+'العربية' : 'English'} data-testid="button-language-switcher"><Languages 
+size={15} /><span>{language === 'en' ? 'العربية' : 'English'}</span></button>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:223:    <div className="mb-3 flex items-center 
+justify-between"><span className="text-xs font-bold uppercase tracking-[.18em] 
+text-muted-foreground">{t(language, 'Explore PikaVibe')}</span><button 
+onClick={close} aria-label={t(language, 'Close navigation')} 
+data-testid="button-close-menu"><X size={20} /></button></div>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:224:    <div className="grid gap-1">
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:225:      {['Home', 'Shop all', 'Our story', 'Contact', 'Your 
+cart'].map((label) => {
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:226:        const href = label === 'Home' ? '/' : label === 
+'Shop all' ? '/products' : label === 'Our story' ? '/about' : label === 
+'Contact' ? '/contact' : '/cart';
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:227:        return <Link key={href} href={href} onClick={close} 
+className="border-b border-border/60 py-3 font-display text-2xl 
+text-foreground" data-testid={`mobile-link-${label.toLowerCase().replaceAll(' 
+', '-')}`}>{t(language, label)}</Link>;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:228:      })}
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:245:
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:246:function HomePage() {
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:247:  const { addToCart, wishlist, toggleWishlist, language, 
+products } = useStore();
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:248:  const bestsellers = products.filter((product) => 
+product.isBestSeller).slice(0, 4).map((product) => localizedProduct(product, 
+language));
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:249:  const offers = products.filter((product) => 
+product.inStock && Number(product.discount || 0) > 0).slice(0, 
+4).map((product) => localizedProduct(product, language));
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:270:      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 
+sm:gap-5">{[['Cookware', 'For the lovely mess', 
+'photo-1556911220-bff31c812dba'], ['Storage', 'Put things in their place', 
+'photo-1583947215259-38e31be8751f'], ['Cleaning', 'The reset feels good', 
+'photo-1581578731548-c64695cc6952'], ['Small Appliances', 'Tiny daily 
+luxuries', 'photo-1570222094114-d054a817e56b']].map(([name, tagline, photoId], 
+index) => <Link href={`/products?category=${encodeURIComponent(name)}`} 
+key={name} className={`group relative min-h-[190px] overflow-hidden 
+rounded-2xl ${index % 2 === 0 ? 'bg-[#c98755]' : 'bg-[#a98c70]'} 
+sm:min-h-[250px]`} 
+data-testid={`category-card-${name.toLowerCase().replaceAll(' ', '-')}`}><img 
+src={`https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=700&q=85`} 
+alt="" className="absolute inset-0 h-full w-full object-cover 
+mix-blend-multiply opacity-75 transition-transform duration-500 
+group-hover:scale-105" /><div className="absolute inset-0 bg-gradient-to-t 
+from-[#3d2a1e]/75 via-transparent to-transparent" /><div className="absolute 
+bottom-4 left-4 text-[#fff8ef] sm:bottom-5 sm:left-5"><h3 
+className="font-display text-2xl leading-none 
+sm:text-3xl">{categoryLabel(language, name)}</h3><p className="mt-1 text-xs 
+text-[#f0ddc6] sm:text-sm">{language === 'ar' ? ({ Cookware: 'للفوضى الجميلة', 
+Storage: 'ضع كل شيء في مكانه', Cleaning: 'الترتيب يجعلك أفضل', 'Small 
+Appliances': 'رفاهية يومية صغيرة' } as Record<string, string>)[name] : 
+tagline}</p></div></Link>)}</div>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:271:    </section>
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:272:    {offers.length > 0 && <section className="bg-[#fff0df] 
+px-4 py-14 sm:px-6 lg:px-8 lg:py-20"><div className="mx-auto max-w-7xl"><div 
+className="mb-8 flex items-end justify-between gap-4"><div><p className="mb-2 
+text-xs font-bold uppercase tracking-[.2em] text-primary">{language === 'ar' ? 
+'لفترة محدودة' : 'Limited time'}</p><h2 className="font-display text-4xl 
+tracking-[-.04em] sm:text-5xl">{language === 'ar' ? 'العروض والخصومات' : 
+'Offers & discounts'}</h2></div><Link href="/products?sort=offers" 
+className="hidden items-center gap-2 text-sm font-bold text-primary 
+sm:flex">{t(language, 'Shop all')} <ArrowRight size={16} /></Link></div><div 
+className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{offers.map((product) => 
+<ProductCard key={product.id} product={product} 
+wished={wishlist.includes(product.id)} onWishlist={() => 
+toggleWishlist(product.id)} onAdd={() => addToCart(product.id)} 
+/>)}</div></div></section>}
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:273:    <section className="bg-[#f0e6d7] px-4 py-14 sm:px-6 
+lg:px-8 lg:py-20">
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:274:      <div className="mx-auto max-w-7xl"><div 
+className="mb-8 flex items-end justify-between gap-4"><div><p className="mb-2 
+text-xs font-bold uppercase tracking-[.2em] text-primary">{language === 'ar' ? 
+'منتجات يعود إليها الناس' : 'The ones people come back for'}</p><h2 
+className="font-display text-4xl tracking-[-.04em] sm:text-5xl">{language === 
+'ar' ? 'المفضلة' : 'Customer favourites'}</h2></div><Link href="/products" 
+className="hidden items-center gap-2 text-sm font-bold text-primary sm:flex" 
+data-testid="bestsellers-view-all">{t(language, 'Shop all')} <ArrowRight 
+size={16} /></Link></div><div className="grid gap-5 sm:grid-cols-2 
+lg:grid-cols-4">{bestsellers.map((product) => <ProductCard key={product.id} 
+product={product} wished={wishlist.includes(product.id)} onWishlist={() => 
+toggleWishlist(product.id)} onAdd={() => addToCart(product.id)} 
+/>)}</div></div>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:275:    </section>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:276:    <section className="mx-auto grid max-w-7xl gap-8 px-4 
+py-16 sm:px-6 lg:grid-cols-[1.2fr_.8fr] lg:px-8 lg:py-24">
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:282:
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:283:function ProductCard({ product, wished, onWishlist, onAdd 
+}: { product: Product; wished: boolean; onWishlist: () => void; onAdd: () => 
+void }) {
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:284:  const { language, cart } = useStore();
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:285:  const inCart = cart.find((item) => item.id === 
+product.id)?.quantity ?? 0;
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:286:  const canAdd = product.inStock && inCart < product.stock;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:287:  const [added, setAdded] = useState(false);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:288:  const [imageError, setImageError] = useState(false);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:330:        data-testid={`button-add-${product.id}`}
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:331:      >
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:332:        {added ? <><Check size={15} /> {t(language, 'Added 
+to cart')}</> : <><Plus size={15} /> {canAdd ? t(language, 'Add to cart') : 
+t(language, 'Out of stock')}</>}
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:333:      </button>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:334:    </div>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:361:  const [sort, setSort] = useState('featured');
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:362:  const [mobileFilters, setMobileFilters] = useState(false);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:363:  const { addToCart, wishlist, toggleWishlist, language, 
+products, categories } = useStore();
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:364:  const filtered = useMemo(() => {
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:365:    const matches = products.filter((product) => {
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:376:    <div className="mb-7 flex flex-col gap-3 border-y 
+border-border py-4 sm:flex-row sm:items-center sm:justify-between"><div 
+className="flex items-center gap-3"><button onClick={() => 
+setMobileFilters((open) => !open)} className="flex items-center gap-2 
+rounded-full border border-border px-4 py-2 text-sm font-semibold lg:hidden" 
+data-testid="button-mobile-filters"><SlidersHorizontal size={15} /> 
+{t(language, 'Filters')}</button><div className={`${mobileFilters ? 'flex' : 
+'hidden'} flex-wrap gap-2 lg:flex`}>{categories.map((item) => <button 
+key={item} onClick={() => updateCategory(item)} className={`rounded-full px-4 
+py-2 text-xs font-bold transition-colors ${category === item ? 'bg-[#3D2A1E] 
+text-[#f4ecdf]' : 'bg-secondary text-muted-foreground hover:bg-[#d8c7b3]'}`} 
+data-testid={`filter-category-${item.toLowerCase().replaceAll(' ', 
+'-')}`}>{categoryLabel(language, item)}</button>)}</div></div><div 
+className="flex items-center gap-3"><span className="text-xs 
+text-muted-foreground">{filtered.length} {t(language, filtered.length === 1 ? 
+'piece' : 'pieces')}</span><label className="relative"><span 
+className="sr-only">{language === 'ar' ? 'ترتيب المنتجات' : 'Sort 
+products'}</span><select value={sort} onChange={(event) => 
+setSort(event.target.value)} className="appearance-none rounded-full border 
+border-border bg-transparent py-2 pl-4 pr-9 text-xs font-bold outline-none 
+focus:ring-2 focus:ring-primary" data-testid="select-sort-products"><option 
+value="featured">{t(language, 'Featured first')}</option><option 
+value="newest">{t(language, 'Newest first')}</option><option 
+value="price-low">{t(language, 'Price: low to high')}</option><option 
+value="price-high">{t(language, 'Price: high to low')}</option><option 
+value="offers">{language === 'ar' ? 'العروض والخصومات' : 'Offers & 
+discounts'}</option></select><ChevronDown size={14} 
+className="pointer-events-none absolute right-3 top-2.5" /></label></div></div>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:377:    <div className="relative mb-8"><Search 
+className="absolute left-4 top-3.5 text-muted-foreground" size={18} /><input 
+type="search" value={query} onChange={(event) => setQuery(event.target.value)} 
+placeholder={t(language, 'Search by name or category...')} className="w-full 
+rounded-2xl border border-border bg-card py-3.5 pl-12 pr-4 text-sm 
+outline-none transition-shadow focus:ring-2 focus:ring-primary" 
+aria-label={t(language, 'Search products')} 
+data-testid="input-search-products" /></div>
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:378:    {filtered.length ? <div className="grid grid-cols-2 
+gap-x-3 gap-y-9 sm:grid-cols-3 sm:gap-x-5 
+lg:grid-cols-4">{filtered.map((product) => <ProductCard key={product.id} 
+product={localizedProduct(product, language)} 
+wished={wishlist.includes(product.id)} onWishlist={() => 
+toggleWishlist(product.id)} onAdd={() => addToCart(product.id)} />)}</div> : 
+<EmptyState title={t(language, 'Nothing in that corner yet.')} 
+body={t(language, 'Try a different search or clear the filters to see the full 
+edit.')} action={t(language, 'Clear filters')} onAction={() => { setQuery(''); 
+updateCategory('All'); }} />}
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:379:  </div>;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:380:}
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:382:function ProductPage() {
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:383:  const { id } = useParams<{ id: string }>();
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:384:  const { addToCart, cart, wishlist, toggleWishlist, 
+language, products } = useStore();
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:385:  const product = products.find((item) => item.id === id);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:386:  const [quantity, setQuantity] = useState(1);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:387:  const [activeImage, setActiveImage] = useState(0);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:388:  const [added, setAdded] = useState(false);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:390:  if (!product) return <NotFoundPage />;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:391:  const visibleProduct = localizedProduct(product, 
+language);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:392:  const inCart = cart.filter((item) => item.id === 
+product.id).reduce((sum, item) => sum + item.quantity, 0);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:393:  const availableStock = Math.max(0, product.stock - 
+inCart);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:394:  const canAdd = product.inStock && availableStock > 0;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:395:  const related = products.filter((item) => item.category 
+=== product.category && item.id !== product.id).slice(0, 3).map((item) => 
+localizedProduct(item, language));
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:397:    if (added || !canAdd) return;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:398:    setAdded(true);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:399:    addToCart(product.id, Math.min(quantity, 
+availableStock), selectedVariant || undefined);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:400:    window.setTimeout(() => setAdded(false), 1200);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:401:  };
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:404:    <div className="grid gap-10 lg:grid-cols-[1.05fr_.95fr] 
+lg:gap-16">
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:405:       <div className="flex flex-col-reverse gap-3 
+sm:flex-row"><div className="flex gap-3 sm:w-20 
+sm:flex-col">{visibleProduct.images.map((image, index) => <button key={image} 
+onClick={() => setActiveImage(index)} className={`aspect-square w-16 
+overflow-hidden rounded-xl border-2 sm:w-20 ${index === activeImage ? 
+'border-primary' : 'border-transparent opacity-65'}`} aria-label={`${language 
+=== 'ar' ? 'عرض صورة المنتج' : 'Show product image'} ${index + 1}`} 
+data-testid={`button-product-image-${index}`}><img src={image} alt="" 
+className="h-full w-full object-cover" /></button>)}</div><div 
+className="relative aspect-square min-w-0 flex-1 overflow-hidden 
+rounded-[2rem] bg-secondary"><img src={visibleProduct.images[activeImage]} 
+alt={visibleProduct.name} className="h-full w-full object-cover 
+transition-opacity duration-300" /><div className="absolute left-5 top-5 flex 
+gap-2">{product.isNew && <span className="rounded-full bg-[#f4ecdf] px-3 
+py-1.5 text-[10px] font-bold uppercase tracking-widest">{t(language, 'New 
+arrival')}</span>}{product.discount && <span className="rounded-full 
+bg-primary px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest 
+text-white">{language === 'ar' ? `وفر ${product.discount}%` : `Save 
+${product.discount}%`}</span>}</div></div></div>
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:406:       <div className="flex flex-col justify-center"><div 
+className="mb-3 flex items-center justify-between"><span className="text-xs 
+font-bold uppercase tracking-[.18em] text-primary">{categoryLabel(language, 
+visibleProduct.category)}</span><button onClick={() => 
+toggleWishlist(product.id)} className="flex items-center gap-2 text-sm 
+font-semibold text-muted-foreground hover:text-primary" 
+data-testid="button-product-wishlist"><Heart size={18} 
+fill={wishlist.includes(product.id) ? '#C8722E' : 'none'} 
+color={wishlist.includes(product.id) ? '#C8722E' : 'currentColor'} /> 
+{wishlist.includes(product.id) ? t(language, 'Saved') : t(language, 'Save for 
+later')}</button></div><h1 className="font-display text-5xl leading-[.95] 
+tracking-[-.055em] sm:text-6xl">{visibleProduct.name}</h1><div className="mt-5 
+flex items-center gap-4"><span className="text-xl 
+font-bold">{money(product.price, language)}</span>{product.oldPrice && <del 
+className="text-sm text-muted-foreground">{money(product.oldPrice, 
+language)}</del>}<span className="flex items-center gap-1 border-l 
+border-border pl-4 text-sm"><Star size={15} fill="#D89B43" color="#D89B43" /> 
+{product.rating} <span className="text-muted-foreground">/ 
+5</span></span></div><p className="mt-7 max-w-lg text-base leading-7 text-muted
+-foreground">{visibleProduct.description}</p>{product.variants?.map((variant) 
+=> <label key={variant.name} className="mt-6 grid gap-2 text-xs font-bold 
+uppercase tracking-[.12em]">{variant.name}<select value={selectedVariant} 
+onChange={(event) => setSelectedVariant(event.target.value)} 
+className="rounded-xl border border-border bg-card px-4 py-3 text-sm 
+font-normal normal-case tracking-normal outline-none focus:ring-2 
+focus:ring-primary"><option value="">{language === 'ar' ? 'اختر خياراً' : 
+'Choose an option'}</option>{variant.options.map((option) => <option 
+key={option} value={`${variant.name}: 
+${option}`}>{option}</option>)}</select></label>)}<div className="my-8 
+border-y border-border py-6"><h2 className="mb-4 text-xs font-bold uppercase 
+tracking-[.18em] text-muted-foreground">{t(language, 'Details')}</h2><ul 
+className="grid gap-3 text-sm text-foreground 
+sm:grid-cols-2">{visibleProduct.specifications.map((spec) => <li key={spec} 
+className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 
+text-primary" />{spec}</li>)}</ul></div><div className="flex flex-col gap-3 
+sm:flex-row"><div className="flex h-12 items-center justify-between rounded-xl 
+border border-border bg-card sm:w-36"><button onClick={() => 
+setQuantity((value) => Math.max(1, value - 1))} disabled={!canAdd} 
+className="flex h-full w-11 items-center justify-center text-muted-foreground 
+hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50" 
+aria-label={language === 'ar' ? 'تقليل الكمية' : 'Decrease quantity'} 
+data-testid="button-decrease-quantity"><Minus size={16} /></button><span 
+className="text-sm font-bold" 
+data-testid="text-product-quantity">{Math.min(quantity, Math.max(1, 
+availableStock))}</span><button onClick={() => setQuantity((value) => 
+Math.min(availableStock, value + 1))} disabled={!canAdd || quantity >= 
+availableStock} className="flex h-full w-11 items-center justify-center 
+text-muted-foreground hover:text-foreground disabled:cursor-not-allowed 
+disabled:opacity-50" aria-label={language === 'ar' ? 'زيادة الكمية' : 
+'Increase quantity'} data-testid="button-increase-quantity"><Plus size={16} 
+/></button></div><button onClick={handleAdd} disabled={!canAdd || added} 
+className={`flex h-12 flex-1 items-center justify-center gap-2 rounded-xl px-6 
+text-sm font-bold text-primary-foreground transition-all 
+hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 ${added 
+? 'bg-[#2E9B68]' : 'bg-primary'}`} 
+data-testid="button-product-add-to-cart">{added ? <><Check size={18} /> 
+{t(language, 'Added to cart')}</> : <><ShoppingBag size={18} /> {canAdd ? 
+t(language, 'Add to cart') : t(language, 'Out of stock')}</>}</button></div><p 
+className="mt-4 flex items-center gap-2 text-xs font-semibold 
+text-muted-foreground"><Truck size={15} className="text-primary" /> {canAdd ? 
+`${t(language, 'In stock')} · ${availableStock} ${t(language, availableStock 
+=== 1 ? 'piece' : 'pieces')} ${t(language, 'available')}` : t(language, 'Out 
+of stock')}</p></div>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:407:    </div>
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:408:    <div className="mt-20 border-t border-border 
+pt-12"><div className="mb-8 flex items-end justify-between"><div><p 
+className="mb-2 text-xs font-bold uppercase tracking-[.18em] 
+text-primary">{t(language, 'More to consider')}</p><h2 className="font-display 
+text-4xl">{t(language, 'From the same shelf')}</h2></div><div 
+className="hidden gap-2 sm:flex"><button className="flex h-9 w-9 items-center 
+justify-center rounded-full border border-border" 
+data-testid="button-related-previous"><ChevronLeft size={16} 
+/></button><button className="flex h-9 w-9 items-center justify-center 
+rounded-full border border-border" 
+data-testid="button-related-next"><ChevronRight size={16} 
+/></button></div></div><div className="grid grid-cols-2 gap-4 
+sm:grid-cols-3">{related.map((item) => <ProductCard key={item.id} 
+product={item} wished={wishlist.includes(item.id)} onWishlist={() => 
+toggleWishlist(item.id)} onAdd={() => addToCart(item.id)} />)}</div></div>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:409:  </div>;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:410:}
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:411:
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:412:function CartPage() {
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:413:  const [, setLocation] = useLocation();
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:414:  const { cart, updateQuantity, removeFromCart, language, 
+products } = useStore();
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:415:  const items = cart.map((item) => ({ ...item, product: 
+products.find((product) => product.id === item.id) })).filter((item): item is 
+CartItem & { product: Product } => Boolean(item.product));
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:416:  const subtotal = items.reduce((sum, item) => sum + 
+item.product.price * item.quantity, 0);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:417:  return <div className="mx-auto max-w-7xl px-4 py-10 
+sm:px-6 lg:px-8 lg:py-16"><div className="mb-10"><p className="mb-3 text-xs 
+font-bold uppercase tracking-[.2em] text-primary">{t(language, 'Your 
+shortlist')}</p><h1 className="font-display text-5xl tracking-[-.05em] 
+sm:text-7xl">{t(language, 'Your cart.')}</h1></div>{items.length ? <div 
+className="grid gap-8 lg:grid-cols-[1fr_360px]"><div className="divide-y 
+divide-border border-y border-border">{items.map(({ product, quantity, variant 
+}) => { const visible = localizedProduct(product, language); return <div 
+key={`${product.id}-${variant || ''}`} className="flex gap-4 py-5 
+sm:gap-6"><Link href={`/products/${product.id}`} className="h-28 w-28 shrink-0 
+overflow-hidden rounded-xl bg-secondary sm:h-36 sm:w-36" 
+data-testid={`cart-product-image-${product.id}`}><img src={product.image} 
+alt={visible.name} className="h-full w-full object-cover" /></Link><div 
+className="flex min-w-0 flex-1 flex-col justify-between py-1"><div><div 
+className="mb-1 flex items-start justify-between gap-3"><div><span 
+className="text-[10px] font-bold uppercase tracking-[.14em] 
+text-primary">{categoryLabel(language, visible.category)}</span><Link 
+href={`/products/${product.id}`} className="mt-1 block font-display text-xl 
+leading-tight hover:text-primary" 
+data-testid={`cart-product-name-${product.id}`}>{visible.name}</Link>{variant 
+&& <span className="mt-1 block text-xs 
+text-muted-foreground">{variant}</span>}</div><button onClick={() => 
+removeFromCart(product.id, variant)} className="text-muted-foreground 
+hover:text-destructive" aria-label={language === 'ar' ? `إزالة 
+${visible.name}` : `Remove ${visible.name}`} 
+data-testid={`button-remove-${product.id}`}><Trash2 size={17} 
+/></button></div><span className="text-sm font-bold">{money(product.price, 
+language)}</span></div><div className="flex items-end justify-between"><div 
+className="flex h-9 items-center rounded-lg border border-border"><button 
+onClick={() => updateQuantity(product.id, quantity - 1, variant)} 
+className="flex h-full w-9 items-center justify-center text-muted-foreground 
+hover:text-foreground" aria-label={language === 'ar' ? 'تقليل الكمية' : 
+'Decrease item quantity'} 
+data-testid={`button-cart-decrease-${product.id}`}><Minus size={14} 
+/></button><span className="min-w-6 text-center text-xs font-bold" 
+data-testid={`text-cart-quantity-${product.id}`}>{quantity}</span><button 
+onClick={() => updateQuantity(product.id, quantity + 1, variant)} 
+className="flex h-full w-9 items-center justify-center text-muted-foreground 
+hover:text-foreground" aria-label={language === 'ar' ? 'زيادة الكمية' : 
+'Increase item quantity'} 
+data-testid={`button-cart-increase-${product.id}`}><Plus size={14} 
+/></button></div><span className="text-right text-sm font-bold" 
+data-testid={`text-cart-line-total-${product.id}`}>{language === 'ar' ? 
+'الإجمالي: ' : 'Total: '}{money(product.price * quantity, 
+language)}</span></div></div></div>; })}</div><aside className="h-fit 
+rounded-2xl bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:p-8 lg:sticky lg:top-28"><h2 
+className="font-display text-3xl">{t(language, 'A good choice.')}</h2><div 
+className="mt-6 space-y-3 border-b border-[#614b3a] pb-6 text-sm"><div 
+className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 
+'Subtotal')}</span><span className="font-bold" 
+data-testid="text-cart-subtotal">{money(subtotal, language)}</span></div><div 
+className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 
+'Delivery')}</span><span className="font-bold text-[#e9b98b]">{t(language, 
+'Confirmed on WhatsApp')}</span></div></div><div className="flex 
+justify-between py-5 text-lg font-bold"><span>{t(language, 
+'Total')}</span><span data-testid="text-cart-total">{money(subtotal, 
+language)}</span></div><Link href="/checkout" className="flex h-12 
+items-center justify-center gap-2 rounded-xl bg-[#2E9B68] text-sm font-bold 
+text-white transition-transform hover:-translate-y-0.5" 
+data-testid="link-whatsapp-checkout"><MessageCircle size={18} /> {t(language, 
+'Continue to checkout')}</Link><p className="mt-4 text-center text-xs 
+leading-5 text-[#bfae9e]">{t(language, "We'll confirm your delivery address, 
+timing and payment options in the chat.")}</p></aside></div> : <EmptyState 
+icon={<ShoppingBag size={25} />} title={t(language, 'Your cart is waiting for 
+a good idea.')} body={t(language, 'Save something useful here, then come back 
+when you’re ready.')} action={t(language, 'Browse the shop')} onAction={() => 
+setLocation('/products')} />}</div>;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:418:}
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:419:
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:420:function CheckoutPage() {
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:421:  const [, setLocation] = useLocation();
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:422:  const { cart, language, clearCart, products } = 
+useStore();
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:423:  const items = cart.map((item) => ({ ...item, product: 
+products.find((product) => product.id === item.id) })).filter((item): item is 
+CartItem & { product: Product } => Boolean(item.product));
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:424:  const [form, setForm] = useState<CustomerInfo>({ name: 
+'', phone: '', governorate: '', city: '', address: '', notes: '', 
+paymentMethod: 'cod' });
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:425:  const [error, setError] = useState('');
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:426:  const [submitting, setSubmitting] = useState(false);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:427:  const subtotal = items.reduce((sum, item) => sum + 
+item.product.price * item.quantity, 0);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:428:  const discount = items.reduce((sum, item) => sum + 
+((item.product.oldPrice ?? item.product.price) - item.product.price) * 
+item.quantity, 0);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:429:  const shipping = subtotal >= 5000 ? 0 : 250;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:430:  const total = subtotal + shipping;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:431:
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:432:  if (!items.length) {
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:433:    return <div className="mx-auto max-w-3xl px-4 py-16 
+sm:px-6 lg:px-8"><EmptyState icon={<ShoppingBag size={25} />} 
+title={t(language, 'Your cart is waiting for a good idea.')} body={t(language, 
+'Save something useful here, then come back when youâ€™re ready.')} 
+action={t(language, 'Browse the shop')} onAction={() => 
+setLocation('/products')} /></div>;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:434:  }
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:435:
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:445:      const saved = await createOrder({
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:446:        customer: { name: form.name.trim(), phone: 
+form.phone.trim(), governorate: form.governorate.trim(), city: 
+form.city.trim(), address: form.address.trim(), notes: form.notes.trim() },
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:447:        items: items.map(({ product, quantity, variant }) 
+=> ({ productId: product.backendId ?? product.id, quantity, variant })),
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:448:        paymentMethod: form.paymentMethod,
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:449:      });
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:453:        createdAt: saved.createdAt,
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:454:        customer: form,
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:455:        items: cart,
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:456:        subtotal: saved.subtotal,
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:457:        shipping: saved.shipping,
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:460:      };
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:461:      localStorage.setItem('pikavibe-last-order', 
+JSON.stringify(order));
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:462:      clearCart();
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:463:      setLocation(`/receipt/${order.id}`);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:464:    } catch (submitError) {
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:465:      const message = submitError instanceof Error ? 
+submitError.message : '';
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:466:      setError(message.includes('stock') ? t(language, 
+'Some items are no longer available in the requested quantity.') : t(language, 
+'We could not place the order. Please try again.'));
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:467:    } finally {
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:468:      setSubmitting(false);
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:489:        <button type="submit" disabled={submitting} 
+className="mt-8 flex h-12 w-full items-center justify-center gap-2 rounded-xl 
+bg-primary text-sm font-bold text-primary-foreground transition-transform 
+hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-60" 
+data-testid="button-submit-order"><Check size={18} /> {submitting ? 
+t(language, 'Placing order...') : t(language, 'Confirm order')}</button>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:490:      </form>
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:491:      <aside className="h-fit rounded-2xl bg-[#3D2A1E] p-6 
+text-[#f4ecdf] sm:p-8 lg:sticky lg:top-28"><h2 className="font-display 
+text-3xl">{t(language, 'Order summary')}</h2><div className="mt-6 space-y-4 
+border-b border-[#614b3a] pb-6">{items.map(({ product, quantity, variant }) => 
+{ const visible = localizedProduct(product, language); return <div 
+key={`${product.id}-${variant || ''}`} className="flex justify-between gap-4 
+text-sm"><span className="text-[#d5c6b4]">{visible.name} أ— 
+{quantity}</span><span className="shrink-0 font-bold">{money(product.price * 
+quantity, language)}</span></div>; })}</div><div className="mt-5 space-y-3 
+text-sm"><div className="flex justify-between"><span 
+className="text-[#cdbbab]">{t(language, 
+'Subtotal')}</span><span>{money(subtotal, language)}</span></div><div 
+className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 
+'Discount')}</span><span className="text-[#e9b98b]">-{money(discount, 
+language)}</span></div><div className="flex justify-between"><span 
+className="text-[#cdbbab]">{t(language, shipping ? 'Delivery fee' : 'Free 
+delivery')}</span><span>{shipping ? money(shipping, language) : t(language, 
+'Free delivery')}</span></div></div><div className="mt-5 flex justify-between 
+border-t border-[#614b3a] pt-5 text-lg font-bold"><span>{t(language, 
+'Total')}</span><span>{money(total, language)}</span></div></aside>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:492:    </div>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:493:  </div>;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:518:      <div className="flex flex-col justify-between gap-5 
+bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:flex-row sm:items-end sm:p-9"><div><div 
+className="flex items-center gap-3"><img src={logo} alt="" className="h-12 
+w-12 rounded-full object-cover" /><span className="font-display 
+text-3xl">PikaVibe</span></div><p className="mt-4 text-sm 
+text-[#cdbbab]">{t(language, 'Order receipt')}</p></div><div 
+className="sm:text-right"><p className="text-xs uppercase tracking-[.16em] 
+text-[#d9a77d]">{t(language, 'Order number')}</p><p className="mt-1 
+font-display text-2xl">{order.orderNumber || order.id}</p></div></div>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:519:      <div className="grid gap-8 p-6 sm:grid-cols-2 
+sm:p-9"><div><p className="text-xs font-bold uppercase tracking-[.14em] 
+text-muted-foreground">{t(language, 'Date')}</p><p className="mt-2 text-sm 
+font-semibold">{date.toLocaleString(language === 'ar' ? 'ar-EG' : 'en-KE', { 
+dateStyle: 'medium', timeStyle: 'short' })}</p></div><div><p 
+className="text-xs font-bold uppercase tracking-[.14em] 
+text-muted-foreground">{t(language, 'Order status')}</p><p className="mt-2 
+inline-flex rounded-full bg-[#d7efdf] px-3 py-1 text-sm font-bold 
+text-[#26754d]">{t(language, 'Pending')}</p></div><div><p className="text-xs 
+font-bold uppercase tracking-[.14em] text-muted-foreground">{t(language, 
+'Customer')}</p><p className="mt-2 text-sm 
+font-semibold">{order.customer.name}</p><p className="mt-1 text-sm 
+text-muted-foreground">{order.customer.phone}</p></div><div><p 
+className="text-xs font-bold uppercase tracking-[.14em] 
+text-muted-foreground">{t(language, 'Address')}</p><p className="mt-2 text-sm 
+leading-6">{order.customer.address}</p></div></div>
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:520:      <div className="border-t border-border px-6 py-6 
+sm:px-9"><h2 className="font-display text-3xl">{t(language, 
+'Products')}</h2><div className="mt-5 divide-y 
+divide-border">{order.items.map((item) => { const product = 
+products.find((entry) => entry.id === item.id); if (!product) return null; 
+const visible = localizedProduct(product, language); return <div key={item.id} 
+className="flex items-center justify-between gap-4 py-4 text-sm"><div 
+className="flex items-center gap-3"><img src={product.image} alt="" 
+className="h-14 w-14 rounded-xl object-cover" /><div><p 
+className="font-semibold">{visible.name}</p><p className="mt-1 
+text-muted-foreground">{t(language, 'Quantity')}: 
+{item.quantity}</p></div></div><span 
+className="font-bold">{money(product.price * item.quantity, 
+language)}</span></div>; })}</div></div>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:521:      <div className="border-t border-border bg-[#f0e6d7] 
+p-6 sm:p-9"><div className="ml-auto max-w-sm space-y-3 text-sm"><div 
+className="flex justify-between"><span 
+className="text-muted-foreground">{t(language, 
+'Subtotal')}</span><span>{money(order.subtotal, language)}</span></div><div 
+className="flex justify-between"><span 
+className="text-muted-foreground">{t(language, 
+'Shipping')}</span><span>{order.shipping ? money(order.shipping, language) : 
+t(language, 'Free delivery')}</span></div><div className="flex 
+justify-between"><span className="text-muted-foreground">{t(language, 
+'Discount')}</span><span className="text-primary">-{money(order.discount, 
+language)}</span></div><div className="flex justify-between border-t 
+border-[#d1b99c] pt-4 text-lg font-bold"><span>{t(language, 
+'Total')}</span><span>{money(order.total, language)}</span></div><div 
+className="flex justify-between pt-2"><span 
+className="text-muted-foreground">{t(language, 'Payment method')}</span><span 
+className="font-semibold">{t(language, 
+order.customer.paymentMethod)}</span></div></div></div>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:522:    </article>
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:553:    const visible = localizedProduct(product, language); 
+const image = await loadReceiptImage(product.image); const imageX = isArabic ? 
+width - 175 : 75;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:554:    if (image) { ctx.drawImage(image, imageX, y - 25, 100, 
+100); } else { ctx.fillStyle = '#ead9c0'; ctx.fillRect(imageX, y - 25, 100, 
+100); }
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:555:    const infoX = isArabic ? width - 200 : 205; 
+text(visible.name, infoX, y + 5, 23, '#3D2A1E', '700'); text(`${isArabic ? 
+'الكمية' : 'Qty'}: ${item.quantity}`, infoX, y + 42, 18, '#6f6256'); 
+text(money(product.price * item.quantity, language), right, y + 25, 21, 
+'#C15F2D', '700');
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:556:    y += rowHeight;
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:557:  }
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:568:  const productLines = order.items.map((item) => {
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:569:    const product = products.find((entry) => entry.id === 
+item.id);
+> C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:570:    return product ? `• ${localizedProduct(product, 
+language).name} × ${item.quantity} — ${money(product.price * item.quantity, 
+language)}` : '';
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:571:  }).filter(Boolean).join('\n');
+  C:\Users\Riadkassab320\OneDrive\Desktop\Home-Goods-Hub\artifacts\pikavibe-sto
+re\src\App.tsx:572:  if (isArabic) {
+
+

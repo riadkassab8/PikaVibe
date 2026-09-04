@@ -13,7 +13,7 @@ import logo from '@assets/lOgo_1786638003283.jpg';
 import { categories as seedCategories, products as seedProducts, type Product } from './data/products';
 import { categoryLabel, localizedProduct, t, type Language } from './i18n';
 import AdminDashboard from './pages/admin/dashboard';
-import { createOrder, fetchCategories, fetchProducts, fetchStoreSettings, validateCoupon, type StoreSettings, defaultStoreSettings } from './lib/api';
+import { createOrder, fetchCategories, fetchProducts } from './lib/api';
 import LoginPage from './pages/auth/login';
 import './index.css';
 
@@ -44,7 +44,6 @@ type StoreContextValue = {
   cartBump: number;
   products: Product[];
   categories: string[];
-  storeSettings: StoreSettings;
 };
 
 const StoreContext = createContext<StoreContextValue | null>(null);
@@ -52,27 +51,6 @@ const WHATSAPP = '201023279424';
 const money = (value: number, language: Language = 'en') => language === 'ar'
   ? `${value.toLocaleString('ar-EG')} شلن كيني`
   : `KES ${value.toLocaleString('en-KE')}`;
-
-function hexToHsl(hex: string): string {
-  const value = hex.replace('#', '');
-  const r = parseInt(value.slice(0, 2), 16) / 255;
-  const g = parseInt(value.slice(2, 4), 16) / 255;
-  const b = parseInt(value.slice(4, 6), 16) / 255;
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-  let h = 0;
-  let s = 0;
-  const l = (max + min) / 2;
-  if (max !== min) {
-    const delta = max - min;
-    s = l > 0.5 ? delta / (2 - max - min) : delta / (max + min);
-    if (max === r) h = (g - b) / delta + (g < b ? 6 : 0);
-    else if (max === g) h = (b - r) / delta + 2;
-    else h = (r - g) / delta + 4;
-    h /= 6;
-  }
-  return `${Math.round(h * 360)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`;
-}
 
 function useStore() {
   const value = useContext(StoreContext);
@@ -87,43 +65,15 @@ function App() {
   const [cartBump, setCartBump] = useState(0);
   const [catalogProducts, setCatalogProducts] = useState<Product[]>(seedProducts);
   const [catalogCategories, setCatalogCategories] = useState<string[]>(seedCategories);
-  const [storeSettings, setStoreSettings] = useState<StoreSettings>(defaultStoreSettings);
   useEffect(() => {
     let mounted = true;
-    Promise.all([fetchProducts(), fetchCategories(), fetchStoreSettings()]).then(([remoteProducts, remoteCategories, remoteSettings]) => {
+    Promise.all([fetchProducts(), fetchCategories()]).then(([remoteProducts, remoteCategories]) => {
       if (!mounted) return;
       if (remoteProducts.length) setCatalogProducts(remoteProducts);
       if (remoteCategories.length) setCatalogCategories(['All', ...remoteCategories.map((category) => category.name)]);
-      setStoreSettings(remoteSettings);
     });
     return () => { mounted = false; };
   }, []);
-  useEffect(() => {
-    const root = document.documentElement;
-    const tokens: Record<string, string> = {
-      '--primary': hexToHsl(storeSettings.primaryColor),
-      '--ring': hexToHsl(storeSettings.primaryColor),
-      '--foreground': hexToHsl(storeSettings.inkColor),
-      '--card-foreground': hexToHsl(storeSettings.inkColor),
-      '--secondary-foreground': hexToHsl(storeSettings.inkColor),
-      '--accent-foreground': hexToHsl(storeSettings.inkColor),
-      '--background': hexToHsl(storeSettings.backgroundColor),
-      '--card': hexToHsl(storeSettings.surfaceColor),
-      '--secondary': hexToHsl(storeSettings.secondaryColor),
-      '--muted': hexToHsl(storeSettings.secondaryColor),
-      '--muted-foreground': hexToHsl(storeSettings.mutedTextColor),
-      '--accent': hexToHsl(storeSettings.accentColor),
-      '--store-primary': storeSettings.primaryColor,
-      '--store-ink': storeSettings.inkColor,
-      '--store-background': storeSettings.backgroundColor,
-      '--store-surface': storeSettings.surfaceColor,
-      '--store-secondary': storeSettings.secondaryColor,
-      '--store-accent': storeSettings.accentColor,
-      '--store-success': storeSettings.successColor,
-      '--store-muted': storeSettings.mutedTextColor,
-    };
-    Object.entries(tokens).forEach(([name, value]) => root.style.setProperty(name, value));
-  }, [storeSettings]);
   useEffect(() => localStorage.setItem('pikavibe-cart', JSON.stringify(cart)), [cart]);
   useEffect(() => localStorage.setItem('pikavibe-wishlist', JSON.stringify(wishlist)), [wishlist]);
   useEffect(() => {
@@ -155,8 +105,7 @@ function App() {
     clearCart: () => setCart([]),
     toggleWishlist: (id) => setWishlist((items) => items.includes(id) ? items.filter((item) => item !== id) : [...items, id]),
     cartCount: cart.reduce((sum, item) => sum + item.quantity, 0),
-    storeSettings,
-  }), [cart, wishlist, language, cartBump, catalogProducts, catalogCategories, storeSettings]);
+  }), [cart, wishlist, language, cartBump, catalogProducts, catalogCategories]);
 
   return (
     <StoreContext.Provider value={store}>
@@ -199,7 +148,7 @@ function RoutedErrorBoundary({ children }: { children: ReactNode }) {
 }
 
 function SiteShell({ children }: { children: ReactNode }) {
-  const { cartCount, wishlist, language, setLanguage, cartBump, categories, storeSettings } = useStore();
+  const { cartCount, wishlist, language, setLanguage, cartBump, categories } = useStore();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [cartPulse, setCartPulse] = useState(false);
@@ -212,16 +161,16 @@ function SiteShell({ children }: { children: ReactNode }) {
     return () => window.clearTimeout(timeout);
   }, [cartBump]);
   return (
-    <div className="grain store-theme min-h-[100dvh] bg-background">
+    <div className="grain min-h-[100dvh] bg-background">
       <div className="bg-[#3D2A1E] px-4 py-2 text-center text-[11px] font-semibold uppercase tracking-[.18em] text-[#E8DFD0]">
         {t(language, 'Free delivery in Nairobi on orders over KES 5,000')}
       </div>
       <header className="sticky top-0 z-40 border-b border-[#d6c8b5] bg-[#f4ecdf]/95 backdrop-blur-md">
         <div className="mx-auto flex h-[74px] max-w-7xl items-center justify-between gap-5 px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-2.5" data-testid="link-logo">
-            <img src={storeSettings.logoUrl || logo} alt={`${storeSettings.storeName} logo`} className="h-12 w-12 rounded-full object-cover shadow-sm" />
+            <img src={logo} alt="PikaVibe Kenyan Kitchenware" className="h-12 w-12 rounded-full object-cover shadow-sm" />
             <div className="hidden leading-none sm:block">
-              <span className="font-display text-[25px] font-bold tracking-[-.04em] text-[#3D2A1E]">{storeSettings.storeName}</span>
+              <span className="font-display text-[25px] font-bold tracking-[-.04em] text-[#3D2A1E]">PikaVibe</span>
               <span className="mt-1 block text-[9px] font-bold uppercase tracking-[.18em] text-[#C8722E]">Kenyan kitchenware</span>
             </div>
           </Link>
@@ -245,7 +194,7 @@ function SiteShell({ children }: { children: ReactNode }) {
             <Link href="/products" className="hidden h-10 w-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-secondary sm:flex" aria-label={t(language, 'Search products')} data-testid="link-search"><Search size={19} strokeWidth={1.8} /></Link>
             <Link href="/products?wishlist=true" className="relative flex h-10 w-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-secondary" aria-label={t(language, 'View wishlist')} data-testid="link-wishlist"><Heart size={19} strokeWidth={1.8} fill={wishlist.length ? 'currentColor' : 'none'} /><CountBadge count={wishlist.length} /></Link>
             <Link href="/cart" className={`relative flex h-10 w-10 items-center justify-center rounded-full bg-[#3D2A1E] text-[#f4ecdf] transition-transform hover:scale-105 ${cartPulse ? 'animate-cart-bump' : ''}`} aria-label={t(language, 'View cart')} data-testid="link-cart"><ShoppingBag size={18} strokeWidth={1.8} /><CountBadge count={cartCount} inverted /></Link>
-            
+            <Link href="/login?admin=true" className="hidden h-10 items-center justify-center rounded-full border border-border px-4 text-xs font-bold text-foreground transition-colors hover:bg-secondary sm:flex" aria-label="Admin login">Admin</Link>
             <button onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')} className="flex h-10 items-center gap-1 rounded-full border border-border px-2.5 text-[11px] font-bold text-foreground transition-colors hover:bg-secondary" aria-label={language === 'en' ? 'العربية' : 'English'} data-testid="button-language-switcher"><Languages size={15} /><span>{language === 'en' ? 'العربية' : 'English'}</span></button>
             <button onClick={() => setMobileOpen(true)} className="ml-1 flex h-10 w-10 items-center justify-center rounded-full border border-border lg:hidden" aria-label={t(language, 'Open navigation')} data-testid="button-open-menu"><Menu size={20} /></button>
           </div>
@@ -282,15 +231,15 @@ function MobileMenu({ close }: { close: () => void }) {
 }
 
 function Footer() {
-  const { language, storeSettings } = useStore();
+  const { language } = useStore();
   return <footer className="mt-20 bg-[#3D2A1E] px-4 pb-8 pt-14 text-[#E8DFD0] sm:px-6 lg:px-8">
     <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1.5fr_1fr_1fr_1.3fr]">
-      <div><div className="flex items-center gap-3"><img src={storeSettings.logoUrl || logo} alt={`${storeSettings.storeName} logo`} className="h-12 w-12 rounded-full object-cover" /><span className="font-display text-3xl">{storeSettings.storeName}</span></div><p className="mt-5 max-w-xs text-sm leading-6 text-[#d5c6b4]">{language === 'ar' ? 'أشياء مدروسة لطريقة طبخك وتنظيفك ولمّ شمل عائلتك وصنع بيتك في كينيا.' : 'Thoughtful things for the way you cook, clean, gather and make a home in Kenya.'}</p></div>
+      <div><div className="flex items-center gap-3"><img src={logo} alt="" className="h-12 w-12 rounded-full object-cover" /><span className="font-display text-3xl">PikaVibe</span></div><p className="mt-5 max-w-xs text-sm leading-6 text-[#d5c6b4]">{language === 'ar' ? 'أشياء مدروسة لطريقة طبخك وتنظيفك ولمّ شمل عائلتك وصنع بيتك في كينيا.' : 'Thoughtful things for the way you cook, clean, gather and make a home in Kenya.'}</p></div>
       <div><h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[#d9a77d]">{t(language, 'Shop')}</h3><div className="grid gap-3 text-sm text-[#d5c6b4]"><Link href="/products" className="hover:text-white" data-testid="footer-link-shop">{t(language, 'All products')}</Link><Link href="/products?category=Cookware" className="hover:text-white" data-testid="footer-link-cookware">{categoryLabel(language, 'Cookware')}</Link><Link href="/products?category=Storage" className="hover:text-white" data-testid="footer-link-storage">{categoryLabel(language, 'Storage')}</Link><Link href="/products?category=Cleaning" className="hover:text-white" data-testid="footer-link-cleaning">{categoryLabel(language, 'Cleaning')}</Link></div></div>
-      <div><h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[#d9a77d]">{storeSettings.storeName}</h3><div className="grid gap-3 text-sm text-[#d5c6b4]"><Link href="/about" className="hover:text-white" data-testid="footer-link-about">{t(language, 'Our story')}</Link><Link href="/contact" className="hover:text-white" data-testid="footer-link-contact">{t(language, 'Contact us')}</Link><a href={whatsappUrl(language === 'ar' ? 'مرحباً بيكاڤايب!' : 'Hello PikaVibe!')} target="_blank" rel="noreferrer" className="hover:text-white" data-testid="footer-link-whatsapp">{t(language, 'WhatsApp support')}</a></div></div>
+      <div><h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[#d9a77d]">PikaVibe</h3><div className="grid gap-3 text-sm text-[#d5c6b4]"><Link href="/about" className="hover:text-white" data-testid="footer-link-about">{t(language, 'Our story')}</Link><Link href="/contact" className="hover:text-white" data-testid="footer-link-contact">{t(language, 'Contact us')}</Link><a href={whatsappUrl(language === 'ar' ? 'مرحباً بيكاڤايب!' : 'Hello PikaVibe!')} target="_blank" rel="noreferrer" className="hover:text-white" data-testid="footer-link-whatsapp">{t(language, 'WhatsApp support')}</a></div></div>
       <div><h3 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-[#d9a77d]">{t(language, 'Stay in the loop')}</h3><p className="mb-4 text-sm leading-6 text-[#d5c6b4]">{t(language, 'New drops, useful kitchen notes and the occasional good idea.')}</p><form onSubmit={(event) => { event.preventDefault(); }} className="flex border-b border-[#92745c] pb-2"><input type="email" placeholder={t(language, 'Your email address')} className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-[#aa927d]" aria-label={t(language, 'Your email address')} data-testid="input-newsletter-email" /><button type="submit" aria-label={language === 'ar' ? 'اشتراك' : 'Subscribe'} className="text-[#e9b98b]" data-testid="button-newsletter-submit"><Send size={17} /></button></form></div>
     </div>
-    <div className="mx-auto mt-12 flex max-w-7xl flex-col justify-between gap-3 border-t border-[#604b3a] pt-6 text-xs text-[#aa927d] sm:flex-row"><span>© 2025 {storeSettings.storeName}. {t(language, 'Made for Kenyan homes.')}</span><span className="flex items-center gap-4"><Instagram size={14} /> {t(language, 'Nairobi · Kenya')}</span></div>
+    <div className="mx-auto mt-12 flex max-w-7xl flex-col justify-between gap-3 border-t border-[#604b3a] pt-6 text-xs text-[#aa927d] sm:flex-row"><span>© 2025 PikaVibe Kitchenware. {t(language, 'Made for Kenyan homes.')}</span><span className="flex items-center gap-4"><Instagram size={14} /> {t(language, 'Nairobi · Kenya')}</span></div>
   </footer>;
 }
 
@@ -329,13 +278,6 @@ function HomePage() {
       <div className="relative overflow-hidden rounded-[2rem] bg-[#d9b37a] p-8 sm:p-12"><div className="relative z-10"><span className="text-6xl text-[#3d2a1e]">“</span><p className="mt-1 font-display text-3xl leading-tight text-[#3d2a1e]">A kitchen should feel like somewhere you want to be.</p><p className="mt-6 text-xs font-bold uppercase tracking-[.16em] text-[#76563d]">— PikaVibe note</p></div><div className="absolute -bottom-20 -right-12 h-64 w-64 rounded-full border-[22px] border-[#c58951]/50" /></div>
     </section>
   </div>;
-}
-
-function InstallmentInfo({ product, language, className = '' }: { product: Product; language: Language; className?: string }) {
-  if (!product.installmentAvailable || !product.installmentMinMonths || !product.installmentMaxMonths) return null;
-  const minMonths = Math.min(product.installmentMinMonths, product.installmentMaxMonths);
-  const maxMonths = Math.max(product.installmentMinMonths, product.installmentMaxMonths);
-  return <p className={`text-xs font-semibold text-[#26754d] ${className}`}>{language === 'ar' ? `متاح بالتقسيط من ${minMonths} إلى ${maxMonths} شهور` : `Installments available from ${minMonths} to ${maxMonths} months`}</p>;
 }
 
 function ProductCard({ product, wished, onWishlist, onAdd }: { product: Product; wished: boolean; onWishlist: () => void; onAdd: () => void }) {
@@ -404,7 +346,6 @@ function ProductCard({ product, wished, onWishlist, onAdd }: { product: Product;
         <span className="font-bold">{money(product.price, language)}</span>
         {product.oldPrice && <del className="text-xs text-muted-foreground">{money(product.oldPrice, language)}</del>}
       </div>
-      <InstallmentInfo product={product} language={language} className="mt-2" />
       <p className={`mt-1 text-xs ${product.inStock ? (product.stock <= 5 ? 'text-destructive' : product.stock <= 10 ? 'text-yellow-600' : 'text-green-600') : 'font-bold text-destructive'}`}>
         {product.inStock ? stockStatus : (language === 'ar' ? 'نفد المخزون' : 'Out of stock')}
       </p>
@@ -446,7 +387,6 @@ function ProductPage() {
   const [activeImage, setActiveImage] = useState(0);
   const [added, setAdded] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState('');
-  const [showInstallmentModal, setShowInstallmentModal] = useState(false);
   if (!product) return <NotFoundPage />;
   const visibleProduct = localizedProduct(product, language);
   const inCart = cart.filter((item) => item.id === product.id).reduce((sum, item) => sum + item.quantity, 0);
@@ -463,49 +403,18 @@ function ProductPage() {
     <Link href="/products" className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary" data-testid="link-back-products"><ChevronLeft size={16} /> {t(language, 'Back to shop')}</Link>
     <div className="grid gap-10 lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
        <div className="flex flex-col-reverse gap-3 sm:flex-row"><div className="flex gap-3 sm:w-20 sm:flex-col">{visibleProduct.images.map((image, index) => <button key={image} onClick={() => setActiveImage(index)} className={`aspect-square w-16 overflow-hidden rounded-xl border-2 sm:w-20 ${index === activeImage ? 'border-primary' : 'border-transparent opacity-65'}`} aria-label={`${language === 'ar' ? 'عرض صورة المنتج' : 'Show product image'} ${index + 1}`} data-testid={`button-product-image-${index}`}><img src={image} alt="" className="h-full w-full object-cover" /></button>)}</div><div className="relative aspect-square min-w-0 flex-1 overflow-hidden rounded-[2rem] bg-secondary"><img src={visibleProduct.images[activeImage]} alt={visibleProduct.name} className="h-full w-full object-cover transition-opacity duration-300" /><div className="absolute left-5 top-5 flex gap-2">{product.isNew && <span className="rounded-full bg-[#f4ecdf] px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest">{t(language, 'New arrival')}</span>}{product.discount && <span className="rounded-full bg-primary px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white">{language === 'ar' ? `وفر ${product.discount}%` : `Save ${product.discount}%`}</span>}</div></div></div>
-       <div className="flex flex-col justify-center"><div className="mb-3 flex items-center justify-between"><span className="text-xs font-bold uppercase tracking-[.18em] text-primary">{categoryLabel(language, visibleProduct.category)}</span><button onClick={() => toggleWishlist(product.id)} className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary" data-testid="button-product-wishlist"><Heart size={18} fill={wishlist.includes(product.id) ? '#C8722E' : 'none'} color={wishlist.includes(product.id) ? '#C8722E' : 'currentColor'} /> {wishlist.includes(product.id) ? t(language, 'Saved') : t(language, 'Save for later')}</button></div><h1 className="font-display text-5xl leading-[.95] tracking-[-.055em] sm:text-6xl">{visibleProduct.name}</h1><div className="mt-5 flex items-center gap-4"><span className="text-xl font-bold">{money(product.price, language)}</span>{product.oldPrice && <del className="text-sm text-muted-foreground">{money(product.oldPrice, language)}</del>}<span className="flex items-center gap-1 border-l border-border pl-4 text-sm"><Star size={15} fill="#D89B43" color="#D89B43" /> {product.rating} <span className="text-muted-foreground">/ 5</span></span></div><button onClick={() => setShowInstallmentModal(true)} className="mt-3 w-full rounded-xl bg-[#26754d] px-4 py-2.5 text-sm font-bold text-[#fff8ef] transition-colors hover:bg-[#1f5c3d]">{language === 'ar' ? 'احسب التقسيط' : 'Calculate Installments'}</button><InstallmentInfo product={product} language={language} className="mt-4 rounded-xl bg-[#d7efdf] px-4 py-3" /><p className="mt-7 max-w-lg text-base leading-7 text-muted-foreground">{visibleProduct.description}</p>{product.variants?.map((variant) => <label key={variant.name} className="mt-6 grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{variant.name}<select value={selectedVariant} onChange={(event) => setSelectedVariant(event.target.value)} className="rounded-xl border border-border bg-card px-4 py-3 text-sm font-normal normal-case tracking-normal outline-none focus:ring-2 focus:ring-primary"><option value="">{language === 'ar' ? 'اختر خياراً' : 'Choose an option'}</option>{variant.options.map((option) => <option key={option} value={`${variant.name}: ${option}`}>{option}</option>)}</select></label>)}<div className="my-8 border-y border-border py-6"><h2 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-muted-foreground">{t(language, 'Details')}</h2><ul className="grid gap-3 text-sm text-foreground sm:grid-cols-2">{visibleProduct.specifications.map((spec) => <li key={spec} className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-primary" />{spec}</li>)}</ul></div><div className="flex flex-col gap-3 sm:flex-row"><div className="flex h-12 items-center justify-between rounded-xl border border-border bg-card sm:w-36"><button onClick={() => setQuantity((value) => Math.max(1, value - 1))} disabled={!canAdd} className="flex h-full w-11 items-center justify-center text-muted-foreground hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50" aria-label={language === 'ar' ? 'تقليل الكمية' : 'Decrease quantity'} data-testid="button-decrease-quantity"><Minus size={16} /></button><span className="text-sm font-bold" data-testid="text-product-quantity">{Math.min(quantity, Math.max(1, availableStock))}</span><button onClick={() => setQuantity((value) => Math.min(availableStock, value + 1))} disabled={!canAdd || quantity >= availableStock} className="flex h-full w-11 items-center justify-center text-muted-foreground hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50" aria-label={language === 'ar' ? 'زيادة الكمية' : 'Increase quantity'} data-testid="button-increase-quantity"><Plus size={16} /></button></div><button onClick={handleAdd} disabled={!canAdd || added} className={`flex h-12 flex-1 items-center justify-center gap-2 rounded-xl px-6 text-sm font-bold text-primary-foreground transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 ${added ? 'bg-[#2E9B68]' : 'bg-primary'}`} data-testid="button-product-add-to-cart">{added ? <><Check size={18} /> {t(language, 'Added to cart')}</> : <><ShoppingBag size={18} /> {canAdd ? t(language, 'Add to cart') : t(language, 'Out of stock')}</>}</button></div><p className="mt-4 flex items-center gap-2 text-xs font-semibold text-muted-foreground"><Truck size={15} className="text-primary" /> {canAdd ? `${t(language, 'In stock')} · ${availableStock} ${t(language, availableStock === 1 ? 'piece' : 'pieces')} ${t(language, 'available')}` : t(language, 'Out of stock')}</p></div>
+       <div className="flex flex-col justify-center"><div className="mb-3 flex items-center justify-between"><span className="text-xs font-bold uppercase tracking-[.18em] text-primary">{categoryLabel(language, visibleProduct.category)}</span><button onClick={() => toggleWishlist(product.id)} className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary" data-testid="button-product-wishlist"><Heart size={18} fill={wishlist.includes(product.id) ? '#C8722E' : 'none'} color={wishlist.includes(product.id) ? '#C8722E' : 'currentColor'} /> {wishlist.includes(product.id) ? t(language, 'Saved') : t(language, 'Save for later')}</button></div><h1 className="font-display text-5xl leading-[.95] tracking-[-.055em] sm:text-6xl">{visibleProduct.name}</h1><div className="mt-5 flex items-center gap-4"><span className="text-xl font-bold">{money(product.price, language)}</span>{product.oldPrice && <del className="text-sm text-muted-foreground">{money(product.oldPrice, language)}</del>}<span className="flex items-center gap-1 border-l border-border pl-4 text-sm"><Star size={15} fill="#D89B43" color="#D89B43" /> {product.rating} <span className="text-muted-foreground">/ 5</span></span></div><p className="mt-7 max-w-lg text-base leading-7 text-muted-foreground">{visibleProduct.description}</p>{product.variants?.map((variant) => <label key={variant.name} className="mt-6 grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{variant.name}<select value={selectedVariant} onChange={(event) => setSelectedVariant(event.target.value)} className="rounded-xl border border-border bg-card px-4 py-3 text-sm font-normal normal-case tracking-normal outline-none focus:ring-2 focus:ring-primary"><option value="">{language === 'ar' ? 'اختر خياراً' : 'Choose an option'}</option>{variant.options.map((option) => <option key={option} value={`${variant.name}: ${option}`}>{option}</option>)}</select></label>)}<div className="my-8 border-y border-border py-6"><h2 className="mb-4 text-xs font-bold uppercase tracking-[.18em] text-muted-foreground">{t(language, 'Details')}</h2><ul className="grid gap-3 text-sm text-foreground sm:grid-cols-2">{visibleProduct.specifications.map((spec) => <li key={spec} className="flex items-start gap-2"><Check size={16} className="mt-0.5 shrink-0 text-primary" />{spec}</li>)}</ul></div><div className="flex flex-col gap-3 sm:flex-row"><div className="flex h-12 items-center justify-between rounded-xl border border-border bg-card sm:w-36"><button onClick={() => setQuantity((value) => Math.max(1, value - 1))} disabled={!canAdd} className="flex h-full w-11 items-center justify-center text-muted-foreground hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50" aria-label={language === 'ar' ? 'تقليل الكمية' : 'Decrease quantity'} data-testid="button-decrease-quantity"><Minus size={16} /></button><span className="text-sm font-bold" data-testid="text-product-quantity">{Math.min(quantity, Math.max(1, availableStock))}</span><button onClick={() => setQuantity((value) => Math.min(availableStock, value + 1))} disabled={!canAdd || quantity >= availableStock} className="flex h-full w-11 items-center justify-center text-muted-foreground hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50" aria-label={language === 'ar' ? 'زيادة الكمية' : 'Increase quantity'} data-testid="button-increase-quantity"><Plus size={16} /></button></div><button onClick={handleAdd} disabled={!canAdd || added} className={`flex h-12 flex-1 items-center justify-center gap-2 rounded-xl px-6 text-sm font-bold text-primary-foreground transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 ${added ? 'bg-[#2E9B68]' : 'bg-primary'}`} data-testid="button-product-add-to-cart">{added ? <><Check size={18} /> {t(language, 'Added to cart')}</> : <><ShoppingBag size={18} /> {canAdd ? t(language, 'Add to cart') : t(language, 'Out of stock')}</>}</button></div><p className="mt-4 flex items-center gap-2 text-xs font-semibold text-muted-foreground"><Truck size={15} className="text-primary" /> {canAdd ? `${t(language, 'In stock')} · ${availableStock} ${t(language, availableStock === 1 ? 'piece' : 'pieces')} ${t(language, 'available')}` : t(language, 'Out of stock')}</p></div>
     </div>
     <div className="mt-20 border-t border-border pt-12"><div className="mb-8 flex items-end justify-between"><div><p className="mb-2 text-xs font-bold uppercase tracking-[.18em] text-primary">{t(language, 'More to consider')}</p><h2 className="font-display text-4xl">{t(language, 'From the same shelf')}</h2></div><div className="hidden gap-2 sm:flex"><button className="flex h-9 w-9 items-center justify-center rounded-full border border-border" data-testid="button-related-previous"><ChevronLeft size={16} /></button><button className="flex h-9 w-9 items-center justify-center rounded-full border border-border" data-testid="button-related-next"><ChevronRight size={16} /></button></div></div><div className="grid grid-cols-2 gap-4 sm:grid-cols-3">{related.map((item) => <ProductCard key={item.id} product={item} wished={wishlist.includes(item.id)} onWishlist={() => toggleWishlist(item.id)} onAdd={() => addToCart(item.id)} />)}</div></div>
-    {showInstallmentModal && (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={() => setShowInstallmentModal(false)}>
-        <div className="w-full max-w-md rounded-2xl bg-[#f4ecdf] p-6 shadow-soft" onClick={(e) => e.stopPropagation()}>
-          <div className="mb-4 flex items-center justify-between">
-            <h3 className="font-display text-2xl">{language === 'ar' ? 'خيارات التقسيط' : 'Installment Options'}</h3>
-            <button onClick={() => setShowInstallmentModal(false)} className="text-muted-foreground hover:text-foreground"><X size={20} /></button>
-          </div>
-          <p className="mb-6 text-sm text-muted-foreground">{language === 'ar' ? 'اختر عدد الأشهر' : 'Select number of months'}</p>
-          <div className="grid grid-cols-3 gap-3">
-            {[2, 3, 4, 5, 6, 7].map((months) => {
-              const monthlyPayment = (product.price / months).toFixed(2);
-              return (
-                <button
-                  key={months}
-                  className="rounded-xl border-2 border-[#d1b99c] bg-white p-4 text-center transition-all hover:border-primary hover:shadow-soft"
-                >
-                  <div className="text-2xl font-bold text-primary">{months}</div>
-                  <div className="text-xs text-muted-foreground">{language === 'ar' ? 'شهر' : 'months'}</div>
-                  <div className="mt-2 text-sm font-semibold">{money(Number(monthlyPayment), language)}</div>
-                  <div className="text-xs text-muted-foreground">{language === 'ar' ? 'شهرياً' : '/month'}</div>
-                </button>
-              );
-            })}
-          </div>
-          <button onClick={() => setShowInstallmentModal(false)} className="mt-6 w-full rounded-xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90">
-            {language === 'ar' ? 'إغلاق' : 'Close'}
-          </button>
-        </div>
-      </div>
-    )}
   </div>;
 }
 
 function CartPage() {
-  // ... rest of the code remains the same ...
   const [, setLocation] = useLocation();
   const { cart, updateQuantity, removeFromCart, language, products } = useStore();
   const items = cart.map((item) => ({ ...item, product: products.find((product) => product.id === item.id) })).filter((item): item is CartItem & { product: Product } => Boolean(item.product));
   const subtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-  return <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16"><div className="mb-10"><p className="mb-3 text-xs font-bold uppercase tracking-[.2em] text-primary">{t(language, 'Your shortlist')}</p><h1 className="font-display text-5xl tracking-[-.05em] sm:text-7xl">{t(language, 'Your cart.')}</h1></div>{items.length ? <div className="grid gap-8 lg:grid-cols-[1fr_360px]"><div className="divide-y divide-border border-y border-border">{items.map(({ product, quantity, variant }) => { const visible = localizedProduct(product, language); return <div key={`${product.id}-${variant || ''}`} className="flex gap-4 py-5 sm:gap-6"><Link href={`/products/${product.id}`} className="h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-secondary sm:h-36 sm:w-36" data-testid={`cart-product-image-${product.id}`}><img src={product.image} alt={visible.name} className="h-full w-full object-cover" /></Link><div className="flex min-w-0 flex-1 flex-col justify-between py-1"><div><div className="mb-1 flex items-start justify-between gap-3"><div><span className="text-[10px] font-bold uppercase tracking-[.14em] text-primary">{categoryLabel(language, visible.category)}</span><Link href={`/products/${product.id}`} className="mt-1 block font-display text-xl leading-tight hover:text-primary" data-testid={`cart-product-name-${product.id}`}>{visible.name}</Link>{variant && <span className="mt-1 block text-xs text-muted-foreground">{variant}</span>}</div><button onClick={() => removeFromCart(product.id, variant)} className="text-muted-foreground hover:text-destructive" aria-label={language === 'ar' ? `إزالة ${visible.name}` : `Remove ${visible.name}`} data-testid={`button-remove-${product.id}`}><Trash2 size={17} /></button></div><span className="text-sm font-bold">{money(product.price, language)}</span><InstallmentInfo product={product} language={language} className="mt-1" /></div><div className="flex items-end justify-between"><div className="flex h-9 items-center rounded-lg border border-border"><button onClick={() => updateQuantity(product.id, quantity - 1, variant)} className="flex h-full w-9 items-center justify-center text-muted-foreground hover:text-foreground" aria-label={language === 'ar' ? 'تقليل الكمية' : 'Decrease item quantity'} data-testid={`button-cart-decrease-${product.id}`}><Minus size={14} /></button><span className="min-w-6 text-center text-xs font-bold" data-testid={`text-cart-quantity-${product.id}`}>{quantity}</span><button onClick={() => updateQuantity(product.id, quantity + 1, variant)} className="flex h-full w-9 items-center justify-center text-muted-foreground hover:text-foreground" aria-label={language === 'ar' ? 'زيادة الكمية' : 'Increase item quantity'} data-testid={`button-cart-increase-${product.id}`}><Plus size={14} /></button></div><span className="text-right text-sm font-bold" data-testid={`text-cart-line-total-${product.id}`}>{language === 'ar' ? 'الإجمالي: ' : 'Total: '}{money(product.price * quantity, language)}</span></div></div></div>; })}</div><aside className="h-fit rounded-2xl bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:p-8 lg:sticky lg:top-28"><h2 className="font-display text-3xl">{t(language, 'A good choice.')}</h2><div className="mt-6 space-y-3 border-b border-[#614b3a] pb-6 text-sm"><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Subtotal')}</span><span className="font-bold" data-testid="text-cart-subtotal">{money(subtotal, language)}</span></div><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Delivery')}</span><span className="font-bold text-[#e9b98b]">{t(language, 'Confirmed on WhatsApp')}</span></div></div><div className="flex justify-between py-5 text-lg font-bold"><span>{t(language, 'Total')}</span><span data-testid="text-cart-total">{money(subtotal, language)}</span></div><Link href="/checkout" className="flex h-12 items-center justify-center gap-2 rounded-xl bg-[#2E9B68] text-sm font-bold text-white transition-transform hover:-translate-y-0.5" data-testid="link-whatsapp-checkout"><MessageCircle size={18} /> {t(language, 'Continue to checkout')}</Link><p className="mt-4 text-center text-xs leading-5 text-[#bfae9e]">{t(language, "We'll confirm your delivery address, timing and payment options in the chat.")}</p></aside></div> : <EmptyState icon={<ShoppingBag size={25} />} title={t(language, 'Your cart is waiting for a good idea.')} body={t(language, 'Save something useful here, then come back when you’re ready.')} action={t(language, 'Browse the shop')} onAction={() => setLocation('/products')} />}</div>;
+  return <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16"><div className="mb-10"><p className="mb-3 text-xs font-bold uppercase tracking-[.2em] text-primary">{t(language, 'Your shortlist')}</p><h1 className="font-display text-5xl tracking-[-.05em] sm:text-7xl">{t(language, 'Your cart.')}</h1></div>{items.length ? <div className="grid gap-8 lg:grid-cols-[1fr_360px]"><div className="divide-y divide-border border-y border-border">{items.map(({ product, quantity, variant }) => { const visible = localizedProduct(product, language); return <div key={`${product.id}-${variant || ''}`} className="flex gap-4 py-5 sm:gap-6"><Link href={`/products/${product.id}`} className="h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-secondary sm:h-36 sm:w-36" data-testid={`cart-product-image-${product.id}`}><img src={product.image} alt={visible.name} className="h-full w-full object-cover" /></Link><div className="flex min-w-0 flex-1 flex-col justify-between py-1"><div><div className="mb-1 flex items-start justify-between gap-3"><div><span className="text-[10px] font-bold uppercase tracking-[.14em] text-primary">{categoryLabel(language, visible.category)}</span><Link href={`/products/${product.id}`} className="mt-1 block font-display text-xl leading-tight hover:text-primary" data-testid={`cart-product-name-${product.id}`}>{visible.name}</Link>{variant && <span className="mt-1 block text-xs text-muted-foreground">{variant}</span>}</div><button onClick={() => removeFromCart(product.id, variant)} className="text-muted-foreground hover:text-destructive" aria-label={language === 'ar' ? `إزالة ${visible.name}` : `Remove ${visible.name}`} data-testid={`button-remove-${product.id}`}><Trash2 size={17} /></button></div><span className="text-sm font-bold">{money(product.price, language)}</span></div><div className="flex items-end justify-between"><div className="flex h-9 items-center rounded-lg border border-border"><button onClick={() => updateQuantity(product.id, quantity - 1, variant)} className="flex h-full w-9 items-center justify-center text-muted-foreground hover:text-foreground" aria-label={language === 'ar' ? 'تقليل الكمية' : 'Decrease item quantity'} data-testid={`button-cart-decrease-${product.id}`}><Minus size={14} /></button><span className="min-w-6 text-center text-xs font-bold" data-testid={`text-cart-quantity-${product.id}`}>{quantity}</span><button onClick={() => updateQuantity(product.id, quantity + 1, variant)} className="flex h-full w-9 items-center justify-center text-muted-foreground hover:text-foreground" aria-label={language === 'ar' ? 'زيادة الكمية' : 'Increase item quantity'} data-testid={`button-cart-increase-${product.id}`}><Plus size={14} /></button></div><span className="text-right text-sm font-bold" data-testid={`text-cart-line-total-${product.id}`}>{language === 'ar' ? 'الإجمالي: ' : 'Total: '}{money(product.price * quantity, language)}</span></div></div></div>; })}</div><aside className="h-fit rounded-2xl bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:p-8 lg:sticky lg:top-28"><h2 className="font-display text-3xl">{t(language, 'A good choice.')}</h2><div className="mt-6 space-y-3 border-b border-[#614b3a] pb-6 text-sm"><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Subtotal')}</span><span className="font-bold" data-testid="text-cart-subtotal">{money(subtotal, language)}</span></div><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Delivery')}</span><span className="font-bold text-[#e9b98b]">{t(language, 'Confirmed on WhatsApp')}</span></div></div><div className="flex justify-between py-5 text-lg font-bold"><span>{t(language, 'Total')}</span><span data-testid="text-cart-total">{money(subtotal, language)}</span></div><Link href="/checkout" className="flex h-12 items-center justify-center gap-2 rounded-xl bg-[#2E9B68] text-sm font-bold text-white transition-transform hover:-translate-y-0.5" data-testid="link-whatsapp-checkout"><MessageCircle size={18} /> {t(language, 'Continue to checkout')}</Link><p className="mt-4 text-center text-xs leading-5 text-[#bfae9e]">{t(language, "We'll confirm your delivery address, timing and payment options in the chat.")}</p></aside></div> : <EmptyState icon={<ShoppingBag size={25} />} title={t(language, 'Your cart is waiting for a good idea.')} body={t(language, 'Save something useful here, then come back when you’re ready.')} action={t(language, 'Browse the shop')} onAction={() => setLocation('/products')} />}</div>;
 }
 
 function CheckoutPage() {
@@ -513,37 +422,16 @@ function CheckoutPage() {
   const { cart, language, clearCart, products } = useStore();
   const items = cart.map((item) => ({ ...item, product: products.find((product) => product.id === item.id) })).filter((item): item is CartItem & { product: Product } => Boolean(item.product));
   const [form, setForm] = useState<CustomerInfo>({ name: '', phone: '', governorate: '', city: '', address: '', notes: '', paymentMethod: 'cod' });
-  const [couponCode, setCouponCode] = useState('');
-  const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discount: number } | null>(null);
-  const [couponMessage, setCouponMessage] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [checkingCoupon, setCheckingCoupon] = useState(false);
   const subtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-  const productDiscount = items.reduce((sum, item) => sum + ((item.product.oldPrice ?? item.product.price) - item.product.price) * item.quantity, 0);
-  const couponDiscount = appliedCoupon?.discount ?? 0;
-  const discount = productDiscount + couponDiscount;
+  const discount = items.reduce((sum, item) => sum + ((item.product.oldPrice ?? item.product.price) - item.product.price) * item.quantity, 0);
   const shipping = subtotal >= 5000 ? 0 : 250;
-  const total = Math.max(0, subtotal - couponDiscount + shipping);
+  const total = subtotal + shipping;
 
   if (!items.length) {
     return <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8"><EmptyState icon={<ShoppingBag size={25} />} title={t(language, 'Your cart is waiting for a good idea.')} body={t(language, 'Save something useful here, then come back when youâ€™re ready.')} action={t(language, 'Browse the shop')} onAction={() => setLocation('/products')} /></div>;
   }
-
-  const applyCoupon = async () => {
-    const code = couponCode.trim().toUpperCase();
-    if (!code) return;
-    setCheckingCoupon(true); setCouponMessage('');
-    try {
-      const result = await validateCoupon(code, subtotal);
-      setAppliedCoupon({ code: result.code, discount: result.discount });
-      setCouponCode(result.code);
-      setCouponMessage(language === 'ar' ? `تم تطبيق الكوبون وتوفير ${money(result.discount, language)}` : `Coupon applied. You saved ${money(result.discount, language)}`);
-    } catch (couponError) {
-      setAppliedCoupon(null);
-      setCouponMessage(couponError instanceof Error ? couponError.message : (language === 'ar' ? 'الكوبون غير صالح أو منتهي.' : 'Coupon is invalid or expired.'));
-    } finally { setCheckingCoupon(false); }
-  };
 
   const submitOrder = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -558,7 +446,6 @@ function CheckoutPage() {
         customer: { name: form.name.trim(), phone: form.phone.trim(), governorate: form.governorate.trim(), city: form.city.trim(), address: form.address.trim(), notes: form.notes.trim() },
         items: items.map(({ product, quantity, variant }) => ({ productId: product.backendId ?? product.id, quantity, variant })),
         paymentMethod: form.paymentMethod,
-        couponCode: appliedCoupon?.code,
       });
       const order: OrderRecord = {
         id: String(saved.id),
@@ -596,19 +483,18 @@ function CheckoutPage() {
           <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{t(language, 'City')}<input required value={form.city} onChange={(event) => setForm({ ...form, city: event.target.value })} type="text" className={inputClass} data-testid="input-checkout-city" /></label>
           <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em] sm:col-span-2">{t(language, 'Full address')}<textarea required minLength={8} value={form.address} onChange={(event) => setForm({ ...form, address: event.target.value })} rows={3} className={`resize-none ${inputClass}`} data-testid="textarea-checkout-address" /></label>
           <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em] sm:col-span-2">{t(language, 'Additional notes')}<textarea value={form.notes} onChange={(event) => setForm({ ...form, notes: event.target.value })} rows={2} className={`resize-none ${inputClass}`} data-testid="textarea-checkout-notes" /></label>
-          <div className="sm:col-span-2"><label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{language === 'ar' ? 'كود الخصم' : 'Discount coupon'}<div className="flex gap-2"><input value={couponCode} onChange={(event) => { setCouponCode(event.target.value.toUpperCase()); setAppliedCoupon(null); setCouponMessage(''); }} placeholder={language === 'ar' ? 'مثال: WELCOME10' : 'e.g. WELCOME10'} className={`min-w-0 flex-1 ${inputClass}`} data-testid="input-coupon-code" /><button type="button" onClick={applyCoupon} disabled={checkingCoupon || !couponCode.trim()} className="rounded-xl bg-[#3D2A1E] px-4 py-3 text-xs font-bold text-[#f4ecdf] disabled:opacity-50" data-testid="button-apply-coupon">{checkingCoupon ? '…' : (language === 'ar' ? 'تطبيق' : 'Apply')}</button></div></label>{couponMessage && <p className={`mt-2 text-xs font-semibold ${appliedCoupon ? 'text-[#26754d]' : 'text-[#8f3025]'}`}>{couponMessage}</p>}</div>
           <fieldset className="grid gap-3 sm:col-span-2"><legend className="text-xs font-bold uppercase tracking-[.12em]">{t(language, 'Payment method')}</legend><div className="grid gap-3 sm:grid-cols-2"><label className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 text-sm font-semibold ${form.paymentMethod === 'cod' ? 'border-primary bg-[#f7efe4]' : 'border-[#d1b99c]'}`}><input type="radio" name="paymentMethod" value="cod" checked={form.paymentMethod === 'cod'} onChange={(event) => setForm({ ...form, paymentMethod: event.target.value })} />{t(language, 'Cash on delivery')}</label><label className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 text-sm font-semibold ${form.paymentMethod === 'bank_transfer' ? 'border-primary bg-[#f7efe4]' : 'border-[#d1b99c]'}`}><input type="radio" name="paymentMethod" value="bank_transfer" checked={form.paymentMethod === 'bank_transfer'} onChange={(event) => setForm({ ...form, paymentMethod: event.target.value })} />{t(language, 'InstaPay / Bank transfer')}</label></div></fieldset>
         </div>
         {error && <p className="mt-5 rounded-xl bg-[#f6d1c8] px-4 py-3 text-sm font-semibold text-[#8f3025]" role="alert">{error}</p>}
         <button type="submit" disabled={submitting} className="mt-8 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary text-sm font-bold text-primary-foreground transition-transform hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-60" data-testid="button-submit-order"><Check size={18} /> {submitting ? t(language, 'Placing order...') : t(language, 'Confirm order')}</button>
       </form>
-      <aside className="h-fit rounded-2xl bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:p-8 lg:sticky lg:top-28"><h2 className="font-display text-3xl">{t(language, 'Order summary')}</h2><div className="mt-6 space-y-4 border-b border-[#614b3a] pb-6">{items.map(({ product, quantity, variant }) => { const visible = localizedProduct(product, language); return <div key={`${product.id}-${variant || ''}`} className="flex justify-between gap-4 text-sm"><div><span className="text-[#d5c6b4]">{visible.name} أ— {quantity}</span><InstallmentInfo product={product} language={language} className="mt-1" /></div><span className="shrink-0 font-bold">{money(product.price * quantity, language)}</span></div>; })}</div><div className="mt-5 space-y-3 text-sm"><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Subtotal')}</span><span>{money(subtotal, language)}</span></div><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Discount')}</span><span className="text-[#e9b98b]">-{money(productDiscount, language)}</span></div>{couponDiscount > 0 && <div className="flex justify-between"><span className="text-[#cdbbab]">{language === 'ar' ? `كوبون ${appliedCoupon?.code}` : `Coupon ${appliedCoupon?.code}`}</span><span className="text-[#e9b98b]">-{money(couponDiscount, language)}</span></div>}<div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, shipping ? 'Delivery fee' : 'Free delivery')}</span><span>{shipping ? money(shipping, language) : t(language, 'Free delivery')}</span></div></div><div className="mt-5 flex justify-between border-t border-[#614b3a] pt-5 text-lg font-bold"><span>{t(language, 'Total')}</span><span>{money(total, language)}</span></div></aside>
+      <aside className="h-fit rounded-2xl bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:p-8 lg:sticky lg:top-28"><h2 className="font-display text-3xl">{t(language, 'Order summary')}</h2><div className="mt-6 space-y-4 border-b border-[#614b3a] pb-6">{items.map(({ product, quantity, variant }) => { const visible = localizedProduct(product, language); return <div key={`${product.id}-${variant || ''}`} className="flex justify-between gap-4 text-sm"><span className="text-[#d5c6b4]">{visible.name} أ— {quantity}</span><span className="shrink-0 font-bold">{money(product.price * quantity, language)}</span></div>; })}</div><div className="mt-5 space-y-3 text-sm"><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Subtotal')}</span><span>{money(subtotal, language)}</span></div><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, 'Discount')}</span><span className="text-[#e9b98b]">-{money(discount, language)}</span></div><div className="flex justify-between"><span className="text-[#cdbbab]">{t(language, shipping ? 'Delivery fee' : 'Free delivery')}</span><span>{shipping ? money(shipping, language) : t(language, 'Free delivery')}</span></div></div><div className="mt-5 flex justify-between border-t border-[#614b3a] pt-5 text-lg font-bold"><span>{t(language, 'Total')}</span><span>{money(total, language)}</span></div></aside>
     </div>
   </div>;
 }
 function ReceiptPage() {
   const { id } = useParams<{ id: string }>();
-  const { language, products, storeSettings } = useStore();
+  const { language, products } = useStore();
   const order = readStorage<OrderRecord | null>('pikavibe-last-order', null);
   const [receiptImageUrl, setReceiptImageUrl] = useState('');
   const [imageLoading, setImageLoading] = useState(true);
@@ -629,7 +515,7 @@ function ReceiptPage() {
   return <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
     <div className="mb-8 text-center"><div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[#d7efdf] text-[#2E9B68]"><Check size={32} /></div><p className="mb-3 text-xs font-bold uppercase tracking-[.2em] text-primary">{t(language, 'Order confirmed')}</p><h1 className="font-display text-5xl tracking-[-.05em] sm:text-7xl">{t(language, 'Thank you for choosing PikaVibe.')}</h1><p className="mx-auto mt-5 max-w-xl text-base leading-7 text-muted-foreground">{t(language, 'Your order has been received. We’ll contact you shortly to confirm delivery.')}</p></div>
     <article className="overflow-hidden rounded-[2rem] border border-border bg-card shadow-soft">
-      <div className="flex flex-col justify-between gap-5 bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:flex-row sm:items-end sm:p-9"><div><div className="flex items-center gap-3"><img src={storeSettings.logoUrl || logo} alt={`${storeSettings.storeName} logo`} className="h-12 w-12 rounded-full object-cover" /><span className="font-display text-3xl">{storeSettings.storeName}</span></div><p className="mt-4 text-sm text-[#cdbbab]">{t(language, 'Order receipt')}</p></div><div className="sm:text-right"><p className="text-xs uppercase tracking-[.16em] text-[#d9a77d]">{t(language, 'Order number')}</p><p className="mt-1 font-display text-2xl">{order.orderNumber || order.id}</p></div></div>
+      <div className="flex flex-col justify-between gap-5 bg-[#3D2A1E] p-6 text-[#f4ecdf] sm:flex-row sm:items-end sm:p-9"><div><div className="flex items-center gap-3"><img src={logo} alt="" className="h-12 w-12 rounded-full object-cover" /><span className="font-display text-3xl">PikaVibe</span></div><p className="mt-4 text-sm text-[#cdbbab]">{t(language, 'Order receipt')}</p></div><div className="sm:text-right"><p className="text-xs uppercase tracking-[.16em] text-[#d9a77d]">{t(language, 'Order number')}</p><p className="mt-1 font-display text-2xl">{order.orderNumber || order.id}</p></div></div>
       <div className="grid gap-8 p-6 sm:grid-cols-2 sm:p-9"><div><p className="text-xs font-bold uppercase tracking-[.14em] text-muted-foreground">{t(language, 'Date')}</p><p className="mt-2 text-sm font-semibold">{date.toLocaleString(language === 'ar' ? 'ar-EG' : 'en-KE', { dateStyle: 'medium', timeStyle: 'short' })}</p></div><div><p className="text-xs font-bold uppercase tracking-[.14em] text-muted-foreground">{t(language, 'Order status')}</p><p className="mt-2 inline-flex rounded-full bg-[#d7efdf] px-3 py-1 text-sm font-bold text-[#26754d]">{t(language, 'Pending')}</p></div><div><p className="text-xs font-bold uppercase tracking-[.14em] text-muted-foreground">{t(language, 'Customer')}</p><p className="mt-2 text-sm font-semibold">{order.customer.name}</p><p className="mt-1 text-sm text-muted-foreground">{order.customer.phone}</p></div><div><p className="text-xs font-bold uppercase tracking-[.14em] text-muted-foreground">{t(language, 'Address')}</p><p className="mt-2 text-sm leading-6">{order.customer.address}</p></div></div>
       <div className="border-t border-border px-6 py-6 sm:px-9"><h2 className="font-display text-3xl">{t(language, 'Products')}</h2><div className="mt-5 divide-y divide-border">{order.items.map((item) => { const product = products.find((entry) => entry.id === item.id); if (!product) return null; const visible = localizedProduct(product, language); return <div key={item.id} className="flex items-center justify-between gap-4 py-4 text-sm"><div className="flex items-center gap-3"><img src={product.image} alt="" className="h-14 w-14 rounded-xl object-cover" /><div><p className="font-semibold">{visible.name}</p><p className="mt-1 text-muted-foreground">{t(language, 'Quantity')}: {item.quantity}</p></div></div><span className="font-bold">{money(product.price * item.quantity, language)}</span></div>; })}</div></div>
       <div className="border-t border-border bg-[#f0e6d7] p-6 sm:p-9"><div className="ml-auto max-w-sm space-y-3 text-sm"><div className="flex justify-between"><span className="text-muted-foreground">{t(language, 'Subtotal')}</span><span>{money(order.subtotal, language)}</span></div><div className="flex justify-between"><span className="text-muted-foreground">{t(language, 'Shipping')}</span><span>{order.shipping ? money(order.shipping, language) : t(language, 'Free delivery')}</span></div><div className="flex justify-between"><span className="text-muted-foreground">{t(language, 'Discount')}</span><span className="text-primary">-{money(order.discount, language)}</span></div><div className="flex justify-between border-t border-[#d1b99c] pt-4 text-lg font-bold"><span>{t(language, 'Total')}</span><span>{money(order.total, language)}</span></div><div className="flex justify-between pt-2"><span className="text-muted-foreground">{t(language, 'Payment method')}</span><span className="font-semibold">{t(language, order.customer.paymentMethod)}</span></div></div></div>
