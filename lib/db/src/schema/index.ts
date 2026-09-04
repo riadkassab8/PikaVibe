@@ -109,6 +109,9 @@ export const ordersTable = pgTable("orders", {
   total: decimal("total", { precision: 10, scale: 2 }).notNull().default("0"),
   couponCode: text("coupon_code"),
   couponDiscount: decimal("coupon_discount", { precision: 10, scale: 2 }).notNull().default("0"),
+  installmentPlanId: integer("installment_plan_id"),
+  installmentMonths: integer("installment_months"),
+  installmentMonthlyPayment: decimal("installment_monthly_payment", { precision: 10, scale: 2 }),
   shippingAddress: text("shipping_address").notNull().default(""),
   customerName: text("customer_name").notNull().default("Guest"),
   customerPhone: text("customer_phone").notNull().default(""),
@@ -144,3 +147,19 @@ export const cartTable = pgTable("cart", {
 export const insertCartSchema = createInsertSchema(cartTable).omit({ id: true });
 export type InsertCart = typeof cartTable.$inferInsert;
 export type Cart = typeof cartTable.$inferSelect;
+
+export const installmentPlansTable = pgTable("installment_plans", {
+  id: serial("id").primaryKey(),
+  providerName: text("provider_name").notNull(),
+  providerNameAr: text("provider_name_ar"),
+  providerNameEn: text("provider_name_en"),
+  minMonths: integer("min_months").notNull(),
+  maxMonths: integer("max_months").notNull(),
+  interestRate: decimal("interest_rate", { precision: 5, scale: 2 }).notNull().default("0"),
+  active: boolean("active").notNull().default(true),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+export const insertInstallmentPlanSchema = createInsertSchema(installmentPlansTable).omit({ id: true, createdAt: true, updatedAt: true });
+export type InsertInstallmentPlan = typeof installmentPlansTable.$inferInsert;
+export type InstallmentPlan = typeof installmentPlansTable.$inferSelect;

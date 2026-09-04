@@ -53,6 +53,9 @@ export default defineConfig({
     fs: {
       strict: true,
     },
+    watch: {
+      usePolling: true,
+    }
   },
   preview: {
     port,

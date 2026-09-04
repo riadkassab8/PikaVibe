@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'wouter';
-import { Bell, LayoutDashboard, Package, ShoppingCart, Tags, Users, Settings, LogOut, Plus, Search, X, Save, RefreshCw } from 'lucide-react';
+import { Bell, LayoutDashboard, Package, ShoppingCart, Tags, Users, Settings, LogOut, Plus, Search, X, Save, RefreshCw, CreditCard } from 'lucide-react';
 import { closeAlert, confirmAction, notifyError, notifyInfo, notifySuccess, showLoading } from '@/lib/alerts';
-import { createCategory, createProduct, deleteCategory, deleteProduct, fetchAdminStoreSettings, fetchCategories, fetchCoupons, fetchDashboard, fetchOrders, fetchProducts, subscribeToNewOrders, createCoupon, updateCoupon, deleteCoupon, updateCategory, updateOrderStatus, updateProduct, updateStoreSettings, type AdminCategory, type AdminOrder, type ApiProduct, type Coupon, type CouponInput, type StoreSettings, defaultStoreSettings } from '@/lib/api';
+import { createCategory, createProduct, deleteCategory, deleteProduct, fetchAdminStoreSettings, fetchCategories, fetchCoupons, fetchDashboard, fetchOrders, fetchProducts, subscribeToNewOrders, createCoupon, updateCoupon, deleteCoupon, updateCategory, updateOrderStatus, updateProduct, updateStoreSettings, fetchInstallmentPlans, createInstallmentPlan, updateInstallmentPlan, deleteInstallmentPlan, type AdminCategory, type AdminOrder, type ApiProduct, type Coupon, type CouponInput, type StoreSettings, defaultStoreSettings, type InstallmentPlan } from '@/lib/api';
 
 type DashboardStats = Awaited<ReturnType<typeof fetchDashboard>>;
 type ProductForm = { id?: number; name: string; nameAr: string; nameEn: string; slug: string; category: string; price: string; oldPrice: string; discountPercent: string; discountActive: boolean; discountStartsAt: string; discountEndsAt: string; installmentAvailable: boolean; installmentMinMonths: string; installmentMaxMonths: string; stock: string; description: string; imageUrl: string; images: string; specifications: string; variants: string; featured: boolean; active: boolean };
@@ -240,6 +240,7 @@ export default function AdminDashboard() {
     { id: 'orders', label: 'الطلبات', icon: ShoppingCart },
     { id: 'customers', label: 'العملاء', icon: Users },
     { id: 'categories', label: 'الأقسام', icon: Tags },
+    { id: 'installments', label: 'أنظمة التقسيط', icon: CreditCard },
     { id: 'settings', label: 'الإعدادات', icon: Settings },
   ];
 
@@ -247,7 +248,7 @@ export default function AdminDashboard() {
     <header className="border-b border-border bg-card"><div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-5 sm:px-6 lg:px-8"><div><p className="text-[10px] font-bold uppercase tracking-[.18em] text-primary">إدارة متجر PikaVibe</p><h1 className="font-display text-3xl text-foreground">لوحة تحكم الأدمن</h1></div><div className="flex items-center gap-2"><span className={`hidden items-center gap-2 rounded-lg px-3 py-2 text-xs font-bold sm:flex ${realtimeConnected ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}><span className={`h-2 w-2 rounded-full ${realtimeConnected ? 'bg-green-600' : 'bg-yellow-600'}`} />{realtimeConnected ? 'التحديث اللحظي متصل' : 'جاري الاتصال بالتحديث اللحظي'}</span><button onClick={refresh} className="flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm hover:bg-muted" disabled={loading}><RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} /> تحديث</button><button onClick={() => setLanguage((current) => current === 'ar' ? 'en' : 'ar')} className="rounded-lg border border-border px-3 py-2 text-sm font-bold hover:bg-muted" aria-label={language === 'ar' ? 'English' : 'العربية'}>{language === 'ar' ? 'English' : 'العربية'}</button><button onClick={logout} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"><LogOut className="h-4 w-4" /> تسجيل الخروج</button></div></div></header>
     {newOrderNotice && <div className="mx-auto mt-5 flex max-w-7xl items-center gap-4 rounded-2xl border border-[#e5a66f] bg-[#fff1df] px-5 py-4 text-[#3D2A1E] shadow-soft"><Bell className="shrink-0 text-primary" /><div className="min-w-0 flex-1"><p className="font-bold">طلب جديد وصل الآن</p><p className="truncate text-sm">{newOrderNotice.orderNumber} · {newOrderNotice.customer.name} · {money(newOrderNotice.total)}</p></div><button onClick={() => { setActiveTab('orders'); setNewOrderNotice(null); }} className="rounded-lg bg-primary px-3 py-2 text-xs font-bold text-primary-foreground">عرض الطلب</button><button onClick={() => setNewOrderNotice(null)} aria-label="إغلاق إشعار الطلب" className="rounded-lg p-2 hover:bg-[#f4d7b7]"><X className="h-4 w-4" /></button></div>}
     <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-8 sm:px-6 lg:flex-row lg:px-8"><aside className="lg:w-64 lg:shrink-0"><nav className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-1">{tabs.map((tab) => { const Icon = tab.icon; return <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-colors ${activeTab === tab.id ? 'bg-primary text-primary-foreground shadow-soft' : 'text-foreground hover:bg-muted'}`}><Icon className="h-5 w-5" />{tab.label}</button>; })}</nav></aside>
-      <main className="min-w-0 flex-1">{activeTab === 'overview' && <Overview stats={stats} orders={orders} loading={loading} onOpenOrders={() => setActiveTab('orders')} />}{activeTab === 'products' && <ProductsManagement products={products} categories={categories.length ? categories.filter((category) => category.active).map((category) => category.name) : fallbackCategories} onRefresh={refresh} />}{activeTab === 'orders' && <OrdersManagement orders={orders} onRefresh={refresh} />}{activeTab === 'customers' && <CustomersManagement orders={orders} />}{activeTab === 'categories' && <CategoryManagement categories={categories} products={products} onRefresh={refresh} />}{activeTab === 'settings' && <SettingsPanel categories={categories} products={products} onRefresh={refresh} />}</main>
+      <main className="min-w-0 flex-1">{activeTab === 'overview' && <Overview stats={stats} orders={orders} loading={loading} onOpenOrders={() => setActiveTab('orders')} />}{activeTab === 'products' && <ProductsManagement products={products} categories={categories.length ? categories.filter((category) => category.active).map((category) => category.name) : fallbackCategories} onRefresh={refresh} />}{activeTab === 'orders' && <OrdersManagement orders={orders} onRefresh={refresh} />}{activeTab === 'customers' && <CustomersManagement orders={orders} />}{activeTab === 'categories' && <CategoryManagement categories={categories} products={products} onRefresh={refresh} />}{activeTab === 'installments' && <InstallmentsManagement />}{activeTab === 'settings' && <SettingsPanel categories={categories} products={products} onRefresh={refresh} />}</main>
     </div>
   </div>;
 }
@@ -507,7 +508,171 @@ function CouponsManagement() {
     onClick={() => toggleActive(coupon)}
     className={coupon.active ? 'text-destructive hover:underline' : 'text-green-700 hover:underline'}
   >
-    {coupon.active ? 'تعطيل' : 'تفعيل'}
   </button>
   </div></div>) : <p className="rounded-xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">لا توجد كوبونات حتى الآن.</p>}</div></section>;
+}
+
+function InstallmentsManagement() {
+  const [plans, setPlans] = useState<InstallmentPlan[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [form, setForm] = useState<Partial<InstallmentPlan> | null>(null);
+
+  const loadPlans = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchInstallmentPlans();
+      setPlans(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadPlans();
+  }, []);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form || !form.providerName) return;
+    showLoading(form.id ? 'جارٍ تحديث نظام التقسيط…' : 'جارٍ إضافة نظام التقسيط…');
+    try {
+      if (form.id) {
+        await updateInstallmentPlan(form.id, {
+          providerName: form.providerName,
+          providerNameAr: form.providerNameAr,
+          providerNameEn: form.providerNameEn,
+          minMonths: Number(form.minMonths) || 1,
+          maxMonths: Number(form.maxMonths) || 12,
+          interestRate: Number(form.interestRate) || 0,
+          active: form.active !== false
+        });
+      } else {
+        await createInstallmentPlan({
+          providerName: form.providerName,
+          providerNameAr: form.providerNameAr,
+          providerNameEn: form.providerNameEn,
+          minMonths: Number(form.minMonths) || 1,
+          maxMonths: Number(form.maxMonths) || 12,
+          interestRate: Number(form.interestRate) || 0,
+          active: form.active !== false
+        });
+      }
+      closeAlert();
+      await notifySuccess(form.id ? 'تم تحديث نظام التقسيط' : 'تمت إضافة نظام التقسيط');
+      setForm(null);
+      loadPlans();
+    } catch (error) {
+      closeAlert();
+      await notifyError('تعذر الحفظ', error instanceof Error ? error.message : 'حدث خطأ غير متوقع.');
+    }
+  };
+
+  const remove = async (id: number) => {
+    const result = await confirmAction('حذف النظام؟', 'هل أنت متأكد من حذف نظام التقسيط هذا؟');
+    if (!result.isConfirmed) return;
+    showLoading('جارٍ الحذف…');
+    try {
+      await deleteInstallmentPlan(id);
+      closeAlert();
+      await notifySuccess('تم الحذف بنجاح');
+      loadPlans();
+    } catch (error) {
+      closeAlert();
+      await notifyError('تعذر الحذف', error instanceof Error ? error.message : 'حدث خطأ غير متوقع.');
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+        <div>
+          <p className="mb-2 text-xs font-bold uppercase tracking-[.18em] text-primary">أنظمة التقسيط</p>
+          <h2 className="font-display text-5xl tracking-[-.05em]">التقسيط</h2>
+        </div>
+        <button onClick={() => setForm({ active: true, minMonths: 2, maxMonths: 6, interestRate: 0 })} className="flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground">
+          <Plus className="h-4 w-4" /> إضافة نظام تقسيط
+        </button>
+      </div>
+
+      {form && (
+        <form onSubmit={submit} className="rounded-2xl border border-border bg-card p-6 shadow-soft">
+          <div className="mb-5 flex items-center justify-between">
+            <h3 className="font-display text-2xl">{form.id ? 'تعديل نظام التقسيط' : 'إضافة نظام تقسيط جديد'}</h3>
+            <button type="button" onClick={() => setForm(null)}><X className="h-5 w-5" /></button>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="grid gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              اسم مزود الخدمة (مثل: ValU)
+              <input required value={form.providerName || ''} onChange={(e) => setForm({ ...form, providerName: e.target.value })} className="rounded-xl border border-border bg-background px-4 py-3 text-sm normal-case text-foreground outline-none focus:ring-2 focus:ring-primary" />
+            </label>
+            <label className="grid gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              الاسم بالعربي (اختياري)
+              <input value={form.providerNameAr || ''} onChange={(e) => setForm({ ...form, providerNameAr: e.target.value })} className="rounded-xl border border-border bg-background px-4 py-3 text-sm normal-case text-foreground outline-none focus:ring-2 focus:ring-primary" />
+            </label>
+            <label className="grid gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              نسبة الفائدة %
+              <input type="number" step="0.1" required value={form.interestRate ?? 0} onChange={(e) => setForm({ ...form, interestRate: Number(e.target.value) })} className="rounded-xl border border-border bg-background px-4 py-3 text-sm normal-case text-foreground outline-none focus:ring-2 focus:ring-primary" />
+            </label>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="grid gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                الحد الأدنى (شهور)
+                <input type="number" required value={form.minMonths || ''} onChange={(e) => setForm({ ...form, minMonths: Number(e.target.value) })} className="rounded-xl border border-border bg-background px-4 py-3 text-sm normal-case text-foreground outline-none focus:ring-2 focus:ring-primary" />
+              </label>
+              <label className="grid gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                الحد الأقصى (شهور)
+                <input type="number" required value={form.maxMonths || ''} onChange={(e) => setForm({ ...form, maxMonths: Number(e.target.value) })} className="rounded-xl border border-border bg-background px-4 py-3 text-sm normal-case text-foreground outline-none focus:ring-2 focus:ring-primary" />
+              </label>
+            </div>
+            <label className="flex items-center gap-2 text-sm font-bold sm:col-span-2 mt-4">
+              <input type="checkbox" checked={form.active !== false} onChange={(e) => setForm({ ...form, active: e.target.checked })} className="h-4 w-4 accent-primary" />
+              تفعيل هذا النظام
+            </label>
+          </div>
+          <button type="submit" className="mt-6 flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-bold text-primary-foreground">
+            <Save className="h-4 w-4" /> حفظ النظام
+          </button>
+        </form>
+      )}
+
+      <div className="overflow-x-auto rounded-2xl border border-border bg-card shadow-soft">
+        <table className="w-full min-w-[700px]">
+          <thead>
+            <tr className="border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
+              <th className="px-5 py-4 text-start">النظام</th>
+              <th className="px-5 py-4 text-center">الشهور المتاحة</th>
+              <th className="px-5 py-4 text-center">نسبة الفائدة</th>
+              <th className="px-5 py-4 text-center">الحالة</th>
+              <th className="px-5 py-4 text-end">الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr><td colSpan={5} className="p-10 text-center text-sm text-muted-foreground">جاري التحميل...</td></tr>
+            ) : plans.length === 0 ? (
+              <tr><td colSpan={5} className="p-10 text-center text-sm text-muted-foreground">لا توجد أنظمة تقسيط. أضف نظاماً جديداً.</td></tr>
+            ) : plans.map((plan) => (
+              <tr key={plan.id} className="border-b border-border last:border-0">
+                <td className="px-5 py-4 font-bold">{plan.providerNameAr || plan.providerName}</td>
+                <td className="px-5 py-4 text-sm text-center font-bold" dir="ltr">{plan.minMonths} - {plan.maxMonths}</td>
+                <td className="px-5 py-4 text-sm text-center font-bold">{plan.interestRate}%</td>
+                <td className="px-5 py-4 text-center">
+                  <span className={`inline-block rounded-full px-3 py-1 text-xs font-bold ${plan.active ? 'bg-green-100 text-green-800' : 'bg-muted text-muted-foreground'}`}>
+                    {plan.active ? 'مفعل' : 'غير مفعل'}
+                  </span>
+                </td>
+                <td className="px-5 py-4">
+                  <div className="flex justify-end gap-3 text-sm font-semibold">
+                    <button onClick={() => setForm(plan)} className="text-primary hover:underline">تعديل</button>
+                    <button onClick={() => remove(plan.id)} className="text-destructive hover:underline">حذف</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 }

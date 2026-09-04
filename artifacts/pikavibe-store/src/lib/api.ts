@@ -40,6 +40,10 @@ export type AdminCategory = { id: number; slug: string; name: string; nameAr?: s
 export type Coupon = { id: number; code: string; discountType: 'percent' | 'fixed'; discountValue: number; active: boolean; startsAt?: string | null; endsAt?: string | null; usageLimit?: number | null; usedCount: number };
 export type CouponInput = { code: string; discountType: 'percent' | 'fixed'; discountValue: number; active: boolean; startsAt?: string | null; endsAt?: string | null; usageLimit?: number | null };
 
+export type InstallmentPlan = { id: number; providerName: string; providerNameAr?: string | null; providerNameEn?: string | null; minMonths: number; maxMonths: number; interestRate: number; active: boolean; };
+export type InstallmentPlanInput = Omit<InstallmentPlan, 'id'>;
+
+
 export type StoreSettings = {
   storeName: string;
   logoUrl: string;
@@ -111,6 +115,9 @@ export type OrderPayload = {
   }>;
   paymentMethod: string;
   couponCode?: string;
+  installmentPlanId?: number;
+  installmentMonths?: number;
+  installmentMonthlyPayment?: number;
 };
 
 export type OrderResponse = AdminOrder;
@@ -121,6 +128,12 @@ export async function createCoupon(input: CouponInput): Promise<Coupon> { return
 export async function updateCoupon(id: number, input: CouponInput): Promise<Coupon> { return request<Coupon>(`/coupons/${id}`, { method: 'PUT', body: JSON.stringify(input) }); }
 export async function deleteCoupon(id: number) { return request<{ message: string }>(`/coupons/${id}`, { method: 'DELETE' }); }
 export async function validateCoupon(code: string, subtotal: number) { return request<{ code: string; discountType: string; discountValue: number; discount: number; subtotal: number }>('/coupons/validate', { method: 'POST', body: JSON.stringify({ code, subtotal }) }); }
+
+export async function fetchInstallmentPlans(): Promise<InstallmentPlan[]> { return request<InstallmentPlan[]>('/installment-plans'); }
+export async function createInstallmentPlan(input: InstallmentPlanInput): Promise<InstallmentPlan> { return request<InstallmentPlan>('/installment-plans', { method: 'POST', body: JSON.stringify(input) }); }
+export async function updateInstallmentPlan(id: number, input: InstallmentPlanInput): Promise<InstallmentPlan> { return request<InstallmentPlan>(`/installment-plans/${id}`, { method: 'PUT', body: JSON.stringify(input) }); }
+export async function deleteInstallmentPlan(id: number) { return request<{ message: string }>(`/installment-plans/${id}`, { method: 'DELETE' }); }
+
 
 function adminHeaders(): Record<string, string> {
   const token = localStorage.getItem('pikavibe-admin-token');

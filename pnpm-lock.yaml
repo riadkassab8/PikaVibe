@@ -166,6 +166,9 @@ importers:
       '@rollup/rollup-win32-x64-msvc':
         specifier: ^4.62.4
         version: 4.62.4
+      esbuild:
+        specifier: 0.27.3
+        version: 0.27.3
       lightningcss-win32-x64-msvc:
         specifier: 1.32.0
         version: 1.32.0

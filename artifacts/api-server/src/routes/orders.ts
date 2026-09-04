@@ -8,7 +8,7 @@ import { emitNewOrder } from "../lib/realtime.js";
 
 const router: IRouter = Router();
 const ORDER_STATUSES = ["pending", "confirmed", "processing", "shipped", "delivered", "cancelled"] as const;
-const PAYMENT_METHODS = ["cod", "bank_transfer"] as const;
+const PAYMENT_METHODS = ["cod", "bank_transfer", "installment"] as const;
 const money = (value: string | number) => Math.round(Number(value) * 100) / 100;
 const idOf = (value: string) => Number.parseInt(value, 10);
 
@@ -41,6 +41,9 @@ async function responseForOrder(order: any) {
     subtotal: money(order.subtotal),
     shipping: money(order.shipping),
     total: money(order.total),
+    installmentPlanId: order.installmentPlanId || undefined,
+    installmentMonths: order.installmentMonths || undefined,
+    installmentMonthlyPayment: order.installmentMonthlyPayment ? money(order.installmentMonthlyPayment) : undefined,
     customer: {
       name: order.customerName,
       phone: order.customerPhone,
@@ -96,6 +99,10 @@ router.post("/", async (req, res) => {
     const notes = String(customer.notes || "").trim();
     const paymentMethod = String(body.paymentMethod || "");
     const couponCode = String(body.couponCode || "").trim().toUpperCase();
+    const installmentPlanId = body.installmentPlanId ? Number(body.installmentPlanId) : null;
+    const installmentMonths = body.installmentMonths ? Number(body.installmentMonths) : null;
+    const installmentMonthlyPayment = body.installmentMonthlyPayment ? Number(body.installmentMonthlyPayment) : null;
+    
     if (name.length < 2 || phone.length < 7 || !governorate || !city || address.length < 8 || !rawItems.length) {
       return res.status(400).json({ error: "Complete customer information and at least one item are required" });
     }
@@ -138,6 +145,7 @@ router.post("/", async (req, res) => {
         orderNumber: orderNumber(), userId: null, status: "pending", paymentMethod, paymentStatus: "pending", couponCode: couponCode || null, couponDiscount: couponDiscount.toFixed(2),
         subtotal: subtotal.toFixed(2), shipping: shipping.toFixed(2), total: total.toFixed(2), shippingAddress: address,
         customerName: name, customerPhone: phone, customerGovernorate: governorate, customerCity: city, customerNotes: notes,
+        installmentPlanId, installmentMonths, installmentMonthlyPayment: installmentMonthlyPayment ? installmentMonthlyPayment.toFixed(2) : null
       }).returning();
       await tx.insert(orderItemsTable).values(resolvedItems.map((item) => ({
         orderId: order.id, productId: item.id, productName: item.name, quantity: item.quantity, price: item.price.toFixed(2), variant: item.variant,
