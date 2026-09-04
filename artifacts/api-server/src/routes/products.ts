@@ -1,4 +1,4 @@
-﻿import { Router, type IRouter } from "express";
+import { Router, type IRouter } from "express";
 import { and, desc, eq, sql } from "drizzle-orm";
 import { db } from "../../../../lib/db/src/index.js";
 import { productsTable } from "../../../../lib/db/src/schema/index.js";
@@ -145,7 +145,11 @@ router.put("/:id", requireAdmin, async (req, res) => {
     const id = idOf(String(req.params.id));
     if (!Number.isInteger(id)) return res.status(400).json({ error: "Invalid product id" });
     const input = productInput(req.body as Record<string, unknown>, true);
-    const [product] = await db.update(productsTable).set(input).where(eq(productsTable.id, id)).returning();
+    const updateData: any = { ...input };
+    if (input.images !== undefined) updateData.images = sql`${JSON.stringify(input.images)}::jsonb`;
+    if (input.specifications !== undefined) updateData.specifications = sql`${JSON.stringify(input.specifications)}::jsonb`;
+    if (input.variants !== undefined) updateData.variants = sql`${JSON.stringify(input.variants)}::jsonb`;
+    const [product] = await db.update(productsTable).set(updateData).where(eq(productsTable.id, id)).returning();
     return product ? res.json(serializeProduct(product)) : res.status(404).json({ error: "Product not found" });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to update product";
@@ -164,4 +168,3 @@ router.delete("/:id", requireAdmin, async (req, res) => {
 });
 
 export default router;
-
