@@ -211,11 +211,14 @@ export default function AdminDashboard() {
   const refresh = async () => {
     setLoading(true);
     try {
-      const [productData, categoryData, orderData, dashboardData] = await Promise.all([fetchProducts(true), fetchCategories(true), fetchOrders(), fetchDashboard()]);
-      setProducts(productData);
-      setCategories(categoryData);
-      setOrders(orderData);
-      setStats(dashboardData);
+      const results = await Promise.allSettled([fetchProducts(true), fetchCategories(true), fetchOrders(), fetchDashboard()]);
+      const [productResult, categoryResult, orderResult, dashboardResult] = results;
+      if (productResult.status === 'fulfilled') setProducts(productResult.value);
+      if (categoryResult.status === 'fulfilled') setCategories(categoryResult.value);
+      if (orderResult.status === 'fulfilled') setOrders(orderResult.value);
+      if (dashboardResult.status === 'fulfilled') setStats(dashboardResult.value);
+      const failed = results.filter((result) => result.status === 'rejected').length;
+      if (failed) console.warn(`Admin dashboard: ${failed} data request(s) failed; successful sections remain visible.`);
     } finally {
       setLoading(false);
     }

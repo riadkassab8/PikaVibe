@@ -1,7 +1,7 @@
 import { Router, type IRouter } from "express";
 import { and, desc, eq, sql } from "drizzle-orm";
-import { db } from "../../../../lib/db/src/index.js";
-import { productsTable } from "../../../../lib/db/src/schema/index.js";
+import { db } from "@workspace/db";
+import { productsTable } from "@workspace/db";
 import { getAdminEmailFromRequest, requireAdmin } from "../middleware/auth.js";
 
 const router: IRouter = Router();

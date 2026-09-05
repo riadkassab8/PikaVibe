@@ -29,6 +29,10 @@ type OrderRecord = {
   shipping: number;
   discount: number;
   total: number;
+  installmentPlanId?: number;
+  installmentMonths?: number;
+  installmentMonthlyPayment?: number;
+  installmentPaymentDay?: number;
 };
 type StoreContextValue = {
   cart: CartItem[];
@@ -208,6 +212,9 @@ function SiteShell({ children }: { children: ReactNode }) {
   const [cartPulse, setCartPulse] = useState(false);
   const [location] = useLocation();
   useEffect(() => setMobileOpen(false), [location]);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [location]);
   useEffect(() => {
     if (!cartBump) return;
     setCartPulse(true);

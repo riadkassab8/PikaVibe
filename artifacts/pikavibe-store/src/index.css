@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=General+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -21,7 +21,7 @@
   --accent-foreground: 20 33% 18%;
   --destructive: 0 55% 47%;
   --destructive-foreground: 39 50% 97%;
-  --app-font-sans: 'DM Sans', 'Cairo', sans-serif;
+  --app-font-sans: 'General Sans', 'Cairo', sans-serif;
   --app-font-serif: 'Fraunces', 'Cairo', serif;
   --radius: 0.9rem;
   --store-primary: #C8722E;
