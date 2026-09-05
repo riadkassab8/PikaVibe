@@ -18,7 +18,7 @@ import LoginPage from './pages/auth/login';
 import './index.css';
 
 type CartItem = { id: string; quantity: number; variant?: string };
-type CustomerInfo = { name: string; phone: string; governorate: string; city: string; address: string; notes: string; paymentMethod: string };
+type CustomerInfo = { name: string; idNumber: string; phone: string; governorate: string; city: string; address: string; notes: string; paymentMethod: string; paymentDay: number | ''; };
 type OrderRecord = {
   id: string;
   orderNumber?: string;
@@ -537,7 +537,7 @@ function CheckoutPage() {
   const [, setLocation] = useLocation();
   const { cart, language, clearCart, products, installmentPlans } = useStore();
   const items = cart.map((item) => ({ ...item, product: products.find((product) => product.id === item.id) })).filter((item): item is CartItem & { product: Product } => Boolean(item.product));
-  const [form, setForm] = useState<CustomerInfo>({ name: '', phone: '', governorate: '', city: '', address: '', notes: '', paymentMethod: 'cod' });
+  const [form, setForm] = useState<CustomerInfo>({ name: '', idNumber: '', phone: '', governorate: '', city: '', address: '', notes: '', paymentMethod: 'cod', paymentDay: '' });
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discount: number } | null>(null);
   const [couponMessage, setCouponMessage] = useState('');
@@ -582,20 +582,21 @@ function CheckoutPage() {
   const submitOrder = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError('');
-    if (form.name.trim().length < 2 || !/^[+()\d\s-]{7,}$/.test(form.phone.trim()) || !form.governorate.trim() || !form.city.trim() || form.address.trim().length < 8) {
+    if (form.name.trim().length < 2 || (form.paymentMethod === 'installment' && form.idNumber.trim().length < 3) || (form.paymentMethod === 'installment' && (!form.paymentDay || form.paymentDay < 1 || form.paymentDay > 28)) || !/^[+()\d\s-]{7,}$/.test(form.phone.trim()) || !form.governorate.trim() || !form.city.trim() || form.address.trim().length < 8) {
       setError(t(language, 'Please complete the required fields.'));
       return;
     }
     setSubmitting(true);
     try {
       const saved = await createOrder({
-        customer: { name: form.name.trim(), phone: form.phone.trim(), governorate: form.governorate.trim(), city: form.city.trim(), address: form.address.trim(), notes: form.notes.trim() },
+        customer: { name: form.name.trim(), idNumber: form.paymentMethod === 'installment' ? form.idNumber.trim() : undefined, phone: form.phone.trim(), governorate: form.governorate.trim(), city: form.city.trim(), address: form.address.trim(), notes: form.notes.trim() },
         items: items.map(({ product, quantity, variant }) => ({ productId: product.backendId ?? product.id, quantity, variant })),
         paymentMethod: form.paymentMethod,
         couponCode: appliedCoupon?.code,
         installmentPlanId: form.paymentMethod === 'installment' && selectedPlanId ? Number(selectedPlanId) : undefined,
         installmentMonths: form.paymentMethod === 'installment' && selectedMonths ? Number(selectedMonths) : undefined,
         installmentMonthlyPayment: form.paymentMethod === 'installment' && installmentMonthlyPayment ? installmentMonthlyPayment : undefined,
+        installmentPaymentDay: form.paymentMethod === 'installment' && form.paymentDay ? Number(form.paymentDay) : undefined,
       });
       const order: OrderRecord = {
         id: String(saved.id),
@@ -607,6 +608,10 @@ function CheckoutPage() {
         shipping: saved.shipping,
         discount,
         total: saved.total,
+        installmentPlanId: form.paymentMethod === 'installment' && selectedPlanId ? Number(selectedPlanId) : undefined,
+        installmentMonths: form.paymentMethod === 'installment' && selectedMonths ? Number(selectedMonths) : undefined,
+        installmentMonthlyPayment: form.paymentMethod === 'installment' ? installmentMonthlyPayment : undefined,
+        installmentPaymentDay: form.paymentMethod === 'installment' && form.paymentDay ? Number(form.paymentDay) : undefined,
       };
       localStorage.setItem('pikavibe-last-order', JSON.stringify(order));
       clearCart();
@@ -632,6 +637,7 @@ function CheckoutPage() {
           <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{t(language, 'Governorate')}<input required value={form.governorate} onChange={(event) => setForm({ ...form, governorate: event.target.value })} type="text" className={inputClass} data-testid="input-checkout-governorate" /></label>
           <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{t(language, 'City')}<input required value={form.city} onChange={(event) => setForm({ ...form, city: event.target.value })} type="text" className={inputClass} data-testid="input-checkout-city" /></label>
           <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em] sm:col-span-2">{t(language, 'Full address')}<textarea required minLength={8} value={form.address} onChange={(event) => setForm({ ...form, address: event.target.value })} rows={3} className={`resize-none ${inputClass}`} data-testid="textarea-checkout-address" /></label>
+          {form.paymentMethod === 'installment' && <><label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{language === 'ar' ? 'رقم الهوية' : 'ID number'}<input required value={form.idNumber} onChange={(event) => setForm({ ...form, idNumber: event.target.value })} type="text" className={inputClass} data-testid="input-installment-id" /></label><label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{language === 'ar' ? 'يوم سداد القسط الشهري' : 'Monthly payment day'}<select required value={form.paymentDay} onChange={(event) => setForm({ ...form, paymentDay: Number(event.target.value) })} className={inputClass} data-testid="select-installment-payment-day"><option value="">{language === 'ar' ? 'اختر اليوم' : 'Choose day'}</option>{Array.from({ length: 28 }, (_, index) => index + 1).map((day) => <option key={day} value={day}>{day}</option>)}</select></label></>}
           <label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em] sm:col-span-2">{t(language, 'Additional notes')}<textarea value={form.notes} onChange={(event) => setForm({ ...form, notes: event.target.value })} rows={2} className={`resize-none ${inputClass}`} data-testid="textarea-checkout-notes" /></label>
           <div className="sm:col-span-2"><label className="grid gap-2 text-xs font-bold uppercase tracking-[.12em]">{language === 'ar' ? 'كود الخصم' : 'Discount coupon'}<div className="flex gap-2"><input value={couponCode} onChange={(event) => { setCouponCode(event.target.value.toUpperCase()); setAppliedCoupon(null); setCouponMessage(''); }} placeholder={language === 'ar' ? 'مثال: WELCOME10' : 'e.g. WELCOME10'} className={`min-w-0 flex-1 ${inputClass}`} data-testid="input-coupon-code" /><button type="button" onClick={applyCoupon} disabled={checkingCoupon || !couponCode.trim()} className="rounded-xl bg-[#3D2A1E] px-4 py-3 text-xs font-bold text-[#f4ecdf] disabled:opacity-50" data-testid="button-apply-coupon">{checkingCoupon ? '…' : (language === 'ar' ? 'تطبيق' : 'Apply')}</button></div></label>{couponMessage && <p className={`mt-2 text-xs font-semibold ${appliedCoupon ? 'text-[#26754d]' : 'text-[#8f3025]'}`}>{couponMessage}</p>}</div>
           <fieldset className="grid gap-3 sm:col-span-2"><legend className="text-xs font-bold uppercase tracking-[.12em]">{t(language, 'Payment method')}</legend><div className="grid gap-3 sm:grid-cols-2"><label className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 text-sm font-semibold ${form.paymentMethod === 'cod' ? 'border-primary bg-[#f7efe4]' : 'border-[#d1b99c]'}`}><input type="radio" name="paymentMethod" value="cod" checked={form.paymentMethod === 'cod'} onChange={(event) => setForm({ ...form, paymentMethod: event.target.value })} />{t(language, 'Cash on delivery')}</label><label className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 text-sm font-semibold ${form.paymentMethod === 'bank_transfer' ? 'border-primary bg-[#f7efe4]' : 'border-[#d1b99c]'}`}><input type="radio" name="paymentMethod" value="bank_transfer" checked={form.paymentMethod === 'bank_transfer'} onChange={(event) => setForm({ ...form, paymentMethod: event.target.value })} />{t(language, 'InstaPay / Bank transfer')}</label>{canInstallment && <label className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 text-sm font-semibold ${form.paymentMethod === 'installment' ? 'border-primary bg-[#f7efe4]' : 'border-[#d1b99c]'}`}><input type="radio" name="paymentMethod" value="installment" checked={form.paymentMethod === 'installment'} onChange={(event) => setForm({ ...form, paymentMethod: event.target.value })} />{language === 'ar' ? 'التقسيط' : 'Installment'}</label>}</div></fieldset>
@@ -679,7 +685,7 @@ function CheckoutPage() {
 }
 function ReceiptPage() {
   const { id } = useParams<{ id: string }>();
-  const { language, products, storeSettings } = useStore();
+  const { language, products, storeSettings, installmentPlans } = useStore();
   const order = readStorage<OrderRecord | null>('pikavibe-last-order', null);
   const [receiptImageUrl, setReceiptImageUrl] = useState('');
   const [imageLoading, setImageLoading] = useState(true);
@@ -695,7 +701,7 @@ function ReceiptPage() {
     return () => { cancelled = true; };
   }, [id, order?.id, language, products]);
   if (!order || order.id !== id) return <NotFoundPage />;
-  const whatsappMessage = buildReceiptMessage(order, language, products);
+  const whatsappMessage = buildReceiptMessage(order, language, products, installmentPlans);
   const date = new Date(order.createdAt);
   return <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
     <div className="mb-8 text-center"><div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[#d7efdf] text-[#2E9B68]"><Check size={32} /></div><p className="mb-3 text-xs font-bold uppercase tracking-[.2em] text-primary">{t(language, 'Order confirmed')}</p><h1 className="font-display text-5xl tracking-[-.05em] sm:text-7xl">{t(language, 'Thank you for choosing PikaVibe.')}</h1><p className="mx-auto mt-5 max-w-xl text-base leading-7 text-muted-foreground">{t(language, 'Your order has been received. We’ll contact you shortly to confirm delivery.')}</p></div>
@@ -747,7 +753,8 @@ async function createReceiptImage(order: OrderRecord, products: Product[], langu
 
 function loadReceiptImage(source: string): Promise<HTMLImageElement | null> { return new Promise((resolve) => { if (!source || source === '/') return resolve(null); const image = new Image(); image.crossOrigin = 'anonymous'; image.onload = () => resolve(image); image.onerror = () => resolve(null); image.src = source; }); }
 
-function buildReceiptMessage(order: OrderRecord, language: Language, products: Product[]) {
+function buildReceiptMessage(order: OrderRecord, language: Language, products: Product[], installmentPlans: InstallmentPlan[]) {
+  const planName = order.installmentPlanId ? (installmentPlans.find((plan) => plan.id === order.installmentPlanId)?.providerName || String(order.installmentPlanId)) : '-';
   const isArabic = language === 'ar';
   const date = new Date(order.createdAt).toLocaleDateString(isArabic ? 'ar-EG' : 'en-KE');
   const productLines = order.items.map((item) => {
@@ -755,9 +762,9 @@ function buildReceiptMessage(order: OrderRecord, language: Language, products: P
     return product ? `• ${localizedProduct(product, language).name} × ${item.quantity} — ${money(product.price * item.quantity, language)}` : '';
   }).filter(Boolean).join('\n');
   if (isArabic) {
-    return `🧾 *إيصال طلب بيكاڤايب*\n\n*رقم الطلب:* ${order.id}\n*العميل:* ${order.customer.name}\n*التاريخ:* ${date}\n\n*المنتجات:*\n${productLines}\n\n*المجموع الفرعي:* ${money(order.subtotal, language)}\n*الشحن:* ${order.shipping ? money(order.shipping, language) : 'توصيل مجاني'}\n*الخصم:* ${money(order.discount, language)}\n*الإجمالي:* ${money(order.total, language)}\n*طريقة الدفع:* ${order.customer.paymentMethod}\n\n*عنوان التوصيل:*\n${order.customer.address}\n\nشكراً لاختياركم بيكاڤايب.`;
+    return `🧾 *إيصال طلب بيكاڤايب*\n\n*رقم الطلب:* ${order.orderNumber || order.id}\n*الاسم:* ${order.customer.name}\n*التاريخ:* ${date}\n*رقم الهاتف:* ${order.customer.phone}\n*الموقع:* ${order.customer.governorate}، ${order.customer.city}، ${order.customer.address}\n\n*المنتجات:*\n${productLines}\n\n*المجموع الفرعي:* ${money(order.subtotal, language)}\n*الشحن:* ${order.shipping ? money(order.shipping, language) : 'توصيل مجاني'}\n*الخصم:* ${money(order.discount, language)}\n*الإجمالي:* ${money(order.total, language)}\n*طريقة الدفع:* ${order.customer.paymentMethod}\n${order.customer.paymentMethod === 'installment' ? `*رقم الهوية:* ${order.customer.idNumber || '-'}\n*نظام التقسيط:* ${planName}\n*مدة التقسيط:* ${order.installmentMonths || '-'} شهر\n*القسط الشهري:* ${order.installmentMonthlyPayment ? money(order.installmentMonthlyPayment, language) : '-'}\n*يوم السداد الشهري:* ${order.installmentPaymentDay || '-'}\n` : ''}\n*عنوان التوصيل:*\n${order.customer.address}\n\nشكراً لاختياركم بيكاڤايب.`;
   }
-  return `🧾 *PikaVibe Order Receipt*\n\n*Order:* ${order.id}\n*Customer:* ${order.customer.name}\n*Date:* ${date}\n\n*Products:*\n${productLines}\n\n*Subtotal:* ${money(order.subtotal, language)}\n*Shipping:* ${order.shipping ? money(order.shipping, language) : 'Free delivery'}\n*Discount:* ${money(order.discount, language)}\n*Total:* ${money(order.total, language)}\n*Payment method:* ${order.customer.paymentMethod}\n\n*Delivery address:*\n${order.customer.address}\n\nThank you for choosing PikaVibe.`;
+  return `🧾 *PikaVibe Order Receipt*\n\n*Order:* ${order.orderNumber || order.id}\n*Name:* ${order.customer.name}\n*Date:* ${date}\n*Phone:* ${order.customer.phone}\n*Location:* ${order.customer.governorate}, ${order.customer.city}, ${order.customer.address}\n\n*Products:*\n${productLines}\n\n*Subtotal:* ${money(order.subtotal, language)}\n*Shipping:* ${order.shipping ? money(order.shipping, language) : 'Free delivery'}\n*Discount:* ${money(order.discount, language)}\n*Total:* ${money(order.total, language)}\n*Payment method:* ${order.customer.paymentMethod}\n${order.customer.paymentMethod === 'installment' ? `*ID number:* ${order.customer.idNumber || '-'}\n*Installment plan:* ${planName}\n*Term:* ${order.installmentMonths || '-'} months\n*Monthly payment:* ${order.installmentMonthlyPayment ? money(order.installmentMonthlyPayment, language) : '-'}\n*Monthly payment day:* ${order.installmentPaymentDay || '-'}\n` : ''}\n*Delivery address:*\n${order.customer.address}\n\nThank you for choosing PikaVibe.`;
 }
 
 function AboutPage() {

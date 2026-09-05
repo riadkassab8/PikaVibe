@@ -1,7 +1,7 @@
 import { Router, type IRouter } from "express";
 import { and, desc, eq, gte, isNull, or, sql } from "drizzle-orm";
-import { db } from "../../../../lib/db/src/index.js";
-import { couponsTable, orderItemsTable, ordersTable, productsTable } from "../../../../lib/db/src/schema/index.js";
+import { db } from "@workspace/db";
+import { couponsTable, orderItemsTable, ordersTable, productsTable } from "@workspace/db";
 import { activeCoupon, discountFor } from "./coupons.js";
 import { requireAdmin } from "../middleware/auth.js";
 import { emitNewOrder } from "../lib/realtime.js";
@@ -44,8 +44,10 @@ async function responseForOrder(order: any) {
     installmentPlanId: order.installmentPlanId || undefined,
     installmentMonths: order.installmentMonths || undefined,
     installmentMonthlyPayment: order.installmentMonthlyPayment ? money(order.installmentMonthlyPayment) : undefined,
+    installmentPaymentDay: order.installmentPaymentDay || undefined,
     customer: {
       name: order.customerName,
+      idNumber: order.customerIdNumber,
       phone: order.customerPhone,
       governorate: order.customerGovernorate,
       city: order.customerCity,
@@ -92,6 +94,7 @@ router.post("/", async (req, res) => {
     const customer = body.customer || {};
     const rawItems = Array.isArray(body.items) ? body.items : [];
     const name = String(customer.name || "").trim();
+    const idNumber = String(customer.idNumber || "").trim();
     const phone = String(customer.phone || "").trim();
     const governorate = String(customer.governorate || "").trim();
     const city = String(customer.city || "").trim();
@@ -102,11 +105,14 @@ router.post("/", async (req, res) => {
     const installmentPlanId = body.installmentPlanId ? Number(body.installmentPlanId) : null;
     const installmentMonths = body.installmentMonths ? Number(body.installmentMonths) : null;
     const installmentMonthlyPayment = body.installmentMonthlyPayment ? Number(body.installmentMonthlyPayment) : null;
+    const installmentPaymentDay = body.installmentPaymentDay ? Number(body.installmentPaymentDay) : null;
     
     if (name.length < 2 || phone.length < 7 || !governorate || !city || address.length < 8 || !rawItems.length) {
       return res.status(400).json({ error: "Complete customer information and at least one item are required" });
     }
     if (!PAYMENT_METHODS.includes(paymentMethod as typeof PAYMENT_METHODS[number])) return res.status(400).json({ error: "Unsupported payment method" });
+    if (paymentMethod === "installment" && (idNumber.length < 3 || idNumber.length > 80)) return res.status(400).json({ error: "A valid ID number is required for installment orders" });
+    if (paymentMethod === "installment" && (!Number.isInteger(installmentPaymentDay) || installmentPaymentDay < 1 || installmentPaymentDay > 28)) return res.status(400).json({ error: "Choose a monthly installment payment day from 1 to 28" });
     if (name.length > 120 || phone.length > 40 || address.length > 500 || notes.length > 1000) return res.status(400).json({ error: "Customer information is too long" });
 
     const requested = new Map<string, { productId: string | number; quantity: number; variant: string }>();
@@ -144,8 +150,8 @@ router.post("/", async (req, res) => {
       const [order] = await tx.insert(ordersTable).values({
         orderNumber: orderNumber(), userId: null, status: "pending", paymentMethod, paymentStatus: "pending", couponCode: couponCode || null, couponDiscount: couponDiscount.toFixed(2),
         subtotal: subtotal.toFixed(2), shipping: shipping.toFixed(2), total: total.toFixed(2), shippingAddress: address,
-        customerName: name, customerPhone: phone, customerGovernorate: governorate, customerCity: city, customerNotes: notes,
-        installmentPlanId, installmentMonths, installmentMonthlyPayment: installmentMonthlyPayment ? installmentMonthlyPayment.toFixed(2) : null
+        customerName: name, customerIdNumber: idNumber, customerPhone: phone, customerGovernorate: governorate, customerCity: city, customerNotes: notes,
+        installmentPlanId, installmentMonths, installmentMonthlyPayment: installmentMonthlyPayment ? installmentMonthlyPayment.toFixed(2) : null, installmentPaymentDay
       }).returning();
       await tx.insert(orderItemsTable).values(resolvedItems.map((item) => ({
         orderId: order.id, productId: item.id, productName: item.name, quantity: item.quantity, price: item.price.toFixed(2), variant: item.variant,

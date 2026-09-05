@@ -114,10 +114,12 @@ export const ordersTable = pgTable("orders", {
   installmentMonthlyPayment: decimal("installment_monthly_payment", { precision: 10, scale: 2 }),
   shippingAddress: text("shipping_address").notNull().default(""),
   customerName: text("customer_name").notNull().default("Guest"),
+  customerIdNumber: text("customer_id_number").notNull().default(""),
   customerPhone: text("customer_phone").notNull().default(""),
   customerGovernorate: text("customer_governorate").notNull().default(""),
   customerCity: text("customer_city").notNull().default(""),
   customerNotes: text("customer_notes").notNull().default(""),
+  installmentPaymentDay: integer("installment_payment_day"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
