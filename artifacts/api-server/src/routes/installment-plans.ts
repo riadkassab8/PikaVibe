@@ -1,7 +1,7 @@
 import { Router, type IRouter } from "express";
 import { asc, eq } from "drizzle-orm";
-import { db } from "../../../../lib/db/src/index.js";
-import { installmentPlansTable } from "../../../../lib/db/src/schema/index.js";
+import { db } from "@workspace/db";
+import { installmentPlansTable } from "@workspace/db";
 import { requireAdmin } from "../middleware/auth.js";
 
 const router: IRouter = Router();
@@ -21,7 +21,7 @@ router.post("/", requireAdmin, async (req, res) => {
     const providerName = String(req.body?.providerName || "").trim();
     if (providerName.length < 2 || providerName.length > 80) return res.status(400).json({ error: "Provider name must be between 2 and 80 characters" });
     
-    const [plan] = await db.insert(installmentPlansTable as any).values({
+    const inserted = await db.insert(installmentPlansTable).values({
       providerName,
       providerNameAr: req.body?.providerNameAr || null,
       providerNameEn: req.body?.providerNameEn || null,
@@ -30,6 +30,7 @@ router.post("/", requireAdmin, async (req, res) => {
       interestRate: String(req.body?.interestRate || "0"),
       active: req.body?.active !== false
     }).returning();
+    const plan = (inserted as any[])[0];
     
     return res.status(201).json(plan);
   } catch (error: any) {
@@ -44,7 +45,7 @@ router.put("/:id", requireAdmin, async (req, res) => {
     const providerName = String(req.body?.providerName || "").trim();
     if (!Number.isInteger(id) || providerName.length < 2 || providerName.length > 80) return res.status(400).json({ error: "A valid id and provider name are required" });
     
-    const [plan] = await db.update(installmentPlansTable as any).set({
+    const updated = await db.update(installmentPlansTable).set({
       providerName,
       providerNameAr: req.body?.providerNameAr || null,
       providerNameEn: req.body?.providerNameEn || null,
@@ -54,6 +55,7 @@ router.put("/:id", requireAdmin, async (req, res) => {
       active: req.body?.active !== false,
       updatedAt: new Date()
     }).where(eq(installmentPlansTable.id, id)).returning();
+    const plan = (updated as any[])[0];
     
     return plan ? res.json(plan) : res.status(404).json({ error: "Installment plan not found" });
   } catch (error: any) {
