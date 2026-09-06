@@ -151,14 +151,32 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   if (init.body) headers.set('Content-Type', 'application/json');
   const auth = adminHeaders();
   if (auth.Authorization) headers.set('Authorization', auth.Authorization);
-  const response = await fetch(`${API_BASE_URL}${path}`, { ...init, headers });
-  const body = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const error = new Error(body.error || 'Request failed') as Error & { status?: number };
-    error.status = response.status;
-    throw error;
+  const canRetry = (init.method || 'GET').toUpperCase() === 'GET';
+  const maxAttempts = canRetry ? 3 : 1;
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 20000);
+    try {
+      const response = await fetch(`${API_BASE_URL}${path}`, { ...init, headers, signal: controller.signal });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const error = new Error(body.error || 'Request failed') as Error & { status?: number };
+        error.status = response.status;
+        if (!canRetry || ![408, 429, 500, 502, 503, 504].includes(response.status) || attempt === maxAttempts) throw error;
+        lastError = error;
+      } else {
+        return body as T;
+      }
+    } catch (error) {
+      lastError = error;
+      if (!canRetry || attempt === maxAttempts) throw error;
+    } finally {
+      window.clearTimeout(timeout);
+    }
+    await new Promise((resolve) => window.setTimeout(resolve, attempt * 700));
   }
-  return body as T;
+  throw lastError instanceof Error ? lastError : new Error('Request failed');
 }
 
 function normalizeProduct(product: any): ApiProduct {
@@ -257,12 +275,7 @@ export async function deleteProduct(id: number) {
 }
 
 export async function fetchOrders(): Promise<AdminOrder[]> {
-  try {
-    return await request<AdminOrder[]>('/orders');
-  } catch (error) {
-    console.error('Error fetching orders:', error);
-    return [];
-  }
+  return request<AdminOrder[]>('/orders');
 }
 
 export async function fetchOrder(id: number): Promise<AdminOrder | null> {
