@@ -235,7 +235,20 @@ export function categoryLabel(language: Language, category: string) {
 export function localizedProduct(product: Product, language: Language): Product {
   const translated = productArabic[product.id];
   const savedName = language === 'ar' ? product.nameAr : product.nameEn;
-  if (savedName) return { ...product, name: savedName };
+  const savedCategory = language === 'ar' ? (product as any).categoryAr : (product as any).categoryEn;
+  const savedDescription = language === 'ar' ? (product as any).descriptionAr : (product as any).descriptionEn;
+  const savedSpecifications = language === 'ar' ? (product as any).specificationsAr : (product as any).specificationsEn;
+  
+  if (savedName || savedCategory || savedDescription || savedSpecifications) {
+    return {
+      ...product,
+      name: savedName || product.name,
+      category: savedCategory || product.category,
+      description: savedDescription || product.description,
+      specifications: savedSpecifications || product.specifications,
+    };
+  }
+  
   if (language === 'en' || !translated) return product;
   return { ...product, ...translated };
 }

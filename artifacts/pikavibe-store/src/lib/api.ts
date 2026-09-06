@@ -12,6 +12,8 @@ export type ApiProduct = {
   nameAr?: string | null;
   nameEn?: string | null;
   category: string;
+  categoryAr?: string | null;
+  categoryEn?: string | null;
   price: number;
   basePrice?: number;
   oldPrice?: number;
@@ -23,7 +25,11 @@ export type ApiProduct = {
   image: string;
   images: string[];
   description: string;
+  descriptionAr?: string | null;
+  descriptionEn?: string | null;
   specifications: string[];
+  specificationsAr?: string[] | null;
+  specificationsEn?: string[] | null;
   rating: number;
   inStock: boolean;
   stock: number;
