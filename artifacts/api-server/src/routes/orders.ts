@@ -32,7 +32,7 @@ async function responseForOrder(order: any) {
   const items = await db.select().from(orderItemsTable).where(eq(orderItemsTable.orderId, order.id));
   return {
     id: order.id,
-    orderNumber: order.orderNumber,
+    orderNumber: String(order.id).padStart(3, "0"),
     status: order.status,
     paymentMethod: order.paymentMethod,
     paymentStatus: order.paymentStatus,

@@ -63,6 +63,9 @@ button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
 button, a, [role='button'], select { cursor: pointer; }
 button:disabled, [aria-disabled='true'] { cursor: not-allowed; }
 input, textarea { cursor: text; }
+img, svg, video, canvas { max-width: 100%; }
+textarea, input, select { max-width: 100%; }
+main { min-width: 0; overflow-x: clip; }
 html[lang='ar'] body { font-family: 'Cairo', sans-serif; font-weight: 500; }
 html[lang='ar'] .font-display { font-family: 'Cairo', sans-serif; font-weight: 800; letter-spacing: -0.02em; }
 html[lang='ar'] .tracking-\[\.2em\],
@@ -126,4 +129,12 @@ html[lang='ar'] .tracking-\[\.12em\] { letter-spacing: 0; }
   [data-testid='button-print-receipt'], [data-testid='link-receipt-continue'] { display: none !important; }
   main { margin: 0 !important; }
   article { box-shadow: none !important; }
+}
+
+@media (max-width: 640px) {
+  body { overflow-x: hidden; }
+  .store-theme h1 { text-wrap: balance; }
+  .store-theme [class*='rounded-[2rem]'] { border-radius: 1.35rem; }
+  .store-theme input, .store-theme select, .store-theme textarea { font-size: 16px; }
+  .store-theme table { font-size: .82rem; }
 }
